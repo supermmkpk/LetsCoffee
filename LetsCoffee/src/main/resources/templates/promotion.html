@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <title>이벤트</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+
+<style>
+    p, h4, h5 {
+        display: flex;
+        justify-content: center;
+    }
+</style>
+
+<body>
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+<div>
+    <h4>이벤트 목록</h4>
+
+    <div class="container">
+        <div class="row" >
+            <div class="col-6" th:each="promotion : ${promotionList}">
+                <p></p>
+                <div class="card">
+                    <h5 class="card-header" th:text="${promotion.name}"/>
+                    <div class="card-body">
+                        <p class="text-decoration-underline" th:text="'기간 : ' + ${promotion.period}"/>
+                        <p class="text-decoration-underline" th:text="'매장 : ' + ${promotion.store}"/>
+
+                        <div th:each="content : ${promotion.content}">
+                            <p class="text-decoration-underline" th:if="${contentStat.index==0}" th:text="${content}"/>
+                            <span class="text-body-tertiary" th:unless="${contentStat.index==0}" th:text="${content}"/><br>
+                        </div>
+                        <div th:each="info : ${promotion.specialInfo}">
+                            <span class="text-body-tertiary" th:text="${info}"/><br>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div th:replace="fragments/footer :: footer"/>
+</body>

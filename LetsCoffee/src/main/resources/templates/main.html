@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+  <title>메인</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=zz84vrsn3j"></script>
+</head>
+
+<style>
+  .card-body {
+    /* 자식 요소(.child)를 중앙 정렬하기 */
+    display: flex;
+    justify-content: center;
+  }
+  .card-img-top {
+    height: 10rem;
+    object-fit: scale-down;
+  }
+</style>
+
+<body>
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+<p></p>
+<div style="text-align: center;">
+  <h3>
+    <button class="btn btn-outline-secondary" th:onclick="|location.href='@{/map}'|">주변 브랜드 카페 보기</button>
+  </h3>
+</div>
+
+<p></p>
+<div>
+  <div class="container">
+    <div class="row">
+      <div class="col-3">
+        <p></p>
+        <div class="card">
+          <img class="card-img-top" src="https://postfiles.pstatic.net/20160604_276/ppanppane_1465006344233mrvD4_PNG/%B7%CE%B0%ED-23.png?type=w966" alt="" />
+          <div class="card-body">
+            <h3 class="card-title" style="align-content:center">
+              <button class="btn btn-outline-success" th:onclick="|location.href='@{/starbucks}'|">스타벅스</button>
+            </h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <p></p>
+        <div class="card">
+          <img class="card-img-top" src="https://blogfiles.pstatic.net/20160606_73/ppanppane_1465209281096IMW3u_PNG/%C5%F5%BD%E6_%C7%C3%B7%B9%C0%CC%BD%BA%B7%CE%B0%ED_%282%29.png" alt="" />
+          <div class="card-body">
+            <h3 class="card-title" style="align-content:center">
+              <button class="btn btn-outline-danger" th:onclick="|location.href='@{/twosome}'|">투썸플레이스</button>
+            </h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-3">
+        <p></p>
+        <div class="card">
+          <img class="card-img-top" src="https://img.79plus.co.kr/megahp/common/img/brand02_2.jpg" alt="" />
+          <div class="card-body">
+            <h3 class="card-title" style="align-content:center">
+              <button class="btn btn-outline-warning" th:onclick="|location.href='@{/mega}'|">메가 MGC</button>
+            </h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div th:replace="fragments/footer :: footer"/>
+</body>
+</html>
