@@ -44,46 +44,46 @@ public class SaveController {
         //==크롤링 드라이버 연결==//
         driver = seleniumCrawlService.driver("https://www.starbucks.co.kr/whats_new/store_event_list.do");
 
-        List<WebElement> pages = driver.findElements(By.cssSelector("div.store_event_pagination > ul > li"));
+        //List<WebElement> pages = driver.findElements(By.cssSelector("div.store_event_pagination > ul > li"));
 
-        Iterator<WebElement> iter = pages.iterator();
-        while (iter.hasNext()) {
-            //==cssSelector를 통해 추출==//
-            List<WebElement> elements = driver.findElements(By.cssSelector("div.store_event_list > ul > li"));
+        //Iterator<WebElement> iter = pages.iterator();
+        //while (iter.hasNext()) {
+        //==cssSelector를 통해 추출==//
+        List<WebElement> elements = driver.findElements(By.cssSelector("div.store_event_list > ul > li"));
 
-            //List<EventDto> promotionList = new ArrayList<>();
-            for (WebElement element : elements) {
-                Promotion promotion = new Promotion();
+        //List<EventDto> promotionList = new ArrayList<>();
+        for (WebElement element : elements) {
+            Promotion promotion = new Promotion();
 
-                // 이벤트 이름
-                promotion.setName(element.findElement(By.cssSelector("h4"))
-                        .getAttribute("innerHTML"));
-                //이벤트 기간
-                promotion.setPeriod(element.findElement(By.cssSelector(".date"))
-                        .getText());
-                // 이벤트 매장
-                promotion.setStore(element.findElement(By.cssSelector(".store_t"))
-                        .getText());
-                //이벤트 내용
-                promotion.setContent(element.findElement(By.cssSelector("ol"))
-                        .getAttribute("innerHTML"));
-                //이벤트 특이사항
-                promotion.setSpecialInfo(element.findElement(By.cssSelector(".se_info"))
-                        .getAttribute("innerHTML"));
-                promotion.setCafe(cafe);
+            // 이벤트 이름
+            promotion.setName(element.findElement(By.cssSelector("h4"))
+                    .getAttribute("innerText"));
+            //이벤트 기간
+            promotion.setPeriod(element.findElement(By.cssSelector(".date"))
+                    .getText());
+            // 이벤트 매장
+            promotion.setStore(element.findElement(By.cssSelector(".store_t"))
+                    .getAttribute("innerText"));
+            //이벤트 내용
+            promotion.setContent(element.findElement(By.cssSelector("ol"))
+                    .getAttribute("innerHTML"));
+            //이벤트 특이사항
+            promotion.setSpecialInfo(element.findElement(By.cssSelector(".se_info"))
+                    .getAttribute("innerHTML"));
+            promotion.setCafe(cafe);
 
-                promotionService.save(promotion);
-            }
+            promotionService.save(promotion);
+        }
 
-            //==다음 페이지 있다면, 클릭==//
-            try {
+        //==다음 페이지 있다면, 클릭==//
+            /*try {
                 WebElement nextPage = iter.next().findElement(By.cssSelector("a"));
                 ((ChromeDriver) driver).executeScript("arguments[0].click();", nextPage);
             } catch (Exception e) {
                 break;
-            }
+            }*/
 
-        }
+        //}
     }
 
     /**
