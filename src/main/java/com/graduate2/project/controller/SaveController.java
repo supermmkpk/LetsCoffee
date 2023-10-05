@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Controller
 @RequiredArgsConstructor
@@ -30,9 +31,9 @@ public class SaveController {
 
     @RequestMapping("/save")
     public String save() throws IOException {
-        for(CafeId name : CafeId.values()) {
+        for(CafeId id : CafeId.values()) {
             Cafe cafe = new Cafe();
-            cafe.setId(name);
+            cafe.setId(id);
 
             cafeService.save(cafe);
             savePromotion(cafe);
@@ -46,50 +47,72 @@ public class SaveController {
      * 이벤트(프로모션) 크롤링 후 DB저장
      */
     private void savePromotion(Cafe cafe) {
-        //==크롤링 드라이버 연결==//
-        driver = seleniumCrawlService.driver("https://www.starbucks.co.kr/whats_new/store_event_list.do");
+        switch (cafe.getId()) {
+            /** 스타벅스
+             * 동적, SELENIUM
+             */
+            case STARBUCKS:
+                //==크롤링 드라이버 연결==//
+                driver = seleniumCrawlService.driver("https://www.starbucks.co.kr/whats_new/campaign_list.do");
 
-        //List<WebElement> pages = driver.findElements(By.cssSelector("div.store_event_pagination > ul > li"));
+                //==cssSelector를 통해 추출==//
 
-        //Iterator<WebElement> iter = pages.iterator();
-        //while (iter.hasNext()) {
-        //==cssSelector를 통해 추출==//
-        List<WebElement> elements = driver.findElements(By.cssSelector("div.store_event_list > ul > li"));
+                /* 전체 이벤트 */
+                List<WebElement> elements = driver.findElements(By.cssSelector("div.campaign_list > dl > dd:nth-child(2) li"));
 
-        //List<EventDto> promotionList = new ArrayList<>();
-        for (WebElement element : elements) {
-            Promotion promotion = new Promotion();
+                for (WebElement element : elements) {
+                    Promotion promotion = new Promotion();
 
-            // 이벤트 이름
-            promotion.setName(element.findElement(By.cssSelector("h4"))
-                    .getAttribute("innerText"));
-            //이벤트 기간
-            promotion.setPeriod(element.findElement(By.cssSelector(".date"))
-                    .getText());
-            // 이벤트 매장
-            promotion.setStore(element.findElement(By.cssSelector(".store_t"))
-                    .getAttribute("innerText"));
-            //이벤트 내용
-            promotion.setContent(element.findElement(By.cssSelector("ol"))
-                    .getAttribute("innerHTML"));
-            //이벤트 특이사항
-            promotion.setSpecialInfo(element.findElement(By.cssSelector(".se_info"))
-                    .getAttribute("innerHTML"));
-            promotion.setCafe(cafe);
+                    // 이벤트 이름
+                    promotion.setName(element.findElement(By.cssSelector("img"))
+                            .getAttribute("alt"));
+                    //이벤트 이미지
+                    promotion.setImage(element.findElement(By.cssSelector("img"))
+                            .getAttribute("src"));
+                    //이벤트 기간
+                    promotion.setPeriod(element.findElement(By.cssSelector("p.date"))
+                            .getText());
+                    //이벤트 타입
+                    promotion.setType(PromotionType.ALL);
+                    promotion.setCafe(cafe);
 
-            promotionService.save(promotion);
-        }
+                    promotionService.save(promotion);
+                } //end of for loop(전체)
 
-        //==다음 페이지 있다면, 클릭==//
-            /*try {
-                WebElement nextPage = iter.next().findElement(By.cssSelector("a"));
-                ((ChromeDriver) driver).executeScript("arguments[0].click();", nextPage);
-            } catch (Exception e) {
-                break;
-            }*/
 
-        //}
-    }
+                /* 매장 별 이벤트 */
+                driver = seleniumCrawlService.driver("https://www.starbucks.co.kr/whats_new/store_event_list.do");
+                elements = driver.findElements(By.cssSelector("div.store_event_list > ul > li"));
+
+                for (WebElement element : elements) {
+                    Promotion promotion = new Promotion();
+
+                    // 이벤트 이름
+                    promotion.setName(element.findElement(By.cssSelector("h4"))
+                            .getAttribute("innerHTML"));
+                    //이벤트 기간
+                    promotion.setPeriod(element.findElement(By.cssSelector(".date"))
+                            .getText());
+                    // 이벤트 매장
+                    promotion.setStore(element.findElement(By.cssSelector(".store_t"))
+                            .getAttribute("innerText"));
+                    //이벤트 내용
+                    promotion.setContent(element.findElement(By.cssSelector("ol"))
+                            .getAttribute("innerHTML"));
+                    //이벤트 특이사항
+                    promotion.setSpecialInfo(element.findElement(By.cssSelector(".se_info"))
+                            .getAttribute("innerHTML"));
+                    promotion.setType(PromotionType.STORE);
+                    promotion.setCafe(cafe);
+
+                    promotionService.save(promotion);
+                } //end of for loop(매장별)
+                break; //end of STARBUCKS
+
+        } //end of switch
+
+
+    } //end of savePromotion()
 
     /**
      * 메뉴 크롤링 후 DB 저장
@@ -111,9 +134,11 @@ public class SaveController {
                     for (WebElement element : elements) {
                         Menu menu = new Menu();
                         // 메뉴이름
-                        menu.setName(element.findElement(By.cssSelector("dl > dd")).getText());
+                        menu.setName(element.findElement(By.cssSelector("dl > dd"))
+                                .getText());
                         //메뉴 사진
-                        menu.setImage(element.findElement(By.cssSelector("img")).getAttribute("src"));
+                        menu.setImage(element.findElement(By.cssSelector("img"))
+                                .getAttribute("src"));
                         //메뉴 타입
                         menu.setType(type);
                         menu.setCafe(cafe);
@@ -121,14 +146,13 @@ public class SaveController {
                         menuService.save(menu);
                     }
                 }
-                break;
+                break; //end of STARBUCKS
 
             /** 커피빈
              * 정적, JSOUP
              */
             case COFFEEBEAN:
                 Document doc = Jsoup.connect("https://www.coffeebeankorea.com/menu/list.asp?category=32").get();
-
 
                 for(int i = 1; i <= 2; i++) {
                     String query = "ul.lnb_wrap2 > li:nth-child(" + i + ") > ul > li";
@@ -147,9 +171,11 @@ public class SaveController {
                             for (Element element : elements) {
                                 Menu menu = new Menu();
                                 // 메뉴이름
-                                menu.setName(element.select("dl.txt > dt > span.kor").text());
+                                menu.setName(element.select("dl.txt > dt > span.kor")
+                                        .text());
                                 //메뉴 사진
-                                menu.setImage(element.select("figure.photo > img").attr("abs:src"));
+                                menu.setImage(element.select("figure.photo > img")
+                                        .attr("abs:src"));
                                 //메뉴 타입
                                 if(i == 1)
                                     menu.setType(MenuType.DRINK);
@@ -164,12 +190,58 @@ public class SaveController {
                                 doc = Jsoup.connect(nextUrl).get();
                             }
                         }
-                    }
+                    } //end of for loop
                 }
-                break;
+                break; //end of COFFEEBEAN
+
+            /** 투썸
+             */
+            //case TWOSOME:
+
+            /** 메가
+             * 동적, SELENIUM
+             */
+            case MEGA:
+                for(int i = 1; i <= 2; i++) { //1: 음료, 2: 푸드
+                    String url = "https://www.mega-mgccoffee.com/menu/?menu_category1=" + i + "&menu_category2=" + i;
+                    //메뉴 url
+                    driver = seleniumCrawlService.driver(url);
 
 
-        }
+                    while (true) {
+                        //==cssSelector를 통해 추출==//
+                        List<WebElement> elements = driver.findElements(By.cssSelector("ul#menu_list > li"));
 
-    }
+
+                        for (WebElement element : elements) {
+                            Menu menu = new Menu();
+                            // 메뉴이름
+                            menu.setName(element.findElement(By.cssSelector("div.cont_text div.text.text1 > b"))
+                                    .getText());
+                            //메뉴 사진
+                            menu.setImage(element.findElement(By.cssSelector("img"))
+                                    .getAttribute("src"));
+                            //메뉴 타입
+                            if(i == 1)
+                                menu.setType(MenuType.DRINK);
+                            else if(i == 2)
+                                menu.setType(MenuType.FOOD);
+                            menu.setCafe(cafe);
+
+                            menuService.save(menu);
+                        }
+
+                        //페이지 번호 넘어가기! (다음) 있으면!
+                        try {
+                            driver.findElement(By.cssSelector("a.board_page_next.board_page_link")).click();
+                            Thread.sleep(1000); //stale element 오류: 뜨기도 전에 요청해서 => 기다리기.
+                        } catch (Exception e) { //없으면 그만!
+                            break;
+                        }
+                    } // end of while loop
+                } // end of for loop
+                break; //end of MEGA
+        } //end of switch
+
+    } //end of saveMenu()
 }
