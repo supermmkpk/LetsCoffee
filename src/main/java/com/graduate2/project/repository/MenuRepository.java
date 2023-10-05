@@ -1,5 +1,6 @@
 package com.graduate2.project.repository;
 
+import com.graduate2.project.domain.CafeId;
 import com.graduate2.project.domain.Menu;
 import com.graduate2.project.domain.MenuType;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +23,13 @@ public class MenuRepository {
         }
     }
 
-    public List<Menu> findByType(MenuType type) {
-       return em.createQuery("select m from Menu m where m.type = :type", Menu.class)
+    /**
+     * cafe 테이블과 menu 테이블 조인
+     * 넘어온 CafeId와 MenuType에 적합한 메뉴 리스트 반환
+     */
+    public List<Menu> findByCafeAndType(CafeId id, MenuType type) {
+        return em.createQuery("select m from Menu m INNER JOIN m.cafe c where c.id = :id and m.type = :type", Menu.class)
+                .setParameter("id", id)
                 .setParameter("type", type)
                 .getResultList();
     }

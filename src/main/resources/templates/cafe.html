@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header :: header">
-    <title>스타벅스</title>
+    <title th:text="${cafeName}"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 
+<!--style="text-align: center"-->
 <body>
 <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
 <h4>메뉴</h4>
-<form method="POST" action="/starbucks/menu">
+<form method="POST" th:action="'/'+ ${cafeName} + '/menu'">
     <div class="form-group">
     <select th:name="type" class="form-control">
-        <option value="drink">음료</option>
-        <option value="food">푸드</option>
-        <option value="product">상품</option>
+        <option value="DRINK">음료</option>
+        <option value="FOOD">푸드</option>
+<!--        <option value="product">상품</option>-->
     </select>
     </div>
     <button type="submit" class="btn btn-outline-secondary">보기</button>
@@ -22,9 +23,16 @@
 
 <p><br></p>
 <button class="btn btn-outline-secondary"
-                    th:onclick="|location.href='@{/starbucks/promotion}'|">진행 중 이벤트</button>
+                    onclick="javascript:promotion()">진행 중 이벤트</button>
 
 <!--<button class="btn btn-outline-secondary" th:onclick="|location.href='@{/starbucks/foodMenu}'|">푸드</button>-->
 
 <div th:replace="fragments/footer :: footer"/>
 </body>
+
+<script type="text/javascript" th:inline="javascript" >
+    function promotion() {
+        location.href="/" + [[${cafeName}]] + "/promotion";
+    }
+</script>
+</html>

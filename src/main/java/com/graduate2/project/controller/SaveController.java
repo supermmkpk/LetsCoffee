@@ -6,14 +6,17 @@ import com.graduate2.project.service.MenuService;
 import com.graduate2.project.service.PromotionService;
 import com.graduate2.project.service.SeleniumCrawlService;
 import lombok.RequiredArgsConstructor;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Iterator;
+import java.io.IOException;
 import java.util.List;
 
 @Controller
@@ -26,13 +29,15 @@ public class SaveController {
     private WebDriver driver;
 
     @RequestMapping("/save")
-    public String save() {
-        Cafe cafe = new Cafe();
-        cafe.setId(CafeEnum.STARBUCKS);
+    public String save() throws IOException {
+        for(CafeId name : CafeId.values()) {
+            Cafe cafe = new Cafe();
+            cafe.setId(name);
 
-        cafeService.save(cafe);
-        savePromotion(cafe);
-        saveMenu(cafe);
+            cafeService.save(cafe);
+            savePromotion(cafe);
+            saveMenu(cafe);
+        }
 
         return "redirect:/";
     }
@@ -89,30 +94,82 @@ public class SaveController {
     /**
      * 메뉴 크롤링 후 DB 저장
      */
-    private void saveMenu(Cafe cafe) {
-        for (MenuType type : MenuType.values()) {
-            //메뉴 url
-            driver = seleniumCrawlService.driver("https://www.starbucks.co.kr/menu/" + type + "_list.do");
+    private void saveMenu(Cafe cafe) throws IOException {
+        switch (cafe.getId()) {
+            /** 스타벅스
+             * 동적, SELENIUM
+             */
+            case STARBUCKS:
+                for (MenuType type : MenuType.values()) {
+                    //메뉴 url
+                    driver = seleniumCrawlService.driver("https://www.starbucks.co.kr/menu/" + type.toString().toLowerCase() + "_list.do");
 
-            //==cssSelector를 통해 추출==//
-            List<WebElement> elements = driver.findElements(By.cssSelector("div.product_list li.menuDataSet"));
-
-            //List<MenuDto> menuList = new ArrayList<>();
+                    //==cssSelector를 통해 추출==//
+                    List<WebElement> elements = driver.findElements(By.cssSelector("div.product_list li.menuDataSet"));
 
 
-            for (WebElement element : elements) {
-                Menu menu = new Menu();
-                // 메뉴이름
-                menu.setName(element.findElement(By.cssSelector("dl > dd")).getText());
-                //메뉴 사진
-                menu.setImage(element.findElement(By.cssSelector("img")).getAttribute("src"));
-                //메뉴 타입
-                menu.setType(type);
-                menu.setCafe(cafe);
+                    for (WebElement element : elements) {
+                        Menu menu = new Menu();
+                        // 메뉴이름
+                        menu.setName(element.findElement(By.cssSelector("dl > dd")).getText());
+                        //메뉴 사진
+                        menu.setImage(element.findElement(By.cssSelector("img")).getAttribute("src"));
+                        //메뉴 타입
+                        menu.setType(type);
+                        menu.setCafe(cafe);
 
-                menuService.save(menu);
-            }
+                        menuService.save(menu);
+                    }
+                }
+                break;
+
+            /** 커피빈
+             * 정적, JSOUP
+             */
+            case COFFEEBEAN:
+                Document doc = Jsoup.connect("https://www.coffeebeankorea.com/menu/list.asp?category=32").get();
+
+
+                for(int i = 1; i <= 2; i++) {
+                    String query = "ul.lnb_wrap2 > li:nth-child(" + i + ") > ul > li";
+                    Elements categories = doc.select(query);
+
+                    for (Element category : categories) {
+                        String url = category.select("a").attr("abs:href");
+                        doc = Jsoup.connect(url).get();
+                        Elements paging = doc.select("div.paging > a:not(.next)");
+                        int nPage = paging.size();
+                        System.out.println(nPage);
+
+                        for (int j = 0; j < nPage; j++) {
+                            Elements elements = doc.select("ul.menu_list._thumb5 > li");
+
+                            for (Element element : elements) {
+                                Menu menu = new Menu();
+                                // 메뉴이름
+                                menu.setName(element.select("dl.txt > dt > span.kor").text());
+                                //메뉴 사진
+                                menu.setImage(element.select("figure.photo > img").attr("abs:src"));
+                                //메뉴 타입
+                                if(i == 1)
+                                    menu.setType(MenuType.DRINK);
+                                else if(i == 2)
+                                    menu.setType(MenuType.FOOD);
+                                menu.setCafe(cafe);
+
+                                menuService.save(menu);
+                            }
+                            String nextUrl = doc.select("div.paging > a.next").attr("abs:href");
+                            if (!nextUrl.isEmpty()) {
+                                doc = Jsoup.connect(nextUrl).get();
+                            }
+                        }
+                    }
+                }
+                break;
+
+
         }
-    }
 
+    }
 }
