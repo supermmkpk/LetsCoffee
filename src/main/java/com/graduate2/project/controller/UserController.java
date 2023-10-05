@@ -9,9 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/oauth")
 public class UserController {
-    @GetMapping("/loginInfo")
+
     public String getJson(Authentication authentication){
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
 
