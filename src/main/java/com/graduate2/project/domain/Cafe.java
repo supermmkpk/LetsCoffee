@@ -14,7 +14,7 @@ public class Cafe {
     @Id
     @Column(name="cafe_id")
     @Enumerated(EnumType.STRING)
-    private CafeEnum id;
+    private CafeId id;
 
     @OneToMany(mappedBy="cafe")
     private List<Promotion> promotions = new ArrayList<>();

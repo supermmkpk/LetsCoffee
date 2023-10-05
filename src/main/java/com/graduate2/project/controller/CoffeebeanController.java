@@ -2,28 +2,32 @@ package com.graduate2.project.controller;
 
 import com.graduate2.project.domain.*;
 import com.graduate2.project.dto.PromotionDto;
-import com.graduate2.project.service.PromotionService;
+import com.graduate2.project.service.CafeService;
 import com.graduate2.project.service.MenuService;
+import com.graduate2.project.service.PromotionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
 @Controller
-@RequestMapping(value="/starbucks")
+@RequestMapping(value="/coffeebean")
 @RequiredArgsConstructor
-public class StarbucksController {
+public class CoffeebeanController {
     private final MenuService menuService;
     private final PromotionService promotionService;
-    private final CafeId cafeId = CafeId.STARBUCKS;
+    private final CafeId cafeId = CafeId.COFFEEBEAN;
 
     @GetMapping()
-    public String starbucks(Model model) {
-        model.addAttribute("cafeName", cafeId.toString().toLowerCase());
+    public String coffeebean(Model model) {
+        model.addAttribute("cafeName", "coffeebean");
         return "cafe";
     }
 
@@ -32,8 +36,7 @@ public class StarbucksController {
      */
     @PostMapping("/menu")
     public String menu(Model model, @RequestParam String type) throws Exception {
-
-        List<Menu> menuList = menuService.findByCafeAndType(cafeId, MenuType.valueOf(type));
+         List<Menu> menuList = menuService.findByCafeAndType(cafeId, MenuType.valueOf(type));
 
         model.addAttribute("menuList", menuList);
 

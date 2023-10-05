@@ -1,7 +1,7 @@
 package com.graduate2.project.repository;
 
 import com.graduate2.project.domain.Cafe;
-import com.graduate2.project.domain.CafeEnum;
+import com.graduate2.project.domain.CafeId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +16,8 @@ public class CafeRepository {
         em.persist(cafe);
     }
 
-    public Cafe findOne(CafeEnum id) {
+    public Cafe findOne(CafeId id) {
         return em.find(Cafe.class, id);
     }
+
 }

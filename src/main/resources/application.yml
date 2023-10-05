@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mariadb://localhost:3306/lets_cafe
+    url: jdbc:mariadb://localhost:3306/lets_coffee
     username: root
     password: 1234
     driver-class-name: org.mariadb.jdbc.Driver
