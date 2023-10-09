@@ -20,7 +20,7 @@ public class UserController {
         return attributes.toString();
     }
 
-    @PostMapping("/mypage")
-    public String mypage(){ return "/mypage"; }
+//    @PostMapping("/mypage")
+//    public String mypage(){ return "/mypage"; }
 
 }

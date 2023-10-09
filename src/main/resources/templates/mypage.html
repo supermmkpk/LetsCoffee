@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head th:replace="fragments/header :: header">
     <title>Mypage</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -8,6 +8,11 @@
 <!--style="text-align: center"-->
 <body>
 <div th:replace="fragments/bodyHeader :: bodyHeader"/>
-mypage
+<div layout:fragment="content">
+    <br></br>
+    <h1 class="title">즐겨찾는 매장</h1>
+    </h1>
+</div>
+</div>
 
 </html>

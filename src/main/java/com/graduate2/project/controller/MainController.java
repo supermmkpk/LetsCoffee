@@ -13,6 +13,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.PostConstruct;
@@ -26,6 +27,11 @@ public class MainController {
     public String main() {
 
         return "main";
+    }
+
+    @PostMapping("/mypage")
+    public String mypage(){
+        return "mypage";
     }
 
 }

@@ -22,7 +22,7 @@
                     <a>환영합니다!<!--<span sec:authentication="principal"></span>--></a>
                     <button class="btn btn-secondary mx-2 my-lg-0" type="submit">로그아웃</button>
                 </form>
-                <form class="form-inline my-lg-0 " th:action="@{/oauth/mypage}" method="post" sec:authorize="isAuthenticated()">
+                <form class="form-inline my-lg-0 " th:action="@{/mypage}" method="post" sec:authorize="isAuthenticated()">
                     <button class="btn btn-secondary" type="submit">마이페이지</button>
                 </form>
             </div>
