@@ -26,16 +26,17 @@ import java.util.List;
 @Slf4j
 public class MainController {
     private final PromotionService promotionService;
+
     @RequestMapping("/")
+
     public String main(Model model) {
-        for(CafeId id : CafeId.values()) {
+        for (CafeId id : CafeId.values()) {
             String idStr = id.toString().toLowerCase();
-            String name =  idStr + "PromotionList"; //Ex) starbucksPromotionList
+            String name = idStr + "PromotionList"; //Ex) starbucksPromotionList
             List<Promotion> cafePromotionList = promotionService.findByCafeId(id);
             model.addAttribute(name, cafePromotionList);
         }
 
         return "main";
     }
-
 }

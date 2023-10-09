@@ -37,11 +37,10 @@ dependencies {
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
-	//mustache
-	compileOnly('org.springframework.boot:spring-boot-starter-mustache')
 	//spring security
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.security:spring-security-test")
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 	//spring security oauth2 cleint
 	implementation ("org.springframework.boot:spring-boot-starter-oauth2-client")
 

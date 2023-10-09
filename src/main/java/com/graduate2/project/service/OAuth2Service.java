@@ -2,7 +2,7 @@ package com.graduate2.project.service;
 
 import com.graduate2.project.domain.OAuthAttributes;
 import com.graduate2.project.domain.User;
-import com.graduate2.project.dto.UserProfile;
+import com.graduate2.project.dto.UserDto;
 import com.graduate2.project.repository.UserRepository;
 import lombok.*;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -38,7 +38,7 @@ public class OAuth2Service implements OAuth2UserService<OAuth2UserRequest, OAuth
 
         Map<String, Object> attributes = oAuth2User.getAttributes(); // 사용자가 가지고 있는 정보
 
-        UserProfile userProfile = OAuthAttributes.extract(registrationId, attributes);
+        UserDto userProfile = OAuthAttributes.extract(registrationId, attributes);
         userProfile.setProvider(registrationId);
 
         updateOrSaveUser(userProfile);
@@ -56,7 +56,7 @@ public class OAuth2Service implements OAuth2UserService<OAuth2UserRequest, OAuth
     public Map getCustomAtrribute(String registrationId,
                                   String userNameAttributeName,
                                   Map<String, Object> attributes,
-                                  UserProfile userProfile){
+                                  UserDto userProfile){
         Map<String, Object> customAttribute = new ConcurrentHashMap<>();
 
         customAttribute.put(userNameAttributeName, attributes.get(userNameAttributeName));
@@ -67,7 +67,7 @@ public class OAuth2Service implements OAuth2UserService<OAuth2UserRequest, OAuth
         return customAttribute;
     }
 
-    public User updateOrSaveUser(UserProfile userProfile){
+    public User updateOrSaveUser(UserDto userProfile){
         User user = userRepository
                 .findUserByEmailAndProvider(userProfile.getEmail(), userProfile.getProvider())
                 .map(value -> value.updateUser(userProfile.getUsername(), userProfile.getEmail()))
