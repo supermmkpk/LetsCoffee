@@ -22,17 +22,15 @@ public class Promotion {
     @Column
     private String image;
     @Column
+    private String link;
+    @Column
     private String Store;
     @Column(length = 2000)
     private String content;
-    @Column(length = 2000)
-    private String specialInfo;
 
     @Column
     @Enumerated(EnumType.STRING)
     private PromotionType type;
-
-
 
     @ManyToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="cafe_id")

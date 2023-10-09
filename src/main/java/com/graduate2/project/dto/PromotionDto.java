@@ -14,11 +14,10 @@ import java.util.List;
 public class PromotionDto {
     private String name;
     private PromotionType type;
+    //private String image;
     private String period;
     private String store;
 
     private List<String> content;
-    private List<String> specialInfo;
-
 
 }

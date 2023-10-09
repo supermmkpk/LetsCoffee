@@ -32,6 +32,12 @@ public class PromotionRepository {
                 .getResultList();
     }
 
+    public List<Promotion> findByCafeId(CafeId id) {
+        return em.createQuery("select p from Promotion p INNER JOIN p.cafe c where c.id =: id", Promotion.class)
+                .setParameter("id", id)
+                .getResultList();
+    }
+
     public List<Promotion> findAll() {
          return em.createQuery("select p from Promotion p", Promotion.class)
                 .getResultList();

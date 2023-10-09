@@ -27,6 +27,10 @@ public class PromotionService {
         return promotionRepository.findByCafeAndType(id, type);
     }
 
+    public List<Promotion> findByCafeId(CafeId id) {
+        return promotionRepository.findByCafeId(id);
+    }
+
     public List<Promotion> findAll() {
         return promotionRepository.findAll();
     }

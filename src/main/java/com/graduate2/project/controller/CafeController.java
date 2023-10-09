@@ -63,12 +63,12 @@ public class CafeController {
                 List<PromotionDto> promotionDtoList = new ArrayList<>();
                 for (Promotion promotion : promotionList) {
                     PromotionDto promotionDto = PromotionDto.builder()
-                            .name(tokenizer(promotion.getName())) //tokenizer로 파싱
+                            .name(promotion.getName())
                             .type(promotion.getType())
+                            //.image(promotion.getImage())
                             .period(promotion.getPeriod())
                             .store(promotion.getStore())
                             .content(tokenizerList(promotion.getContent())) //tokenizer로 파싱
-                            .specialInfo(tokenizerList(promotion.getSpecialInfo())) //tokenizer로 파싱
                             .build();
                     promotionDtoList.add(promotionDto);
                 }
@@ -91,13 +91,6 @@ public class CafeController {
             result.add(st.nextToken());
         }
         return result;
-    }
-    /**
-     * 개행을 위해 문자열 쪼개기 (첫 줄만 반환)
-     */
-    private String tokenizer(String str) {
-        StringTokenizer st = new StringTokenizer(str, "<span>");
-        return st.nextToken();
     }
 
 }
