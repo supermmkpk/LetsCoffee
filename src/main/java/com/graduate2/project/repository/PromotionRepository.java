@@ -1,6 +1,6 @@
 package com.graduate2.project.repository;
 
-import com.graduate2.project.domain.Promotion;
+import com.graduate2.project.domain.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -23,6 +23,19 @@ public class PromotionRepository {
 
     public Promotion findOne(Long id) {
         return em.find(Promotion.class, id);
+    }
+
+    public List<Promotion> findByCafeAndType(CafeId id, PromotionType type) {
+        return em.createQuery("select p from Promotion p INNER JOIN p.cafe c where c.id = :id and p.type = :type", Promotion.class)
+                .setParameter("id", id)
+                .setParameter("type", type)
+                .getResultList();
+    }
+
+    public List<Promotion> findByCafeId(CafeId id) {
+        return em.createQuery("select p from Promotion p INNER JOIN p.cafe c where c.id =: id", Promotion.class)
+                .setParameter("id", id)
+                .getResultList();
     }
 
     public List<Promotion> findAll() {

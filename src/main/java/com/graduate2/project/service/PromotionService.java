@@ -1,6 +1,6 @@
 package com.graduate2.project.service;
 
-import com.graduate2.project.domain.Promotion;
+import com.graduate2.project.domain.*;
 import com.graduate2.project.repository.PromotionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,6 +21,14 @@ public class PromotionService {
 
     public Promotion findOne(Long id) {
         return promotionRepository.findOne(id);
+    }
+
+    public List<Promotion> findByCafeAndType(CafeId id, PromotionType type) {
+        return promotionRepository.findByCafeAndType(id, type);
+    }
+
+    public List<Promotion> findByCafeId(CafeId id) {
+        return promotionRepository.findByCafeId(id);
     }
 
     public List<Promotion> findAll() {
