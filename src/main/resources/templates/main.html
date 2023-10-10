@@ -112,20 +112,15 @@
                       th:onclick="|location.href='@{/paik}'|">빽다방</button>
             </h3>
           </div>
-        </div>
-      </div>
-
-      <div class="col-4">
-        <p></p>
-        <div class="card">
-          <!-- https://www.twosome.co.kr/resources/images/common/logo_black.svg -->
-          <img class="card-img-top" src="https://www.twosome.co.kr/resources/images/common/logo_black.svg" alt="" />
-          <div class="card-body">
-            <h3 class="card-title" style="align-content:center">
-              <button class="btn text-white" style="background-color: #9d2d33"
-                      th:onclick="|location.href='@{/twosome}'|">투썸플레이스</button>
-            </h3>
-          </div>
+            <div class="card-footer">
+              <h4 class="text-body-emphasis" style="text-align: center">[ 진행 중인 이벤트 ]</h4>
+              <div class="card-text" th:each="paikPromotion : ${paikPromotionList}">
+                <p>
+                  <span class="text-body-tertiary" th:text="' ' + ${paikPromotionStat.count} + '.  '"></span>
+                  <a th:href="${paikPromotion.link}" th:text="${paikPromotion.name}"/>
+                </p>
+              </div>
+            </div>
         </div>
       </div>
 
@@ -138,6 +133,15 @@
               <button class="btn text-secondary" style="background-color: #f6d552"
                       th:onclick="|location.href='@{/compose}'|">컴포즈 커피</button>
             </h3>
+          </div>
+          <div class="card-footer">
+            <h4 class="text-body-emphasis" style="text-align: center">[ 진행 중인 이벤트 ]</h4>
+            <div class="card-text" th:each="composePromotion : ${composePromotionList}">
+              <p>
+                <span class="text-body-tertiary" th:text="' ' + ${composePromotionStat.count} + '.  '"></span>
+                <a th:href="${composePromotion.link}" th:text="${composePromotion.name}"/>
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -153,6 +157,15 @@
                       th:onclick="|location.href='@{/ediya}'|">이디야</button>
             </h3>
           </div>
+          <div class="card-footer">
+            <h4 class="text-body-emphasis" style="text-align: center">[ 진행 중인 이벤트 ]</h4>
+            <div class="card-text" th:each="ediyaPromotion : ${ediyaPromotionList}">
+              <p>
+                <span class="text-body-tertiary" th:text="' ' + ${ediyaPromotionStat.count} + '.  '"></span>
+                <a th:href="${ediyaPromotion.link}" th:text="${ediyaPromotion.name}"/>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -165,6 +178,15 @@
               <button class="btn text-white" style="background-color: #bf2d32"
                       th:onclick="|location.href='@{/pascucci}'|">파스쿠찌</button>
             </h3>
+          </div>
+          <div class="card-footer">
+            <h4 class="text-body-emphasis" style="text-align: center">[ 진행 중인 이벤트 ]</h4>
+            <div class="card-text" th:each="pascucciPromotion : ${pascucciPromotionList}">
+              <p>
+                <span class="text-body-tertiary" th:text="' ' + ${pascucciPromotionStat.count} + '.  '"></span>
+                <a th:href="${pascucciPromotion.link}" th:text="${pascucciPromotion.name}"/>
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -179,6 +201,15 @@
                       th:onclick="|location.href='@{/hollys}'|">할리스</button>
             </h3>
           </div>
+          <div class="card-footer">
+            <h4 class="text-body-emphasis" style="text-align: center">[ 진행 중인 이벤트 ]</h4>
+            <div class="card-text" th:each="hollysPromotion : ${hollysPromotionList}">
+              <p>
+                <span class="text-body-tertiary" th:text="' ' + ${hollysPromotionStat.count} + '.  '"></span>
+                <a th:href="${hollysPromotion.link}" th:text="${hollysPromotion.name}"/>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -189,8 +220,40 @@
           <div class="card-body">
             <h3 class="card-title" style="align-content:center">
               <button class="btn text-white" style="background-color: #d7304f"
-                      th:onclick="|location.href='@{/paulbasset}'|">폴바셋</button>
+                      th:onclick="|location.href='@{/paul}'|">폴바셋</button>
             </h3>
+          </div>
+          <div class="card-footer">
+            <h4 class="text-body-emphasis" style="text-align: center">[ 진행 중인 이벤트 ]</h4>
+            <div class="card-text" th:each="paulPromotion : ${paulPromotionList}">
+              <p>
+                <span class="text-body-tertiary" th:text="' ' + ${paulPromotionStat.count} + '.  '"></span>
+                <a th:href="${paulPromotion.link}" th:text="${paulPromotion.name}"/>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-4">
+        <p></p>
+        <div class="card">
+          <!-- https://www.twosome.co.kr/resources/images/common/logo_black.svg -->
+          <img class="card-img-top" src="https://www.twosome.co.kr/resources/images/common/logo_black.svg" alt="" />
+          <div class="card-body">
+            <h3 class="card-title" style="align-content:center">
+              <button class="btn text-white" style="background-color: #9d2d33"
+                      th:onclick="|location.href='@{/twosome}'|">투썸플레이스</button>
+            </h3>
+          </div>
+          <div class="card-footer">
+            <h4 class="text-body-emphasis" style="text-align: center">[ 진행 중인 이벤트 ]</h4>
+            <div class="card-text" th:each="twosomePromotion : ${twosomePromotionList}">
+              <p>
+                <span class="text-body-tertiary" th:text="' ' + ${twosomePromotionStat.count} + '.  '"></span>
+                <a th:href="${twosomePromotion.link}" th:text="${twosomePromotion.name}"/>
+              </p>
+            </div>
           </div>
         </div>
       </div>

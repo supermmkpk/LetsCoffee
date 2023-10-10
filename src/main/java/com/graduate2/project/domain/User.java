@@ -22,6 +22,7 @@ public class User {
     @Column
     private String picture;
 
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role; // 권한
@@ -29,6 +30,9 @@ public class User {
     @Builder
     public User(String name, String email, String picture, Role role){
         this.name = name;
+
+    public User updateUser(String username, String email){
+        this.username = username;
         this.email = email;
         this.picture = picture;
         this.role = role;

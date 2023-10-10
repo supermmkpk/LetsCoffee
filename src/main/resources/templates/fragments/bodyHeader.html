@@ -21,9 +21,13 @@
                 </a>
                 <form class="form-inline my-lg-0 " th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
                     <a>환영합니다!</a>
+
                     <a>
                     <span th:text="${userName}"></span>님
                     </a>
+
+<!--                    <span sec:authentication="name"></span>-->
+
                     <button class="btn btn-secondary mx-2 my-lg-0" type="submit">로그아웃</button>
                 </form>
                 <!--<form class="form-inline my-lg-0 " th:action="@{/oauth/mypage}" method="post" sec:authorize="isAuthenticated()">
