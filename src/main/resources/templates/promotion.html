@@ -33,8 +33,8 @@
                             <h5>
                                 <a th:href="${promotion.link}" th:text="${promotion.name}"/>
                             </h5>
-                            <p class="text-decoration-underline" th:unless="${promotion.period}==null"
-                               th:text="'기간 : ' + ${promotion.period}"/>
+                            <p class="text-dark" th:unless="${promotion.period}==null"
+                               th:text="${promotion.period}"/>
                         </div>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
                     <div class="card">
                         <h5 class="card-header" th:text="${promotion.name}"/>
                         <div class="card-body">
-                            <p class="text-decoration-underline" th:text="'기간 : ' + ${promotion.period}"/>
+                            <p class="text-decoration-underline" th:text="${promotion.period}"/>
                             <p class="text-decoration-underline" th:text="'매장 : ' + ${promotion.store}"/>
 
                             <div th:each="content : ${promotion.content}">
