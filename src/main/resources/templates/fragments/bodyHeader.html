@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:href="http://www.w3.org/1999/xhtml">
 <div class="header" th:fragment="bodyHeader">
 <!--    <ul class="nav nav-pills pull-right">
         <li><a href="/">Home</a></li>
@@ -20,7 +21,13 @@
                 </a>
                 <form class="form-inline my-lg-0 " th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
                     <a>환영합니다!</a>
+
+                    <a>
+                    <span th:text="${userName}"></span>님
+                    </a>
+
 <!--                    <span sec:authentication="name"></span>-->
+
                     <button class="btn btn-secondary mx-2 my-lg-0" type="submit">로그아웃</button>
                 </form>
                 <!--<form class="form-inline my-lg-0 " th:action="@{/oauth/mypage}" method="post" sec:authorize="isAuthenticated()">

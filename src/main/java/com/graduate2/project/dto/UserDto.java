@@ -3,29 +3,20 @@ package com.graduate2.project.dto;
 import com.graduate2.project.domain.User;
 import lombok.Getter;
 
+import java.io.Serializable;
+
+/*
+ 직렬화 기능을 가진 User클래스
+ */
 @Getter
-public class UserDto {
-    private String username; // 사용자 이름
-    private String provider; // 로그인한 서비스
+public class UserDto implements Serializable {
+    private String name; // 사용자 이름
     private String email; // 사용자 이메일
+    private String picture;
 
-    public void setUserName(String username){
-        this.username = username;
-    }
-
-    public void setProvider(String provider){
-        this.provider = provider;
-    }
-
-    public void setEmail(String email){
-        this.email = email;
-    }
-
-    public User toEntity(){
-        return User.builder()
-                .username(this.username)
-                .email(this.email)
-                .provider(this.provider)
-                .build();
+    public UserDto(User user){
+        this.name = user.getName();
+        this.email = user.getEmail();
+        this.picture = user.getPicture();
     }
 }

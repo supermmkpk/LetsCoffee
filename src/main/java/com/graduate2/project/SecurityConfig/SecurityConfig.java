@@ -1,35 +1,53 @@
 package com.graduate2.project.SecurityConfig;
-import com.graduate2.project.service.OAuth2Service;
-import lombok.RequiredArgsConstructor;
+
+import com.graduate2.project.service.CustomOAuth2UserService;
+import com.graduate2.project.domain.Role;
+import lombok.*;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.boot.autoconfigure.security.ConditionalOnDefaultWebSecurity;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.web.SecurityFilterChain;
 
-@EnableWebSecurity
+@EnableWebSecurity // Spring Security 설정 활성화
 @RequiredArgsConstructor
-public class SecurityConfig {
-    private final OAuth2Service oAuth2Service;
+@Configuration(proxyBeanMethods = false)
+@ConditionalOnDefaultWebSecurity
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
+public class SecurityConfig{
+
+    private final CustomOAuth2UserService customOAuth2UserService;
 
     @Bean
-    public SecurityFilterChain configure(HttpSecurity http) throws Exception{
-        return http.csrf().disable() // csrf 보안설정 사용 x
-                .formLogin().disable()// 폼 로그인 사용 x
+    @Order(SecurityProperties.BASIC_AUTH_ORDER)
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+         http
+                 .csrf().disable() // csrf 보안설정 사용 x
+                 .headers().frameOptions().disable()// h2-console 화면을 사용하기 위해 해당 옵션 disable
 
-                .authorizeRequests() // 사용자가 보내는 요청에 인증 절차 수행 필요
-                .antMatchers().authenticated() // 해당 URL은 인증 절차 수행해야함
-                .anyRequest().permitAll() // 나머지 요청들은 모두 인증 절차 생략가능
+                 .and()
+                 .authorizeRequests() // URL별 권한 관리
+                 .antMatchers().authenticated() // 해당 URL은 인증 절차 수행해야함
+                 .antMatchers("/api/v1/**").hasRole(Role.USER.name()) // /api/v1/** 은 USER권한만 접근 가능
+                 .anyRequest().permitAll() // 나머지 요청들은 모두 인증 절차 생략가능
+
+                 .and()
+                 .logout()
+                 .logoutSuccessUrl("/")
 
                 .and()
                 .oauth2Login() // OAuth2를 통한 로그인 사용
-                .defaultSuccessUrl("/", true)// 로그인 성공시 이동할 URL
-                .userInfoEndpoint() // 사용자가 로그인에 성공할 경우,
-                .userService(oAuth2Service) // 해당 서비스 로직을 타도록 설정
+                .defaultSuccessUrl("/")
+                .userInfoEndpoint() // 사용자가 로그인에 성공할 경우, 가져올 설정들
+                 //소셜로그인 성공 시 후속 조치를 진행할 UserService 인터페이스 구조체 등록
+                .userService(customOAuth2UserService); // 리소스 서버에서 사용자 정보를 가져온 상태에서 추가로 진행하고자 하는 기능 명시
 
-                .and()
-                .and()
-                .logout().logoutSuccessUrl("/")
-                .and().build();
+        return http.build();
     }
 
 }
