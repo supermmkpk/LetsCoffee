@@ -1,36 +1,48 @@
 package com.graduate2.project.domain;
 
-import lombok.*;
-import org.hibernate.annotations.DynamicUpdate;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Entity
-@Getter
-@DynamicUpdate // entity 업데이트시  원하는 데이터만 업데이트 하기 위함.
-@AllArgsConstructor
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Builder
+@Getter @NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
     private Long id;
 
-    @Column(name = "user_name", nullable = false)
-    private String username; // 로그인한 사용자 이름
+    @Column(nullable = false)
+    private String name; // 로그인한 사용자 이름
 
-    @Column(name = "email", nullable = false)
+    @Column(nullable = false)
     private String email; // 로그인한 사용자 이메일
 
-    @Column(name = "provider", nullable = false)
-    private String provider; // 사용자가 로그인한 서비스 ( google, naver, kakao )
+    @Column
+    private String picture;
 
-    public User updateUser(String username, String email){
-        this.username = username;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role; // 권한
+
+    @Builder
+    public User(String name, String email, String picture, Role role){
+        this.name = name;
         this.email = email;
+        this.picture = picture;
+        this.role = role;
+    }
+
+    public User update(String name, String picture){
+        this.name = name;
+        this.picture = picture;
 
         return this;
-    } // 사용자 이름이나 이메일 업데이트 하는 메소드
+    }
+
+    public String getRoleKey(){
+        return this.role.getKey();
+    }
 
 }
