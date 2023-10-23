@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:href="http://www.w3.org/1999/xhtml">
 <div class="header" th:fragment="bodyHeader">
 <!--    <ul class="nav nav-pills pull-right">
         <li><a href="/">Home</a></li>
@@ -19,12 +20,26 @@
                     <input type="image" name="button" src="https://developers.kakao.com/tool/resource/static/img/button/login/full/ko/kakao_login_medium_narrow.png" th:onclick="|location.href='/oauth2/authorization/kakao'|" height="40" alt="카카오 로그인">
                 </a>
                 <form class="form-inline my-lg-0 " th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
+<<<<<<< HEAD
                     <a>환영합니다!</span></a>
                     <button class="btn btn-secondary mx-2 my-lg-0" type="submit">로그아웃</button>
                 </form>
                 <form class="form-inline my-lg-0 " th:action="@{/mypage}" method="post" sec:authorize="isAuthenticated()">
-                    <button class="btn btn-secondary" type="submit">마이페이지</button>
+=======
+                    <a>환영합니다!</a>
+
+                    <a>
+                    <span th:text="${userName}"></span>님
+                    </a>
+
+<!--                    <span sec:authentication="name"></span>-->
+
+                    <button class="btn btn-secondary mx-2 my-lg-0" type="submit">로그아웃</button>
                 </form>
+                <!--<form class="form-inline my-lg-0 " th:action="@{/oauth/mypage}" method="post" sec:authorize="isAuthenticated()">
+>>>>>>> 560a911c8d502d2ae5ac241d76bc2af13a53829b
+                    <button class="btn btn-secondary" type="submit">마이페이지</button>
+                </form>-->
             </div>
         </h3>
           <!--          <img src="https://cdn0.iconfinder.com/data/icons/expenses-vs-income/30/__cafe_coffee_beverages_bistro-1024.png"/>-->

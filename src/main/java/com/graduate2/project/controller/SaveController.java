@@ -169,7 +169,195 @@ public class SaveController {
             } //end of for loop
         } //end of MEGA
 
+        /** 빽다방
+         * 정적, JSOUP
+         */
+        else if(id == CafeId.PAIK) {
+            Document doc = Jsoup.connect("https://paikdabang.com/news/?cate=event").get();
+
+            Elements elems = doc.select("div.board_wrap tbody > tr");
+            for (Element elem : elems) {
+                Promotion promotion = new Promotion();
+                // 프로모션 이름
+                promotion.setName(elem.select("td.tit > a")
+                        .text());
+                // 프로모션 이미지 : 없음
+                // 프로모션 링크
+                promotion.setLink(elem.select("td.tit > a")
+                        .attr("abs:href"));
+                // 프로모션 타입
+                promotion.setType(PromotionType.ALL);
+                promotion.setCafe(cafe);
+
+                promotionService.save(promotion);
+            } //end of for loop
+        }//end of PAIK
+
+        /** 컴포즈
+         * 정적, JSOUP
+         */
+        else if(id == CafeId.COMPOSE) {
+            Document doc = Jsoup.connect("https://composecoffee.com/event").get();
+
+            Elements elems = doc.select("#masonry-container > div");
+            for (Element elem : elems) {
+                Promotion promotion = new Promotion();
+                // 프로모션 이름
+                promotion.setName(elem.select("h6.title")
+                        .text());
+                // 프로모션 이미지
+                promotion.setImage(elem.select("img")
+                        .attr("abs:src"));
+                // 프로모션 링크
+                promotion.setLink(elem.select("a")
+                        .attr("abs:href"));
+                // 프로모션 기간
+                promotion.setPeriod(elem.select("p.pull-left")
+                        .text());
+                // 프로모션 타입
+                promotion.setType(PromotionType.ALL);
+                promotion.setCafe(cafe);
+
+                promotionService.save(promotion);
+            } //end of for loop
+        }//end of COMPOSE
+
+
+        /** 이디야
+         * 정적, JSOUP
+         */
+        else if(id == CafeId.EDIYA) {
+            Document doc = Jsoup.connect("https://www.ediya.com/contents/event.html?tb_name=event").get();
+
+            Elements elems = doc.select("ul.board_e > li:has(span.go)");
+            for (Element elem : elems) {
+                Promotion promotion = new Promotion();
+                // 프로모션 이름
+                promotion.setName(elem.select("dl.board_e_con > dt > a")
+                        .text());
+                // 프로모션 이미지
+                promotion.setImage(elem.select("div.board_e_img img")
+                        .attr("abs:src"));
+                // 프로모션 링크
+                promotion.setLink(elem.select("dl.board_e_con > dt > a")
+                        .attr("abs:href"));
+                // 프로모션 기간
+                promotion.setPeriod(elem.select("dd")
+                        .text());
+                // 프로모션 타입
+                promotion.setType(PromotionType.ALL);
+                promotion.setCafe(cafe);
+
+                promotionService.save(promotion);
+            } //end of for loop
+        }//end of EDIYA
+
+
+        /** 파스쿠찌
+         * 정적, JSOUP
+         */
+        else if(id == CafeId.PASCUCCI) {
+            Document doc = Jsoup.connect("https://www.caffe-pascucci.co.kr/event/eventList.asp").get();
+
+            Elements elems = doc.select("ul.eventList > li");
+            for (Element elem : elems) {
+                Promotion promotion = new Promotion();
+                // 프로모션 이름
+                promotion.setName(elem.select("h1")
+                        .text());
+                // 프로모션 이미지
+                promotion.setImage(elem.select("img")
+                        .attr("abs:src"));
+                // 프로모션 링크
+                promotion.setLink(elem.select("a.btn.btnDetail")
+                        .attr("abs:href"));
+                // 프로모션 기간
+                promotion.setPeriod(elem.select("span.date")
+                        .text());
+                // 프로모션 타입
+                promotion.setType(PromotionType.ALL);
+                promotion.setCafe(cafe);
+
+                promotionService.save(promotion);
+            }//end of for loop (elem)
+        }//end of PASCUCCI
+
+
+        /** 할리스
+         * 정적, JSOUP
+         */
+        else if(id == CafeId.HOLLYS) {
+            Document doc = Jsoup.connect("https://www.hollys.co.kr/news/event/list.do").get();
+
+            Elements elems = doc.select("div.event_listBox");
+            for (Element elem : elems) {
+                Promotion promotion = new Promotion();
+                // 프로모션 이름
+
+                promotion.setName(elem.select("dl > dt > a > span")
+                        .text());
+                // 프로모션 이미지
+                promotion.setImage(elem.select("a > img")
+                        .attr("abs:src"));
+                // 프로모션 링크
+                promotion.setLink(elem.select("a")
+                        .attr("abs:href"));
+                // 프로모션 기간
+                promotion.setPeriod(elem.select("dd.event_date")
+                        .text());
+                // 프로모션 타입
+                promotion.setType(PromotionType.ALL);
+                promotion.setCafe(cafe);
+
+                promotionService.save(promotion);
+            }//end of for loop (elem)
+        }//end of HOLLYS
+
+        /** 폴바셋
+         * 동적, SELENIUM
+         */
+        else if(id == CafeId.PAUL) {
+            for (int i = 1; i <= 2; i++) {
+                String url = "https://www.baristapaulbassett.co.kr/whatsNews/event/List.pb?type=" + i;
+
+                driver = seleniumCrawlService.driver(url);
+
+                if (i == 1) {
+                    try {
+                        elements = driver.findElements(By.partialLinkText("프로모션"));
+                    } catch (Exception e) {
+                        continue;
+                    }
+                    for (WebElement element : elements) {
+
+                        Promotion promotion = new Promotion();
+                        // 프로모션 이름
+                        promotion.setName(element.findElement(By.cssSelector("div.txtArea > strong"))
+                                .getText());
+                        // 프로모션 이미지
+                        promotion.setImage(element.findElement(By.cssSelector("div.thum > img"))
+                                .getAttribute("src"));
+
+                        // 프로모션 링크
+                        promotion.setLink(element.getAttribute("href"));
+                        // 프로모션 타입
+                        promotion.setType(PromotionType.ALL);
+                        promotion.setCafe(cafe);
+
+                        promotionService.save(promotion);
+                    }
+                }
+                else {
+                    //elements = driver.findElements(By.cssSelector("div.eventList"));
+
+                }
+            } //end of for loop (i)
+        } //end of PAUL
+
+
+
     } //end of savePromotion()
+
 
 
     /**
@@ -177,9 +365,10 @@ public class SaveController {
      */
     private void saveMenu(Cafe cafe) throws Exception {
         CafeId id = cafe.getId();
+
         /** 스타벅스
          * 동적, SELENIUM
-         */
+         *//*
         if(id == CafeId.STARBUCKS) {
             for (MenuType type : MenuType.values()) {
                 //메뉴 url
@@ -201,12 +390,12 @@ public class SaveController {
                     menuService.save(menu);
                 } //end of for loop
             } //end of for loop
-        }//end of STARBUCKS
+        }//end of STARBUCKS*/
 
 
         /** 커피빈
          * 정적, JSOUP
-         */
+         */ /*
         else if(id == CafeId.COFFEEBEAN) {
             Document doc = Jsoup.connect("https://www.coffeebeankorea.com/menu/list.asp?category=32").get();
 
@@ -246,7 +435,7 @@ public class SaveController {
                     } //end of for loop
                 } //end of for loop
             } //end of for loop
-        }//end of COFFEEBEAN
+        }//end of COFFEEBEAN */
 
         /** 투썸
          */
@@ -254,7 +443,7 @@ public class SaveController {
 
         /** 메가
          * 동적, SELENIUM
-         */
+         */ /*
         else if(id == CafeId.MEGA) {
             for (int i = 1; i <= 2; i++) { //1: 음료, 2: 푸드
                 String url = "https://www.mega-mgccoffee.com/menu/?menu_category1=" + i + "&menu_category2=" + i;
@@ -289,7 +478,168 @@ public class SaveController {
                     }
                 } // end of while loop
             } // end of for loop
-        }//end of MEGA
+        }//end of MEGA */
+
+
+        /** 빽다방
+         * 정적, JSOUP
+         */
+        //else
+        if(id == CafeId.PAIK) {
+            String categories[] = {"ccino", "coffee", "drink", "dessert"};
+            for(String category : categories) {
+                String url = "https://paikdabang.com/menu/menu_" + category;
+                Document doc = Jsoup.connect(url).get();
+
+                Elements elements = doc.select("div.menu_list.clear > ul > li");
+                for (Element element : elements) {
+                    Menu menu = new Menu();
+                    // 메뉴이름
+                    menu.setName(element.select("p.menu_tit")
+                            .text());
+                    //메뉴 사진
+                    menu.setImage(element.select("img")
+                            .attr("abs:src"));
+                    //메뉴 타입
+                    if (category.equals("dessert"))
+                        menu.setType(MenuType.FOOD);
+                    else
+                        menu.setType(MenuType.DRINK);
+                    menu.setCafe(cafe);
+
+                    menuService.save(menu);
+                }//end of for loop
+            } //end of for loop
+        }//end of PAIK
+
+        /** 컴포즈
+         * 정적, JSOUP
+         */
+        else if(id == CafeId.COMPOSE) {
+            Document doc = Jsoup.connect("https://www.coffeebeankorea.com/menu/list.asp?category=32").get();
+            int categories[] = {185, 186, 187, 188, 189, 190, 191, 192, 193, 339};
+            for (int category : categories) {
+
+                    String url = "https://composecoffee.com/menu/category/" + category;
+                    doc = Jsoup.connect(url).get();
+                    Elements paging = doc.select("ul.pagination.pagination-sm.justify-content-center");
+                    int nPage = paging.size() - 2;
+
+                    for (int i = 1; i <= nPage; i++) {
+                        Elements elements = doc.select("#masonry-container > div");
+                        for (Element element : elements) {
+                            Menu menu = new Menu();
+                            // 메뉴이름
+                            menu.setName(element.select("h4.title")
+                                    .text());
+                            //메뉴 사진
+                            menu.setImage(element.select("img")
+                                    .attr("abs:src"));
+                            //메뉴 타입
+                            if (category == 339)
+                                menu.setType(MenuType.FOOD);
+                            else
+                                menu.setType(MenuType.DRINK);
+                            menu.setCafe(cafe);
+
+                            menuService.save(menu);
+                        }
+                        if(i == nPage) {
+                            break;
+                        }
+                        else {
+                            String query = "#bd_152_0 > nav > ul > li:nth-child(" + (i + 2) + ") > a";
+                            String nextUrl = doc.select(query).attr("abs:href");
+                            if (!nextUrl.isEmpty()) {
+                                doc = Jsoup.connect(nextUrl).get();
+                            }
+                        }
+                    } //end of for loop
+                } //end of for loop
+        }//end of COMPOSE
+
+        /** 이디야
+         * 동적, SELENIUM
+         */ /*
+        else if(id == CafeId.EDIYA) {
+            String categories[] = {"drink", "bakery"};
+            for (String category : categories) {
+                String url = "https://www.ediya.com/contents/" + category + ".html";
+                driver = seleniumCrawlService.driver(url); //메뉴 url
+
+                while (true) {
+                    elements = driver.findElements(By.cssSelector("ul#menu_ul > li"));
+                    for (WebElement element : elements) {
+                        Menu menu = new Menu();
+                        // 메뉴이름
+                        menu.setName(element.findElement(By.cssSelector("div.menu_tt > a > span"))
+                                .getText());
+                        //메뉴 사진
+                        menu.setImage(element.findElement(By.cssSelector("a > img"))
+                                .getAttribute("abs:src"));
+                        //메뉴 타입
+                        if (category.equals("drink"))
+                            menu.setType(MenuType.DRINK);
+                        else if (category.equals("bakery"))
+                            menu.setType(MenuType.FOOD);
+                        menu.setCafe(cafe);
+
+                        menuService.save(menu);
+                    }
+
+                    //페이지 번호 넘어가기! (더보기) 있으면!
+                    try {
+                        driver.findElement(By.cssSelector("div.con_btn > a")).click();
+                        Thread.sleep(1000); //stale element 오류: 뜨기도 전에 요청해서 => 기다리기.
+                    } catch (Exception e) { //없으면 그만!
+                        break;
+                    }
+                } // end of while loop
+            } // end of for loop
+        }//end of EDIYA */
+
+
+        /** 파스쿠찌
+         * 정적, JSOUP
+         */
+        else if(id == CafeId.PASCUCCI) {
+            for(int i = 1; i <= 4; i++) {
+                for (int j = 0; j <= 4; j++) {
+                    if (i == 4) {
+                        String url = "https://www.caffe-pascucci.co.kr/product/productList.asp?typeCode=00210010";
+                    }
+                    /*
+                        "001000" + j + "0"; //1234
+                        "002000" + j + "0"; //1235
+                        "003000" + j + "0"; //1234;
+                     */
+                    if (i == 2 && j == 4)
+                        j++;
+
+                    String url = "https://www.caffe-pascucci.co.kr/product/productList.asp?typeCode=" + "00" + i + "000" + j + "0";
+                    Document doc = Jsoup.connect(url).get();
+
+                    Elements elements = doc.select("ul.productWrap a");
+                    for (Element element : elements) {
+                        Menu menu = new Menu();
+                        // 메뉴이름
+                        menu.setName(element.select(" h2")
+                                .text());
+                        //메뉴 사진
+                        menu.setImage(element.select(" img")
+                                .attr("abs:src"));
+                        //메뉴 타입
+                        if (i <= 2)
+                            menu.setType(MenuType.DRINK);
+                        else
+                            menu.setType(MenuType.FOOD);
+                        menu.setCafe(cafe);
+
+                        menuService.save(menu);
+                    }//end of for loop (element)
+                }//end of for loop (j)
+            }//end of for loop (i)
+        }//end of PASCUCCI
 
     } //end of saveMenu()
 
