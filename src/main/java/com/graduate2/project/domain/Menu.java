@@ -14,12 +14,15 @@ public class Menu {
     @Column(name="menu_id")
     private Long id;
 
+    @Column
     private String name;
 
     //private int price;
 
+    @Column
     private String image;
 
+    @Column
     @Enumerated(EnumType.STRING)
     private MenuType type;
 

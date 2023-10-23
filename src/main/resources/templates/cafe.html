@@ -22,8 +22,19 @@
 </form>
 
 <p><br></p>
+<h4>진행 중 이벤트</h4>
+<form method="POST" th:action="'/'+ ${cafeName} + '/promotion'">
+    <div class="form-group">
+        <select th:name="type" class="form-control">
+            <option value="ALL">전체</option>
+            <option value="STORE">매장 별</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-outline-secondary">보기</button>
+
+<!--</form>
 <button class="btn btn-outline-secondary"
-                    onclick="javascript:promotion()">진행 중 이벤트</button>
+                    onclick="javascript:promotion()">진행 중 이벤트</button>-->
 
 <!--<button class="btn btn-outline-secondary" th:onclick="|location.href='@{/starbucks/foodMenu}'|">푸드</button>-->
 

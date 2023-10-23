@@ -11,7 +11,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +23,20 @@ import java.util.Iterator;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 @Slf4j
 public class MainController {
+    private final PromotionService promotionService;
+
     @RequestMapping("/")
-    public String main() {
+
+    public String main(Model model) {
+        for (CafeId id : CafeId.values()) {
+            String idStr = id.toString().toLowerCase();
+            String name = idStr + "PromotionList"; //Ex) starbucksPromotionList
+            List<Promotion> cafePromotionList = promotionService.findByCafeId(id);
+            model.addAttribute(name, cafePromotionList);
+        }
 
         return "main";
     }

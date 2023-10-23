@@ -14,7 +14,7 @@ import java.time.Duration;
 
 @Service
 public class SeleniumCrawlService {
-    private static Path path = Paths.get("C:\\Users\\user\\Downloads\\chromedriver-win64(2)\\chromedriver-win64\\chromedriver.exe");
+    private static Path path = Paths.get("/Users/bongkyoonpark/Documents/chromedriver-mac-arm64/chromedriver");
     private WebDriver driver;
 
 

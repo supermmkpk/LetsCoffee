@@ -1,5 +1,6 @@
 package com.graduate2.project.dto;
 
+import com.graduate2.project.domain.PromotionType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -12,11 +13,11 @@ import java.util.List;
 @ToString
 public class PromotionDto {
     private String name;
+    private PromotionType type;
+    //private String image;
     private String period;
     private String store;
-    //private String content;
-    private List<String> content;
-    private List<String> specialInfo;
 
+    private List<String> content;
 
 }

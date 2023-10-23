@@ -13,7 +13,7 @@
     <style>
         .map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
         .map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
-        .map_wrap {position:relative;width:100%;height:500px;}
+        .map_wrap {position:relative;width:100%;height:600px;}
         #menu_wrap {position:absolute;top:0;left:0;bottom:0;width:250px;margin:10px 0 30px 10px;padding:5px;overflow-y:auto;background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
         .bg_white {background:#fff;}
         #menu_wrap hr {display: block; height: 1px;border: 0; border-top: 2px solid #5F5F5F;margin:3px 0;}
@@ -47,6 +47,22 @@
         #pagination {margin:10px auto;text-align: center;}
         #pagination a {display:inline-block;margin-right:10px;}
         #pagination .on {font-weight: bold; cursor: default;color:#777;}
+
+        .category, .category *{margin:0;padding:0;color:#000;}
+        .category {position:absolute;overflow:hidden;top:10px;left: 50%;width:665px;height:61px;z-index:10;border:1px solid black;font-family:'Malgun Gothic','맑은 고딕',sans-serif;font-size:12px;text-align:center;background-color:#fff;}
+        .category .menu_selected {background:#FF5F4A;color:#fff;border-left:1px solid #915B2F;border-right:1px solid #915B2F;margin:0 -1px;}
+        .category li{list-style:none;float:left;width:60px;height:60px;padding-top:5px;cursor:pointer;}
+        .category .ico_comm {display:block; margin:0 auto 2px; width: 37px; height: 37px;}
+        .category .ico_starbucks {background: url('https://www.starbucks.co.kr/common/img/common/logo.png') no-repeat center; background-size: contain;}
+        .category .ico_coffeebean {background: url('https://www.coffeebeankorea.com/images/common/logo_93_69.png') no-repeat center; background-size: contain;}
+        .category .ico_mega {background: url('https://img.79plus.co.kr/megahp/common/img/brand02_2.jpg') no-repeat center center; background-size: contain;}
+        .category .ico_paik {background: url('https://paikdabang.com/wp-content/themes/paikdabang/assets/images/logo.png') no-repeat center center; background-size: contain;}
+        .category .ico_twosome {background: url('https://www.twosome.co.kr/resources/images/common/logo_black.svg') no-repeat center center; background-size: contain;}
+        .category .ico_compose {background: url('https://composecoffee.com/layouts/KSOTheme_Starter/src/img/logo.svg') no-repeat center center; background-size: contain;}
+        .category .ico_ediya {background: url('https://postfiles.pstatic.net/20160604_62/ppanppane_1465006723421ByIAd_PNG/%C0%CC%B5%F0%BE%DF%B7%CE%B0%ED_%282%29.png?type=w966') no-repeat center center; background-size: contain;}
+        .category .ico_pascucci {background: url('https://www.caffe-pascucci.co.kr/lib/images/common/h1_logo.png') no-repeat center center; background-size: contain;}
+        .category .ico_hollys {background: url('https://www.hollys.co.kr/websrc/images/layout/logo_210302.gif') no-repeat center center; background-size: contain;}
+        .category .ico_paul {background: url('https://www.baristapaulbassett.co.kr/images/aboutus/logo4.png') no-repeat center center; background-size: contain;}
     </style>
 </head>
 
@@ -56,16 +72,58 @@
 <div class="map_wrap">
     <div id="map" style="width:100%;height:100%;position:relative;overflow:hidden;"></div>
 
+    <!-- 지도 위에 표시될 마커 카테고리 -->
+    <div class="category">
+        <ul>
+            <li id="allMenu" onclick="searchPlaces('all'); changeMarker('all');">
+                <span class="ico_comm ico_all"></span>
+                전체
+            </li>
+            <li id="starbucksMenu" onclick="searchPlaces('스타벅스'); changeMarker('starbucks');">
+                <span class="ico_comm ico_starbucks"></span>
+                스타벅스
+            </li>
+            <li id="coffeebeanMenu" onclick="searchPlaces('커피빈'); changeMarker('coffeebean');">
+                <span class="ico_comm ico_coffeebean"></span>
+                커피빈
+            </li>
+            <li id="megaMenu" onclick="searchPlaces('메가커피'); changeMarker('mega');">
+                <span class="ico_comm ico_mega"></span>
+                메가MGC
+            </li>
+            <li id="paikMenu" onclick="searchPlaces('빽다방'); changeMarker('paik');">
+                <span class="ico_comm ico_paik"></span>
+                빽다방
+            </li>
+            <li id="twosomeMenu" onclick="searchPlaces('투썸플레이스'); changeMarker('twosome');">
+                <span class="ico_comm ico_twosome"></span>
+                투썸
+            </li>
+            <li id="composeMenu" onclick="searchPlaces('컴포즈 커피'); changeMarker('compose');">
+                <span class="ico_comm ico_compose"></span>
+                컴포즈
+            </li>
+            <li id="ediyaMenu" onclick="searchPlaces('이디야 커피'); changeMarker('ediya');">
+                <span class="ico_comm ico_ediya"></span>
+                이디야
+            </li>
+            <li id="pascucciMenu" onclick="searchPlaces('파스쿠찌'); changeMarker('pascucci');">
+                <span class="ico_comm ico_pascucci"></span>
+                파스쿠찌
+            </li>
+            <li id="hollysMenu" onclick="searchPlaces('할리스 커피'); changeMarker('hollys');">
+                <span class="ico_comm ico_hollys"></span>
+                할리스
+            </li>
+            <li id="paulMenu" onclick="searchPlaces('폴바셋'); changeMarker('paul');">
+                <span class="ico_comm ico_paul"></span>
+                폴바셋
+            </li>
+
+        </ul>
+    </div>
+
     <div id="menu_wrap" class="bg_white">
-        <div class="option">
-            <div>
-                <form onsubmit="searchPlaces(); return false;">
-                    <input type="hidden" value="스타벅스" id="keyword" size="15">
-<!--                    키워드 : <input type="text" value="이태원 맛집" id="keyword" size="15">-->
-<!--                    <button type="submit">검색하기</button>-->
-                </form>
-            </div>
-        </div>
         <hr>
         <ul id="placesList"></ul>
         <div id="pagination"></div>
@@ -107,6 +165,155 @@
     // 지도를 생성합니다
     var map = new kakao.maps.Map(mapContainer, mapOption);
 
+    // 카테고리를 클릭했을 때 type에 따라 카테고리의 스타일과 지도에 표시되는 마커를 변경합니다
+    function changeMarker(type){
+
+        var starbucksMenu = document.getElementById('starbucksMenu');
+        var coffeebeanMenu = document.getElementById('coffeebeanMenu');
+        var megaMenu = document.getElementById('megaMenu');
+        var paikMenu = document.getElementById('paikMenu');
+        var twosomeMenu = document.getElementById('twosomeMenu');
+        var composeMenu = document.getElementById('composeMenu');
+        var ediyaMenu = document.getElementById('ediyaMenu');
+        var pascucciMenu = document.getElementById('pascucciMenu');
+        var hollysMenu = document.getElementById('hollysMenu');
+        var paulMenu = document.getElementById('paulMenu');
+
+
+        // 스타벅스 카테고리가 클릭됐을 때
+        if (type === 'starbucks') {
+            // 스타벅스 카테고리를 선택된 스타일로 변경하고
+            starbucksMenu.className = 'menu_selected';
+
+            // 나머지 카테고리는 선택되지 않은 스타일로 바꿉니다
+            coffeebeanMenu.className = '';
+            megaMenu.className = '';
+            paikMenu.className = '';
+            twosomeMenu.className = '';
+            composeMenu.className = '';
+            ediyaMenu.className = '';
+            pascucciMenu.className = '';
+            hollysMenu.className = '';
+            paulMenu.className = '';
+
+        } else if (type === 'coffeebean') { // 커피빈 카테고리가 클릭됐을 때
+            // 커피빈 카테고리를 선택된 스타일로 변경하고
+            starbucksMenu.className = '';
+            coffeebeanMenu.className = 'menu_selected';
+            megaMenu.className = '';
+            paikMenu.className = '';
+            twosomeMenu.className = '';
+            composeMenu.className = '';
+            ediyaMenu.className = '';
+            pascucciMenu.className = '';
+            hollysMenu.className = '';
+            paulMenu.className = '';
+
+        } else if (type === 'mega') { // 메가커피 카테고리가 클릭됐을 때
+            // 메가커피 카테고리를 선택된 스타일로 변경하고
+            starbucksMenu.className = '';
+            coffeebeanMenu.className = '';
+            megaMenu.className = 'menu_selected';
+            paikMenu.className = '';
+            twosomeMenu.className = '';
+            composeMenu.className = '';
+            ediyaMenu.className = '';
+            pascucciMenu.className = '';
+            hollysMenu.className = '';
+            paulMenu.className = '';
+        }
+        else if (type === 'paik') { // 빽다방
+            starbucksMenu.className = '';
+            coffeebeanMenu.className = '';
+            megaMenu.className = '';
+            paikMenu.className = 'menu_selected';
+            twosomeMenu.className = '';
+            composeMenu.className = '';
+            ediyaMenu.className = '';
+            pascucciMenu.className = '';
+            hollysMenu.className = '';
+            paulMenu.className = '';
+        }
+        else if (type === 'twosome') { // 투썸
+            starbucksMenu.className = '';
+            coffeebeanMenu.className = '';
+            megaMenu.className = '';
+            paikMenu.className = '';
+            twosomeMenu.className = 'menu_selected';
+            composeMenu.className = '';
+            ediyaMenu.className = '';
+            pascucciMenu.className = '';
+            hollysMenu.className = '';
+            paulMenu.className = '';
+        }
+        else if (type === 'compose') { // 컴포즈
+            starbucksMenu.className = '';
+            coffeebeanMenu.className = '';
+            megaMenu.className = '';
+            paikMenu.className = '';
+            twosomeMenu.className = '';
+            composeMenu.className = 'menu_selected';
+            ediyaMenu.className = '';
+            pascucciMenu.className = '';
+            hollysMenu.className = '';
+            paulMenu.className = '';
+        }
+        else if (type === 'ediya') { // 이디야
+            starbucksMenu.className = '';
+            coffeebeanMenu.className = '';
+            megaMenu.className = '';
+            paikMenu.className = '';
+            twosomeMenu.className = '';
+            composeMenu.className = '';
+            ediyaMenu.className = 'menu_selected';
+            pascucciMenu.className = '';
+            hollysMenu.className = '';
+            paulMenu.className = '';
+        }
+        else if (type === 'pascucci') { // 파스쿠찌
+
+            starbucksMenu.className = '';
+            coffeebeanMenu.className = '';
+            megaMenu.className = '';
+            paikMenu.className = '';
+            twosomeMenu.className = '';
+            composeMenu.className = '';
+            ediyaMenu.className = '';
+            pascucciMenu.className = 'menu_selected';
+            hollysMenu.className = '';
+            paulMenu.className = '';
+        }
+        else if (type === 'hollys') { // 할리스
+            starbucksMenu.className = '';
+            coffeebeanMenu.className = '';
+            megaMenu.className = '';
+            paikMenu.className = '';
+            twosomeMenu.className = '';
+            composeMenu.className = '';
+            ediyaMenu.className = '';
+            pascucciMenu.className = '';
+            hollysMenu.className = 'menu_selected';
+            paulMenu.className = '';
+        }
+        else if (type === 'paul') { // 폴바셋
+            starbucksMenu.className = '';
+            coffeebeanMenu.className = '';
+            megaMenu.className = '';
+            paikMenu.className = '';
+            twosomeMenu.className = '';
+            composeMenu.className = '';
+            ediyaMenu.className = '';
+            pascucciMenu.className = '';
+            hollysMenu.className = '';
+            paulMenu.className = 'menu_selected';
+        }
+    }
+
+
+
+
+
+
     // 장소 검색 객체를 생성합니다
     var ps = new kakao.maps.services.Places();
 
@@ -114,17 +321,17 @@
     var infowindow = new kakao.maps.InfoWindow({zIndex:1});
 
     // 키워드로 장소를 검색합니다
-    searchPlaces();
+    //searchPlaces();
 
     // 키워드 검색을 요청하는 함수입니다
-    async function searchPlaces() {
+    async function searchPlaces(keyword) {
 
-        var keyword = document.getElementById('keyword').value;
+        //var keyword = document.getElementById('keyword').value;
 
-        if (!keyword.replace(/^\s+|\s+$/g, '')) {
+        /*if (!keyword.replace(/^\s+|\s+$/g, '')) {
             alert('키워드를 입력해주세요!');
             return false;
-        }
+        }*/
 
         const currentCoordinate = await getCurrentCoordinate();
         console.log(currentCoordinate);
@@ -135,7 +342,20 @@
         };
 
         // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
-        ps.keywordSearch( keyword, placesSearchCB, options);
+        ps.keywordSearch(keyword, placesSearchCB, options);
+
+        if (keyword === 'all') {
+            ps.keywordSearch('스타벅스', placesSearchCB, options);
+            ps.keywordSearch('커피빈', placesSearchCB, options);
+            ps.keywordSearch('메가커피', placesSearchCB, options);
+            ps.keywordSearch('빽다방', placesSearchCB, options);
+            ps.keywordSearch('투썸플레이스', placesSearchCB, options);
+            ps.keywordSearch('컴포즈 커피', placesSearchCB, options);
+            ps.keywordSearch('이디야 커피', placesSearchCB, options);
+            ps.keywordSearch('파스쿠찌', placesSearchCB, options);
+            ps.keywordSearch('할리스 커피', placesSearchCB, options);
+            ps.keywordSearch('폴바셋', placesSearchCB, options);
+        }
     }
 
     // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
@@ -226,7 +446,32 @@
         var el = document.createElement('li'),
             itemStr = '<span class="markerbg marker_' + (index+1) + '"></span>' +
                 '<div class="info">' +
-                '   <h5>' + places.place_name + '</h5>';
+                '   <h5>' + places.place_name + '</h5>' +
+                '<a href="https://map.naver.com/p/search/' + places.place_name + '" class="btn btn-sm btn-success active" role="button">네이버 주문</a>';
+
+/*
+const cafeName = "가져온 카페 이름"; // 가져온 카페 이름 변수에 저장
+
+const data = {
+    cafeName: cafeName
+};
+
+fetch('/api/save-cafe', {
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+})
+.then(response => response.json())
+.then(responseData => {
+    // 백엔드로부터의 응답 처리
+    console.log('백엔드로부터의 응답:', responseData);
+})
+.catch(error => {
+    console.error('에러 발생:', error);
+});
+*/
 
         if (places.road_address_name) {
             itemStr += '    <span>' + places.road_address_name + '</span>' +
@@ -243,6 +488,11 @@
 
         return el;
     }
+/*
+    function changeLocation(places.place_name){
+        window.location.href = 'https://map.naver.com/p/search/' + places.place_name;
+    }
+*/
 
     // 마커를 생성하고 지도 위에 마커를 표시하는 함수입니다
     function addMarker(position, idx, title) {

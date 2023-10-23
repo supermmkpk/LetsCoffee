@@ -25,6 +25,7 @@ public class User {
 
     @Column(name = "provider", nullable = false)
     private String provider; // 사용자가 로그인한 서비스 ( google, naver, kakao )
+    
 
     public User updateUser(String username, String email){
         this.username = username;
