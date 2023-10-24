@@ -17,9 +17,9 @@
         </th:block>
     </h4>
 
-    <div class="container-md">
+    <div class="container-md" >
         <div class="row" >
-            <div class="col-3" th:each="menu : ${menuList}">
+            <div class="col-md-3" style="max-width: 50%" th:each="menu : ${menuList}">
                 <p></p>
                 <div class="card" style="text-align: center">
                     <div class="card-header" th:text="${menu.name}"/>

@@ -5,6 +5,8 @@
 <head th:replace="fragments/header :: header">
   <title>메인</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
 </head>
 
 <style>
@@ -20,10 +22,13 @@
     height: 10rem;
     object-fit: scale-down;
   }
+  .col-md-auto {
+    max-width: 500px;
+  }
 </style>
 
 <body>
-<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+<div th:replace="fragments/bodyHeaderMain :: bodyHeaderMain"/>
 
 <p></p>
 <div style="text-align: center;">
@@ -36,10 +41,10 @@
 <div>
   <div class="container-md">
     <div class="row">
-      <div class="col-4">
+      <div class="col-md-4">
         <p></p>
         <div class="card">
-          <img class="card-img-top" src="https://postfiles.pstatic.net/20160604_276/ppanppane_1465006344233mrvD4_PNG/%B7%CE%B0%ED-23.png?type=w966" alt="" />
+          <img class="card-img-top" src="https://www.starbucks.co.kr/common/img/common/logo.png" alt="" />
           <div class="card-body">
             <h3 class="card-title" style="align-content:center">
               <button class="btn text-white" style="background-color: #2f6e46"
@@ -58,7 +63,7 @@
         </div>
       </div>
 
-      <div class="col-4">
+      <div class="col-md-4">
         <p></p>
         <div class="card">
           <img class="card-img-top" src="https://www.coffeebeankorea.com/images/common/logo_93_69.png" alt="" />
@@ -80,7 +85,7 @@
         </div>
       </div>
 
-      <div class="col-4">
+      <div class="col-md-4">
         <p></p>
         <div class="card">
           <img class="card-img-top" src="https://img.79plus.co.kr/megahp/common/img/brand02_2.jpg" alt="" />
@@ -102,7 +107,7 @@
         </div>
       </div>
 
-      <div class="col-4">
+      <div class="col-md-4">
         <p></p>
         <div class="card">
           <img class="card-img-top" src="https://paikdabang.com/wp-content/themes/paikdabang/assets/images/logo.png" alt="" />
@@ -124,7 +129,7 @@
         </div>
       </div>
 
-      <div class="col-4">
+      <div class="col-md-4">
         <p></p>
         <div class="card">
           <img class="card-img-top" src="https://composecoffee.com/layouts/KSOTheme_Starter/src/img/logo.svg" alt="" />
@@ -146,11 +151,11 @@
         </div>
       </div>
 
-      <div class="col-4">
+      <div class="col-md-4">
         <p></p>
         <div class="card">
           <!--          https://www.ediya.com/C/images/ediya/m_con_img07.gif-->
-          <img class="card-img-top" src="https://postfiles.pstatic.net/20160604_62/ppanppane_1465006723421ByIAd_PNG/%C0%CC%B5%F0%BE%DF%B7%CE%B0%ED_%282%29.png?type=w966" alt="" />
+          <img class="card-img-top" src="https://www.ediya.com/images/common/top_logo.gif" alt="" />
           <div class="card-body">
             <h3 class="card-title" style="align-content:center">
               <button class="btn text-white" style="background-color: #0f2d68"
@@ -169,7 +174,7 @@
         </div>
       </div>
 
-      <div class="col-4">
+      <div class="col-md-4">
         <p></p>
         <div class="card">
           <img class="card-img-top" src="https://www.caffe-pascucci.co.kr/lib/images/common/h1_logo.png" alt="" />
@@ -191,7 +196,7 @@
         </div>
       </div>
 
-      <div class="col-4">
+      <div class="col-md-4">
         <p></p>
         <div class="card">
           <img class="card-img-top" src="https://www.hollys.co.kr/websrc/images/layout/logo_210302.gif" alt="" />
@@ -213,7 +218,7 @@
         </div>
       </div>
 
-      <div class="col-4">
+      <div class="col-md-4">
         <p></p>
         <div class="card">
           <img class="card-img-top" src="https://www.baristapaulbassett.co.kr/images/aboutus/logo4.png" alt="" />
@@ -235,7 +240,7 @@
         </div>
       </div>
 
-      <div class="col-4">
+      <div class="col-md-4">
         <p></p>
         <div class="card">
           <!-- https://www.twosome.co.kr/resources/images/common/logo_black.svg -->

@@ -28,15 +28,13 @@ public class User {
     private Role role; // 권한
 
     @Builder
-    public User(String name, String email, String picture, Role role){
+    public User(String name, String email, String picture, Role role) {
         this.name = name;
-
-    public User updateUser(String username, String email){
-        this.username = username;
         this.email = email;
         this.picture = picture;
         this.role = role;
     }
+
 
     public User update(String name, String picture){
         this.name = name;

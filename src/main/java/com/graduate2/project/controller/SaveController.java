@@ -368,7 +368,7 @@ public class SaveController {
 
         /** 스타벅스
          * 동적, SELENIUM
-         *//*
+         */
         if(id == CafeId.STARBUCKS) {
             for (MenuType type : MenuType.values()) {
                 //메뉴 url
@@ -390,12 +390,12 @@ public class SaveController {
                     menuService.save(menu);
                 } //end of for loop
             } //end of for loop
-        }//end of STARBUCKS*/
+        }//end of STARBUCKS
 
 
         /** 커피빈
          * 정적, JSOUP
-         */ /*
+         */
         else if(id == CafeId.COFFEEBEAN) {
             Document doc = Jsoup.connect("https://www.coffeebeankorea.com/menu/list.asp?category=32").get();
 
@@ -435,7 +435,7 @@ public class SaveController {
                     } //end of for loop
                 } //end of for loop
             } //end of for loop
-        }//end of COFFEEBEAN */
+        }//end of COFFEEBEAN
 
         /** 투썸
          */
@@ -484,8 +484,7 @@ public class SaveController {
         /** 빽다방
          * 정적, JSOUP
          */
-        //else
-        if(id == CafeId.PAIK) {
+        else if(id == CafeId.PAIK) {
             String categories[] = {"ccino", "coffee", "drink", "dessert"};
             for(String category : categories) {
                 String url = "https://paikdabang.com/menu/menu_" + category;

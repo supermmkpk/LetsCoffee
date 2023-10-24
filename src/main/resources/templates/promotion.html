@@ -22,7 +22,7 @@
         <p></p>
         <div class="container-md">
             <div class="row" >
-                <div class="col-3" th:each="promotion : ${promotionList}">
+                <div class="col-md-3" th:each="promotion : ${promotionList}">
                     <p></p>
                     <div class="card" style="text-align:center">
                         <a th:href="${promotion.link}">
@@ -47,7 +47,7 @@
 
         <div class="container-md">
             <div class="row" >
-                <div class="col-4" th:each="promotion : ${promotionList}">
+                <div class="col-md-4" th:each="promotion : ${promotionList}">
                     <p></p>
                     <div class="card">
                         <h5 class="card-header" th:text="${promotion.name}"/>

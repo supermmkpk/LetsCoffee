@@ -14,6 +14,7 @@ import java.util.List;
 public class PromotionService {
     private final PromotionRepository promotionRepository;
 
+    @Transactional
     public Long save(Promotion promotion) {
         promotionRepository.save(promotion);
         return promotion.getId();
