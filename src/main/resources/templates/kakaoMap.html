@@ -12,9 +12,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>주변 브랜드 카페</title>
     <style>
+        /*  map은 화면의 80%, category는 화면의 10% * 2  */
         .map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
         .map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
-        .map_wrap {position:relative;width:100%;height:600px;}
+        .map_wrap {position:absolute;width:100%;height:80%;}
+        #info_wrap {position:absolute; top:0.5rem; left:0; right:0; margin-left:auto; margin-right:auto; z-index: 1;font-size:10px;}
+        /*#info_wrap {position: absolute; top:0;left:500px;overflow:hidden;font-size:10px;}*/
         #menu_wrap {position: absolute;top:0;left:0;bottom:0;width:250px;margin:10px 0 30px 10px;padding:5px;overflow:auto; background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
         /*모바일은 표출하지 않습니다*/ @media (max-width: 800px) { #menu_wrap { display: none;}}
         .bg_white {background:#fff;}
@@ -51,9 +54,9 @@
         #pagination .on {font-weight: bold; cursor: default;color:#777;}
 
         .category, .category *{margin:0;padding:0;color:#000;}
-        .category {position: center;overflow: hidden;top:10px;left: 10px;width:100%;height:51px;z-index:10;border:2px none;font-family:'Malgun Gothic','맑은 고딕',sans-serif;font-size:12px;text-align:center;background-color:#fff;}
+        .category {position: center;overflow: hidden;top:0;width:100%;z-index:10;border:1px none;font-family:'Malgun Gothic','맑은 고딕',sans-serif;font-size:12px;text-align:center;background-color:#fff;}
         .category .menu_selected {background:#FF5F4A;color:#fff;border-left:1px solid #915B2F;border-right:1px solid #915B2F;margin:0 -1px;}
-        .category li{list-style:none;float:left;width:16%;height:50px;padding-top:5px;padding-bottom:5px;cursor:pointer;}
+        .category li{list-style:none;float:left;width:16%;height:10%;padding-top:5px;padding-bottom:5px;cursor:pointer;}
         .category .ico_comm {display:block; margin:0 auto 2px; width: 28px; height: 28px;}
         .category .ico_starbucks {background: url('https://www.starbucks.co.kr/common/img/common/logo.png') no-repeat center; background-size: contain;}
         .category .ico_coffeebean {background: url('https://www.coffeebeankorea.com/images/common/logo_93_69.png') no-repeat center; background-size: contain;}
@@ -90,7 +93,8 @@
 </head>
 
 <body>
-<div th:replace="fragments/bodyHeader :: bodyHeader"/><p></p>
+<!--모바일 환경에서 자리가 부족하여 bodyHeader 없이 갑니다-->
+<!--<div th:replace="fragments/bodyHeader :: bodyHeader"/>-->
 
 <!-- 지도 위에 표시될 마커 카테고리 -->
 <div class="category">
@@ -153,9 +157,18 @@
 </div>
 
 <!--지도-->
-<br>
 <div class="map_wrap">
     <div id="map" style="width:100%;height:100%;position:relative;overflow: hidden; "></div>
+
+    <!--현위치 마커에 대한 안내를 제공합니다-->
+    <div id="info_wrap" style="text-align: center">
+            <span class="badge rounded-pill text-bg-secondary" style="font-size: medium;">
+                &nbsp;
+                <img src="https://cdn4.iconfinder.com/data/icons/office-use-icons/512/location-512x512-1024.png" height="20" alt="현위치 마커 안내">
+                &nbsp;는 현재 위치를 표시합니다.&nbsp;
+            </span>
+    </div>
+
     <!--목록-->
     <div id="menu_wrap" class="bg_white">
         <hr>
@@ -383,7 +396,8 @@
     //searchPlaces();
 
     //전체 검색 결과를 저장하는 배열입니다.
-    var allResult = [];
+    let allResult = [];
+    let cnt = 0; //몇 개를 검색했는지 확인합니다.
     // 키워드 검색을 요청하는 함수입니다
     async function searchPlaces(keyword) {
 
@@ -396,7 +410,17 @@
 
 
         const currentCoordinate = await getCurrentCoordinate();
-        console.log(currentCoordinate);
+
+        // 현재위치를 표시합니다
+        var curMarkerImage = new kakao.maps.MarkerImage(
+            "https://cdn4.iconfinder.com/data/icons/office-use-icons/512/location-512x512-1024.png",
+            new kakao.maps.Size(50, 50));
+        var curMarker = new kakao.maps.Marker({
+            position : currentCoordinate,
+            image : curMarkerImage
+        })
+        curMarker.setMap(map);
+
         var options = {
             location: currentCoordinate,
             radius: 10000,
@@ -404,7 +428,9 @@
         };
 
         if (keyword === 'all') { //모든 브랜드에 대하여 검색합니다. 거리순으로 가까운 15개를 표출합니다.
+            //초기화
             allResult.length = 0;
+            cnt = 0;
             ps.keywordSearch('스타벅스', allSearchCB, options);
             ps.keywordSearch('커피빈', allSearchCB, options);
             ps.keywordSearch('메가커피', allSearchCB, options);
@@ -425,10 +451,11 @@
     //전체 검색 콜백 함수입니다. 거리순으로 15개를 보여줍니다.
     function allSearchCB(data, status) {
         if(status === kakao.maps.services.Status.OK) {
+            ++cnt;
             console.log(data);
             allResult.push(...data);
             console.log(allResult);
-            if(allResult.length >= 150) {
+            if(cnt === 10) {
                 allResult.sort(function(a,b) {
                     return a.distance - b.distance
                 })
@@ -455,6 +482,7 @@
             // 정상적으로 검색이 완료됐으면
             // 검색 목록과 마커를 표출합니다
             displayPlaces(data);
+
 
             // 페이지 번호를 표출합니다
             displayPagination(pagination);
@@ -639,15 +667,15 @@
             '            <div class="desc">' +
             '               <div class="ellipsis">' + address + '</div>' +
             '               <div class="jibun ellipsis">' + phone + '</div>' +
-            '               <div><a href=' + "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=" + encodeURI(title) + ' target="_blank" class="link">네이버 주문</a></div>' +
+            '               <div><a href=' + "https://map.naver.com/p/search/" + encodeURI(title) + ' target="_blank" class="link" style="font-size: 1.2em">상세정보/N주문</a></div>' +
 /*            '               <div>' +
             '                   <input type="checkbox" id="id"><label for="id">' +
             '                       <div class="rate"><span class="rate"/></div>' +
             '                   </label>' +
             '               </div>' +*/
             /*value=title로 저장 (RequestParam으로 백엔드단으로 연결)*/
-            '               <div><form method="POST" th:action="/map">' +
-            '                   <button type="submit" class="btn btn-warning btn-sm">&nbsp;즐겨찾기 추가&nbsp;</button>' +
+            '               <div><form method="POST" th:action="/map" style="text-align: right">' +
+            '                   <button type="submit" class="btn btn-warning btn-sm">&nbsp;즐겨찾기&nbsp;</button>' +
             '               </div>' +
             '            </div>' +
             '        </div>' +
@@ -708,8 +736,8 @@
         }
     }
 </script>
-
-<div th:replace="fragments/footer :: footer"/>
+<!--모바일 환경에서 자리가 부족하여 footer 없이 갑니다-->
+<!--<div th:replace="fragments/footer :: footer"/>-->
 </body>
 
 </html>
