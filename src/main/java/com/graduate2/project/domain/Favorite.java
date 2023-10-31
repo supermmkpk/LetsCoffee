@@ -3,20 +3,21 @@ package com.graduate2.project.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @Getter
 @Setter
 public class Favorite {
     @Id
-    @Column(name="favorite_id")
+    @Column(name="cafename_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    private String storeName;
+    @Column(name="cafe_name")
+    private String title;
 
-
+    public void setTitle(String title) {
+        this.title = title;
+    }
 }

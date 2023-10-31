@@ -46,6 +46,21 @@
         </a>
         <!--                    <span sec:authentication="name"></span>-->
         <button class="btn btn-secondary mx-2 my-lg-0" type="submit">로그아웃</button>
+
+        <!-- <div class="dropdown" sec:authorize="isAuthenticated()" style="position: absolute; top: 1%; right:1%;">
+            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                즐겨찾기한 매장
+            </button>
+            <ul class="dropdown-menu" style="min-width: 4rem; text-align: center;" >
+                <li>
+                    <a sec:authorize="isAuthenticated()"> -->
+                        <!--                    <input type="image" name="button" src="https://developers.google.com/static/identity/images/btn_google_signin_dark_normal_web.png?hl=ko" th:onclick="|location.href='/oauth2/authorization/google'|" height="35" alt="구글 로그인">-->
+                        <!-- <input type="image" name="button" src="/image/googleLoginButton_logo.png" th:onclick="|location.href='/oauth2/authorization/google'|" height="36" alt="구글 로그인">
+                    </a>
+                </li>
+            </ul>
+        </div> -->
+
     </form>
 
 <script src="/js/bootstrap.bundle.min.js"></script>
