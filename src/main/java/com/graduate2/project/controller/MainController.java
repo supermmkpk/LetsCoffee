@@ -41,7 +41,7 @@ public class MainController {
        UserDto user = (UserDto) httpSession.getAttribute("user");
 
         if (user != null) {
-            model.addAttribute("userName", user.getName());
+            httpSession.setAttribute("username", user.getName());
 
             List<Favorite> userFavoriteList = favoriteService.findAllById(user.getId());
             model.addAttribute("userFavoriteList", userFavoriteList);
