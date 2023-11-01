@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <!-- Bootstrap CSS -->
@@ -12,10 +12,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>주변 브랜드 카페</title>
     <style>
-        /*  map은 화면의 80%, category는 화면의 10% * 2  */
+        /*  map은 화면의 70%, category는 화면의 10% * 2  */
         .map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
         .map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
-        .map_wrap {position:absolute;width:100%;height:80%;}
+        .map_wrap {position:absolute;width:100%;height:70%;}
         #info_wrap {position:absolute; top:0.5rem; left:0; right:0; margin-left:auto; margin-right:auto; z-index: 1;font-size:10px;}
         /*#info_wrap {position: absolute; top:0;left:500px;overflow:hidden;font-size:10px;}*/
         #menu_wrap {position: absolute;top:0;left:0;bottom:0;width:250px;margin:10px 0 30px 10px;padding:5px;overflow:auto; background:rgba(255, 255, 255, 0.7);z-index: 1;font-size:12px;border-radius: 10px;}
@@ -56,7 +56,7 @@
         .category, .category *{margin:0;padding:0;color:#000;}
         .category {position: center;overflow: hidden;top:0;width:100%;z-index:10;border:1px none;font-family:'Malgun Gothic','맑은 고딕',sans-serif;font-size:12px;text-align:center;background-color:#fff;}
         .category .menu_selected {background:#FF5F4A;color:#fff;border-left:1px solid #915B2F;border-right:1px solid #915B2F;margin:0 -1px;}
-        .category li{list-style:none;float:left;width:16%;height:10%;padding-top:5px;padding-bottom:5px;cursor:pointer;}
+        .category li{list-style:none;float:left;width:16.6%;height:10%;padding-top:5px;padding-bottom:5px;cursor:pointer;}
         .category .ico_comm {display:block; margin:0 auto 2px; width: 28px; height: 28px;}
         .category .ico_starbucks {background: url('https://www.starbucks.co.kr/common/img/common/logo.png') no-repeat center; background-size: contain;}
         .category .ico_coffeebean {background: url('https://www.coffeebeankorea.com/images/common/logo_93_69.png') no-repeat center; background-size: contain;}
@@ -93,15 +93,19 @@
 </head>
 
 <body>
+
 <!--모바일 환경에서 자리가 부족하여 bodyHeader 없이 갑니다-->
 <!--<div th:replace="fragments/bodyHeader :: bodyHeader"/>-->
-
+<!--<a href="/" style="position:absolute; top: 0.3%; left:0.3%;">
+    <img src="/image/home.png" height="30" alt="홈"/>
+</a>-->
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
 <!-- 지도 위에 표시될 마커 카테고리 -->
 <div class="category">
     <ul onclick="closeOverlay()">
         <li id="allMenu" onclick="searchPlaces('all'); changeMarker('all');">
-            <span class="ico_comm"></span>
-            전체
+            <br>
+            <span class="ico_comm">전체</span>
         </li>
         <li id="starbucksMenu" onclick="searchPlaces('스타벅스'); changeMarker('starbucks');">
             <span class="ico_comm ico_starbucks"></span>
@@ -129,9 +133,14 @@
 <!--모바일 위해서 두줄로 나눠 갑니다-->
 <div class="category">
     <ul onclick="closeOverlay()">
-        <li>
-            <span class="ico_comm"></span>
-            검색
+        <li id="searchMenu" class="dropdown" onclick="changeMarker('search');">
+            <br>
+            <span class="ico_comm dropdown-toggle" data-bs-toggle="dropdown">검색</span>
+            <form class="dropdown-menu p-4" onsubmit="searchPlaces('search'); return false;">
+<!--                    <label for="search" class="form-label" id="search">키워드</label>-->
+                    <input type="text" class="form-control" id="searchKeyword" placeholder="매장 이름">
+                    <button class="btn btn-primary text-white" type="submit">&nbsp;검색&nbsp;</button>
+            </form>
         </li>
         <li id="composeMenu" onclick="searchPlaces('컴포즈 커피'); changeMarker('compose');">
             <span class="ico_comm ico_compose"></span>
@@ -156,6 +165,7 @@
     </ul>
 </div>
 
+
 <!--지도-->
 <div class="map_wrap">
     <div id="map" style="width:100%;height:100%;position:relative;overflow: hidden; "></div>
@@ -171,6 +181,14 @@
 
     <!--목록-->
     <div id="menu_wrap" class="bg_white">
+        <!--<div class="option">
+            <div>
+                <form onsubmit="searchPlaces(); return false;">
+                    키워드 : <input type="text" value="이태원 맛집" id="searchKeyword" size="15">
+                    <button type="submit">검색하기</button>
+                </form>
+            </div>
+        </div>-->
         <hr>
         <ul id="placesList"></ul>
         <div id="pagination"></div>
@@ -179,6 +197,14 @@
 
 
 
+<script type="text/javascript">
+    // 로그인 여부를 확인하는 변수입니다 (0: false, 1: true)
+    let authenticated = 0;
+</script>
+<script type="text/javascript" sec:authorize="isAuthenticated()">
+    //로그인 상태인 경우 1로 바꿉니다.
+    authenticated = 1;
+</script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=38087dda8e1b81ee428e36121069bfbb&libraries=services"></script>
 <script>
     const getCurrentCoordinate = async () => {
@@ -217,6 +243,7 @@
 
     // 카테고리를 클릭했을 때 type에 따라 카테고리의 스타일과 지도에 표시되는 마커를 변경합니다
     function changeMarker(type){
+        var searchMenu = document.getElementById('searchMenu');
         var allMenu = document.getElementById('allMenu');
         var starbucksMenu = document.getElementById('starbucksMenu');
         var coffeebeanMenu = document.getElementById('coffeebeanMenu');
@@ -245,9 +272,23 @@
             pascucciMenu.className = '';
             hollysMenu.className = '';
             paulMenu.className = '';
-
-        } else if (type === 'starbucks') {
-
+            searchMenu.className = '';
+        }
+        else if(type === 'search') {
+            allMenu.className = '';
+            starbucksMenu.className = '';
+            coffeebeanMenu.className = '';
+            megaMenu.className = '';
+            paikMenu.className = '';
+            twosomeMenu.className = '';
+            composeMenu.className = '';
+            ediyaMenu.className = '';
+            pascucciMenu.className = '';
+            hollysMenu.className = '';
+            paulMenu.className = '';
+            searchMenu.className = 'menu_selected';
+        }
+        else if (type === 'starbucks') {
             allMenu.className = '';
             starbucksMenu.className = 'menu_selected';
             coffeebeanMenu.className = '';
@@ -259,8 +300,9 @@
             pascucciMenu.className = '';
             hollysMenu.className = '';
             paulMenu.className = '';
-
-        } else if (type === 'coffeebean') { // 커피빈 카테고리가 클릭됐을 때
+            searchMenu.className = '';
+        }
+        else if (type === 'coffeebean') { // 커피빈 카테고리가 클릭됐을 때
             // 커피빈 카테고리를 선택된 스타일로 변경하고
             allMenu.className = '';
             starbucksMenu.className = '';
@@ -273,8 +315,9 @@
             pascucciMenu.className = '';
             hollysMenu.className = '';
             paulMenu.className = '';
-
-        } else if (type === 'mega') { // 메가커피 카테고리가 클릭됐을 때
+            searchMenu.className = '';
+        }
+        else if (type === 'mega') { // 메가커피 카테고리가 클릭됐을 때
             // 메가커피 카테고리를 선택된 스타일로 변경하고
             allMenu.className = '';
             starbucksMenu.className = '';
@@ -287,6 +330,7 @@
             pascucciMenu.className = '';
             hollysMenu.className = '';
             paulMenu.className = '';
+            searchMenu.className = '';
         }
         else if (type === 'paik') { // 빽다방
             allMenu.className = '';
@@ -300,6 +344,7 @@
             pascucciMenu.className = '';
             hollysMenu.className = '';
             paulMenu.className = '';
+            searchMenu.className = '';
         }
         else if (type === 'twosome') { // 투썸
             allMenu.className = '';
@@ -313,6 +358,7 @@
             pascucciMenu.className = '';
             hollysMenu.className = '';
             paulMenu.className = '';
+            searchMenu.className = '';
         }
         else if (type === 'compose') { // 컴포즈
             allMenu.className = '';
@@ -326,6 +372,7 @@
             pascucciMenu.className = '';
             hollysMenu.className = '';
             paulMenu.className = '';
+            searchMenu.className = '';
         }
         else if (type === 'ediya') { // 이디야
             allMenu.className = '';
@@ -339,6 +386,7 @@
             pascucciMenu.className = '';
             hollysMenu.className = '';
             paulMenu.className = '';
+            searchMenu.className = '';
         }
         else if (type === 'pascucci') { // 파스쿠찌
             allMenu.className = '';
@@ -352,6 +400,7 @@
             pascucciMenu.className = 'menu_selected';
             hollysMenu.className = '';
             paulMenu.className = '';
+            searchMenu.className = '';
         }
         else if (type === 'hollys') { // 할리스
             allMenu.className = '';
@@ -365,6 +414,7 @@
             pascucciMenu.className = '';
             hollysMenu.className = 'menu_selected';
             paulMenu.className = '';
+            searchMenu.className = '';
         }
         else if (type === 'paul') { // 폴바셋
             allMenu.className = '';
@@ -378,6 +428,7 @@
             pascucciMenu.className = '';
             hollysMenu.className = '';
             paulMenu.className = 'menu_selected';
+            searchMenu.className = '';
         }
     }
 
@@ -421,13 +472,25 @@
         })
         curMarker.setMap(map);
 
+
         var options = {
             location: currentCoordinate,
             radius: 10000,
             sort: kakao.maps.services.SortBy.DISTANCE,
         };
 
-        if (keyword === 'all') { //모든 브랜드에 대하여 검색합니다. 거리순으로 가까운 15개를 표출합니다.
+
+        if(keyword === 'search') {
+            let searchKeyword = document.getElementById('searchKeyword').value;
+            if (!searchKeyword.replace(/^\s+|\s+$/g, '')) {
+                alert('매장 이름을 입력해주세요!');
+                return false;
+            }
+
+            // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+            ps.keywordSearch(searchKeyword, placesSearchCB);
+        }
+        else if (keyword === 'all') { //모든 브랜드에 대하여 검색합니다. 거리순으로 가까운 15개를 표출합니다.
             //초기화
             allResult.length = 0;
             cnt = 0;
@@ -463,15 +526,12 @@
                 displayPlaces(allResult);
             }
         } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-
             alert('검색 결과가 존재하지 않습니다.');
             return;
-
-        } else if (status === kakao.maps.services.Status.ERROR) {
-
+        }
+        else if (status === kakao.maps.services.Status.ERROR) {
             alert('검색 결과 중 오류가 발생했습니다.');
             return;
-
         }
     }
 
@@ -532,7 +592,7 @@
             // mouseout 했을 때는 인포윈도우를 닫습니다
             (function(marker, title, address, phone) {
                 kakao.maps.event.addListener(marker, 'click', function() {
-                    displayInfowindow(marker, title, address, phone);
+                    displayOverlay(marker, title, address, phone);
                 });
 
 
@@ -541,7 +601,7 @@
                 });*/
 
                 itemEl.onclick =  function () {
-                    displayInfowindow(marker, title, address, phone);
+                    displayOverlay(marker, title, address, phone);
                 };
 
             })(marker, places[i].place_name, places[i].road_address_name, places[i].phone);
@@ -644,16 +704,8 @@
 
     // 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
     // 인포윈도우에 장소명을 표시합니다
-    function displayInfowindow(marker, title, address, phone) {
-/*        var content = '<div style="z-index:2;text-align: center">' +
-            '<span>' + title + '</span><br>' +
-            '<a href=' + "https://search.naver.com/search.naver?where=nexearch&sm=top_hty&fbm=0&ie=utf8&query=" + encodeURI(title) + '>네이버 주문</a>' +
-            '</div>';
-        infowindow.setContent(content);
-        infowindow.open(map, marker);
-        infowindow.setContent(content);
-        infowindow.open(map, marker);*/
-
+    function displayOverlay(marker, title, address, phone) {
+        console.log(authenticated);
 
         var content = '<div class="wrap" xmlns="http://www.w3.org/1999/html">' +
             '    <div class="info">' +
@@ -667,6 +719,7 @@
             '            <div class="desc">' +
             '               <div class="ellipsis">' + address + '</div>' +
             '               <div class="jibun ellipsis">' + phone + '</div>' +
+<<<<<<< HEAD
             '               <div><a href=' + "https://map.naver.com/p/search/" + encodeURI(title) + ' target="_blank" class="link" style="font-size: 1.2em">상세정보/N주문</a></div>' +
 /*            '               <div>' +
             '                   <input type="checkbox" id="id"><label for="id">' +
@@ -676,18 +729,42 @@
             /*value=title로 저장 (RequestParam으로 백엔드단으로 연결)*/
             '               <div><form method="POST" th:action="@{/map}" style="text-align: right">' +
             '                   <input type="text" name="title" th:value="${title}" placeholder="매장 이름을 입력해주세요">' +
+=======
+            '               <div><a href=' + "https://map.naver.com/p/search/" + encodeURI(title) + ' target="_blank" class="link" style="font-size: 1.2em">상세정보/N주문</a></div>';
+
+        if(authenticated === 1) {
+            content += '<div><form id="addFav" method="post" action="/map" onsubmit="return confirm(\'' + title + '을 추가하시겠습니까?\')" style="text-align: right;" >' +
+            '                   <input type="hidden" name="storeName" value="' + title + '">' +
+>>>>>>> 5e358e3e639643a54c8dd426df80589898ff88b9
             '                   <button type="submit" class="btn btn-warning btn-sm">&nbsp;즐겨찾기&nbsp;</button>' +
-            '               </div>' +
+            '               </form></div>' +
             '            </div>' +
             '        </div>' +
             '    </div>' +
             '</div>';
+        }
+        else {
+            content += '</div>' +
+            '        </div>' +
+            '    </div>' +
+            '</div>';
+        }
 
         // 마커 위에 커스텀오버레이를 표시합니다
         // 마커를 중심으로 커스텀 오버레이를 표시하기위해 CSS를 이용해 위치를 설정했습니다
         customOverlay.setMap(map);
         customOverlay.setContent(content);
         customOverlay.setPosition(marker.getPosition());
+        map.setCenter(marker.getPosition());
+    }
+
+    document.getElementById("addFav").addEventListener("submit", addFavoriteConfirm);
+    function addFavoriteConfirm() {
+        try {
+            alert("즐겨찾는 매장에 추가했습니다.");
+        } catch(e) {
+            alert(e.message());
+        }
     }
 
     // 커스텀 오버레이를 닫기 위해 호출되는 함수입니다

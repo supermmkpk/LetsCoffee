@@ -443,7 +443,7 @@ public class SaveController {
 
         /** 메가
          * 동적, SELENIUM
-         */ /*
+         */
         else if(id == CafeId.MEGA) {
             for (int i = 1; i <= 2; i++) { //1: 음료, 2: 푸드
                 String url = "https://www.mega-mgccoffee.com/menu/?menu_category1=" + i + "&menu_category2=" + i;
@@ -478,7 +478,7 @@ public class SaveController {
                     }
                 } // end of while loop
             } // end of for loop
-        }//end of MEGA */
+        }//end of MEGA
 
 
         /** 빽다방
@@ -559,7 +559,7 @@ public class SaveController {
 
         /** 이디야
          * 동적, SELENIUM
-         */ /*
+         */
         else if(id == CafeId.EDIYA) {
             String categories[] = {"drink", "bakery"};
             for (String category : categories) {
@@ -595,7 +595,7 @@ public class SaveController {
                     }
                 } // end of while loop
             } // end of for loop
-        }//end of EDIYA */
+        }//end of EDIYA
 
 
         /** 파스쿠찌
