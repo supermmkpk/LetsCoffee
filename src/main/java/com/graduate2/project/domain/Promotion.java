@@ -36,6 +36,7 @@ public class Promotion {
     @JoinColumn(name="cafe_id")
     private Cafe cafe;
 
+    //==연관관계 매서드==//
     public void setCafe(Cafe cafe) {
         this.cafe = cafe;
         cafe.getPromotions().add(this);

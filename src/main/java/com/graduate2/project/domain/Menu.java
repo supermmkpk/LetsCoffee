@@ -30,6 +30,7 @@ public class Menu {
     @JoinColumn(name="cafe_id")
     private Cafe cafe;
 
+    //==연관관계 매서드==// /* 양방향일때! */
     public void setCafe(Cafe cafe) {
         this.cafe = cafe;
         cafe.getMenus().add(this);
