@@ -137,8 +137,9 @@
             <br>
             <span class="ico_comm dropdown-toggle" data-bs-toggle="dropdown">검색</span>
             <form class="dropdown-menu p-4" onsubmit="searchPlaces('search'); return false;">
+<!--                    <label for="search" class="form-label" id="search">키워드</label>-->
                     <input type="text" class="form-control" id="searchKeyword" placeholder="매장 이름">
-                    <button type="submit" class="btn btn-primary text-white">검색</button>
+                    <button class="btn btn-primary text-white" type="submit">&nbsp;검색&nbsp;</button>
             </form>
         </li>
         <li id="composeMenu" onclick="searchPlaces('컴포즈 커피'); changeMarker('compose');">
@@ -482,7 +483,7 @@
         if(keyword === 'search') {
             let searchKeyword = document.getElementById('searchKeyword').value;
             if (!searchKeyword.replace(/^\s+|\s+$/g, '')) {
-                alert('키워드를 입력해주세요!');
+                alert('매장 이름을 입력해주세요!');
                 return false;
             }
 

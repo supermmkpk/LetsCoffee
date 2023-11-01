@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.security.Provider;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +27,11 @@ public class User {
     @Column
     private String picture;
 
+    @Column
     private int favoriteCount; //즐겨찾기 5개로 제한할 예정입니다.
+
+    @Column
+    private String provider;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -68,11 +73,12 @@ public class User {
 
 
     @Builder
-    public User(String name, String email, String picture, Role role) {
+    public User(String name, String email, String picture, Role role, String provider) {
         this.name = name;
         this.email = email;
         this.picture = picture;
         this.role = role;
+        this.provider = provider;
     }
 
 
