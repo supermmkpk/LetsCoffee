@@ -1,8 +1,12 @@
 package com.graduate2.project.repository;
 
 import com.graduate2.project.domain.Favorite;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 
-/*
+import javax.persistence.EntityManager;
+import java.util.List;
+
 @Repository
 @RequiredArgsConstructor
 public class FavoriteRepository {
@@ -43,12 +47,4 @@ public class FavoriteRepository {
         return em.createQuery("select f from Favorite f", Favorite.class)
                 .getResultList();
     }
-}
-
- */
-
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
-    Favorite findByTitle(String title);
 }

@@ -13,14 +13,6 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Favorite {
     @Id
-<<<<<<< HEAD
-    @Column(name="cafename_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name="cafe_name")
-    private String title;
-=======
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="favorite_id")
     private Long id;
@@ -51,9 +43,5 @@ public class Favorite {
 
     //==조회 로직==//
 
->>>>>>> 5e358e3e639643a54c8dd426df80589898ff88b9
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
 }

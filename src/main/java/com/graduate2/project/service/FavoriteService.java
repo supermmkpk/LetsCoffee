@@ -1,7 +1,5 @@
 package com.graduate2.project.service;
 
-<<<<<<< HEAD
-=======
 import com.graduate2.project.domain.Favorite;
 import com.graduate2.project.domain.User;
 import com.graduate2.project.exception.NoSuchUserException;
@@ -13,9 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
->>>>>>> 5e358e3e639643a54c8dd426df80589898ff88b9
 
-/*
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -55,35 +51,4 @@ public class FavoriteService {
         return favoriteRepository.findAll();
     }
 
-}
-*/
-
-import com.graduate2.project.domain.Favorite;
-import com.graduate2.project.repository.FavoriteRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-
-@Service
-public class FavoriteService{
-
-    @Autowired
-    private FavoriteRepository favoriteRepository;
-
-    public Favorite findByTitle(String title){
-        return favoriteRepository.findByTitle(title);
-    }
-
-    public List<Favorite> findAllFavorites(){
-        return favoriteRepository.findAll();
-    }
-
-    public void saveFavorite(Favorite favorite){
-        favoriteRepository.save(favorite);
-    }
-
-    public void deleteFavorite(Long id){
-        favoriteRepository.deleteById(id);
-    }
 }
