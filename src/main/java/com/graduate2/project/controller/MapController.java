@@ -28,29 +28,39 @@ public class MapController {
     }
 
     @PostMapping("/map")
-    public String favorite(@RequestParam("storeName") String storeName, HttpServletResponse response) throws Exception {
+    public void favorite(@RequestParam("storeName") String storeName, HttpServletResponse response) throws Exception {
         UserDto user = (UserDto) httpSession.getAttribute("user");
 
         if (user != null) {
             try {
-                favoriteService.addFavorite(user.getId(), storeName);
-                response.setContentType("text/html; charset=UTF-8");
-                PrintWriter out = response.getWriter();
-                out.println("<script>alert('즐겨찾는 매장에 추가했습니다.'); window.location='/map';</script>");
-                out.flush();
+                //해당 매장이 즐겨찾기 테이블에 없다면 추가합니다.
+                if(favoriteService.findByStoreName(storeName).isEmpty()) {
+                    favoriteService.addFavorite(user.getId(), storeName);
+                    response.setContentType("text/html; charset=UTF-8");
+                    PrintWriter out = response.getWriter();
+                    out.println("<script>alert('즐겨찾는 매장에 추가했습니다.'); window.location.href='/map';</script>");
+                    out.flush();
+                }
+                //있다면 중복 추가할 수 없습니다.
+                else {
+                    response.setContentType("text/html; charset=UTF-8");
+                    PrintWriter out = response.getWriter();
+                    out.println("<script>alert('이미 추가한 매장입니다.'); window.location.href='/map';</script>");
+                    out.flush();
+                }
+
             } catch(Over5FavoriteException e1) {
                 response.setContentType("text/html; charset=UTF-8");
                 PrintWriter out = response.getWriter();
-                out.println("<script>alert('즐겨찾기는 최대 5개입니다. 삭제를 위해 마이페이지로 이동합니다.'); window.location='/mypage';</script>");
+                out.println("<script>alert('즐겨찾기는 최대 5개입니다. 삭제를 위해 마이페이지로 이동합니다.'); window.location.href='/mypage';</script>");
                 out.flush();
+
             } catch(NoSuchUserException e2) {
                 response.setContentType("text/html; charset=UTF-8");
                 PrintWriter out = response.getWriter();
-                out.println("<script>alert('다시 로그인해 주세요.'); window.location='/map';</script>");
+                out.println("<script>alert('다시 로그인해 주세요.'); window.location.href='/map';</script>");
                 out.flush();
             }
         }
-
-        return "redirect:/map";
     }
 }

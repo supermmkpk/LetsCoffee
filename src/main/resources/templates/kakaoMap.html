@@ -460,7 +460,7 @@
         }*/
 
 
-        /*const currentCoordinate = await getCurrentCoordinate();
+        const currentCoordinate = await getCurrentCoordinate();
 
         // 현재위치를 표시합니다
         var curMarkerImage = new kakao.maps.MarkerImage(
@@ -470,13 +470,13 @@
             position : currentCoordinate,
             image : curMarkerImage
         })
-        curMarker.setMap(map);*/
+        curMarker.setMap(map);
+
 
         var options = {
-            //location: currentCoordinate,
-            //radius: 10000,
-            radius: 1000
-            //sort: kakao.maps.services.SortBy.DISTANCE,
+            location: currentCoordinate,
+            radius: 10000,
+            sort: kakao.maps.services.SortBy.DISTANCE,
         };
 
 
@@ -526,15 +526,12 @@
                 displayPlaces(allResult);
             }
         } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-
             alert('검색 결과가 존재하지 않습니다.');
             return;
-
-        } else if (status === kakao.maps.services.Status.ERROR) {
-
+        }
+        else if (status === kakao.maps.services.Status.ERROR) {
             alert('검색 결과 중 오류가 발생했습니다.');
             return;
-
         }
     }
 
@@ -746,6 +743,7 @@
         customOverlay.setMap(map);
         customOverlay.setContent(content);
         customOverlay.setPosition(marker.getPosition());
+        map.setCenter(marker.getPosition());
     }
 
     document.getElementById("addFav").addEventListener("submit", addFavoriteConfirm);

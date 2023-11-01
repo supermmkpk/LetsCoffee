@@ -43,6 +43,10 @@ public class FavoriteService {
         return favoriteRepository.findAllById(id);
     }
 
+    public List<Favorite> findByStoreName(String storeName) {
+        return favoriteRepository.findByStoreName(storeName);
+    }
+
     public List<Favorite> findAll() {
         return favoriteRepository.findAll();
     }
