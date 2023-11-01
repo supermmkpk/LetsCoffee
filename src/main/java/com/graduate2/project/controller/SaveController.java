@@ -39,7 +39,7 @@ public class SaveController {
             cafe.setId(id);
 
             cafeService.save(cafe);
-            savePromotion(cafe);
+            //savePromotion(cafe);
             saveMenu(cafe);
         }
 
@@ -365,10 +365,13 @@ public class SaveController {
      */
     private void saveMenu(Cafe cafe) throws Exception {
         CafeId id = cafe.getId();
+/*
 
-        /** 스타벅스
+        */
+/** 스타벅스
          * 동적, SELENIUM
-         */
+         *//*
+
         if(id == CafeId.STARBUCKS) {
             for (MenuType type : MenuType.values()) {
                 //메뉴 url
@@ -393,9 +396,11 @@ public class SaveController {
         }//end of STARBUCKS
 
 
-        /** 커피빈
+        */
+/** 커피빈
          * 정적, JSOUP
-         */
+         *//*
+
         else if(id == CafeId.COFFEEBEAN) {
             Document doc = Jsoup.connect("https://www.coffeebeankorea.com/menu/list.asp?category=32").get();
 
@@ -437,13 +442,17 @@ public class SaveController {
             } //end of for loop
         }//end of COFFEEBEAN
 
-        /** 투썸
-         */
+        */
+/** 투썸
+         *//*
+
         //else if(id == CafeId.TWOSOME) {}
 
-        /** 메가
+        */
+/** 메가
          * 동적, SELENIUM
-         */
+         *//*
+
         else if(id == CafeId.MEGA) {
             for (int i = 1; i <= 2; i++) { //1: 음료, 2: 푸드
                 String url = "https://www.mega-mgccoffee.com/menu/?menu_category1=" + i + "&menu_category2=" + i;
@@ -481,9 +490,11 @@ public class SaveController {
         }//end of MEGA
 
 
-        /** 빽다방
+        */
+/** 빽다방
          * 정적, JSOUP
-         */
+         *//*
+
         else if(id == CafeId.PAIK) {
             String categories[] = {"ccino", "coffee", "drink", "dessert"};
             for(String category : categories) {
@@ -510,18 +521,17 @@ public class SaveController {
                 }//end of for loop
             } //end of for loop
         }//end of PAIK
+*/
 
         /** 컴포즈
          * 정적, JSOUP
          */
-        else if(id == CafeId.COMPOSE) {
-            Document doc = Jsoup.connect("https://www.coffeebeankorea.com/menu/list.asp?category=32").get();
-            int categories[] = {185, 186, 187, 188, 189, 190, 191, 192, 193, 339};
+        if(id == CafeId.COMPOSE) {
+            int[] categories = {185, 186, 187, 188, 189, 190, 191, 192, 193, 339};
             for (int category : categories) {
-
                     String url = "https://composecoffee.com/menu/category/" + category;
-                    doc = Jsoup.connect(url).get();
-                    Elements paging = doc.select("ul.pagination.pagination-sm.justify-content-center");
+                    Document doc = Jsoup.connect(url).get();
+                    Elements paging = doc.select("ul.pagination.pagination-sm.justify-content-center > li");
                     int nPage = paging.size() - 2;
 
                     for (int i = 1; i <= nPage; i++) {
@@ -547,19 +557,24 @@ public class SaveController {
                             break;
                         }
                         else {
-                            String query = "#bd_152_0 > nav > ul > li:nth-child(" + (i + 2) + ") > a";
+                            /*String query = "#bd_152_0 > nav > ul > li:nth-child(" + (i + 2) + ") > a";
                             String nextUrl = doc.select(query).attr("abs:href");
                             if (!nextUrl.isEmpty()) {
                                 doc = Jsoup.connect(nextUrl).get();
-                            }
+                            }*/
+                            url = url + "?page=" + (i + 1);
+                            doc = Jsoup.connect(url).get();
                         }
                     } //end of for loop
                 } //end of for loop
         }//end of COMPOSE
+/*
 
-        /** 이디야
+        */
+/** 이디야
          * 동적, SELENIUM
-         */
+         *//*
+
         else if(id == CafeId.EDIYA) {
             String categories[] = {"drink", "bakery"};
             for (String category : categories) {
@@ -597,21 +612,27 @@ public class SaveController {
             } // end of for loop
         }//end of EDIYA
 
+*/
+/*
 
-        /** 파스쿠찌
+        */
+/** 파스쿠찌
          * 정적, JSOUP
-         */
+         *//*
+
         else if(id == CafeId.PASCUCCI) {
             for(int i = 1; i <= 4; i++) {
                 for (int j = 0; j <= 4; j++) {
                     if (i == 4) {
                         String url = "https://www.caffe-pascucci.co.kr/product/productList.asp?typeCode=00210010";
                     }
-                    /*
+                    */
+/*
                         "001000" + j + "0"; //1234
                         "002000" + j + "0"; //1235
                         "003000" + j + "0"; //1234;
-                     */
+                     *//*
+
                     if (i == 2 && j == 4)
                         j++;
 
@@ -639,6 +660,7 @@ public class SaveController {
                 }//end of for loop (j)
             }//end of for loop (i)
         }//end of PASCUCCI
+*/
 
     } //end of saveMenu()
 

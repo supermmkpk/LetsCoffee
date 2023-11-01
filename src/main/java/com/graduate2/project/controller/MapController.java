@@ -38,27 +38,28 @@ public class MapController {
                     favoriteService.addFavorite(user.getId(), storeName);
                     response.setContentType("text/html; charset=UTF-8");
                     PrintWriter out = response.getWriter();
-                    out.println("<script>alert('즐겨찾는 매장에 추가했습니다.'); window.location.href='/map';</script>");
+
+                    out.println("<script> alert('즐겨찾는 매장에 추가했습니다.');</script>");
                     out.flush();
                 }
                 //있다면 중복 추가할 수 없습니다.
                 else {
                     response.setContentType("text/html; charset=UTF-8");
                     PrintWriter out = response.getWriter();
-                    out.println("<script>alert('이미 추가한 매장입니다.'); window.location.href='/map';</script>");
+                    out.println("<script>alert('이미 추가한 매장입니다.');</script>");
                     out.flush();
                 }
 
             } catch(Over5FavoriteException e1) {
                 response.setContentType("text/html; charset=UTF-8");
                 PrintWriter out = response.getWriter();
-                out.println("<script>alert('즐겨찾기는 최대 5개입니다. 삭제를 위해 마이페이지로 이동합니다.'); window.location.href='/mypage';</script>");
+                out.println("<script>alert('즐겨찾기는 최대 5개입니다! 마이페이지에서 삭제 가능합니다.');</script>");
                 out.flush();
 
             } catch(NoSuchUserException e2) {
                 response.setContentType("text/html; charset=UTF-8");
                 PrintWriter out = response.getWriter();
-                out.println("<script>alert('다시 로그인해 주세요.'); window.location.href='/map';</script>");
+                out.println("<script>alert('로그아웃 후 다시 로그인해 주세요.'); window.location.href='/';</script>");
                 out.flush();
             }
         }

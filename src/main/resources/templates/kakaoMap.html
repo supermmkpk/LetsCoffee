@@ -102,7 +102,7 @@
 <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 <!-- 지도 위에 표시될 마커 카테고리 -->
 <div class="category">
-    <ul onclick="closeOverlay()">
+    <ul onclick="closeOverlay();removeCurMarker();">
         <li id="allMenu" onclick="searchPlaces('all'); changeMarker('all');">
             <br>
             <span class="ico_comm">전체</span>
@@ -132,7 +132,7 @@
 
 <!--모바일 위해서 두줄로 나눠 갑니다-->
 <div class="category">
-    <ul onclick="closeOverlay()">
+    <ul onclick="closeOverlay();removeCurMarker();">
         <li id="searchMenu" class="dropdown" onclick="changeMarker('search');">
             <br>
             <span class="ico_comm dropdown-toggle" data-bs-toggle="dropdown">검색</span>
@@ -446,6 +446,13 @@
     // 키워드로 장소를 검색합니다
     //searchPlaces();
 
+    //현위치 마커를 담을 객체입니다.
+    let curMarker;
+    //표출 중인 현위치 마커를 없애는 함수입니다
+    function removeCurMarker() {
+        curMarker.setMap(null);
+    }
+
     //전체 검색 결과를 저장하는 배열입니다.
     let allResult = [];
     let cnt = 0; //몇 개를 검색했는지 확인합니다.
@@ -460,23 +467,23 @@
         }*/
 
 
-        const currentCoordinate = await getCurrentCoordinate();
+        /*const currentCoordinate = await getCurrentCoordinate();
 
         // 현재위치를 표시합니다
         var curMarkerImage = new kakao.maps.MarkerImage(
             "https://cdn4.iconfinder.com/data/icons/office-use-icons/512/location-512x512-1024.png",
             new kakao.maps.Size(50, 50));
-        var curMarker = new kakao.maps.Marker({
+        curMarker = new kakao.maps.Marker({
             position : currentCoordinate,
             image : curMarkerImage
         })
-        curMarker.setMap(map);
+        curMarker.setMap(map);*/
 
 
         var options = {
-            location: currentCoordinate,
+            //location: currentCoordinate,
             radius: 10000,
-            sort: kakao.maps.services.SortBy.DISTANCE,
+            //sort: kakao.maps.services.SortBy.DISTANCE,
         };
 
 
@@ -516,6 +523,7 @@
         if(status === kakao.maps.services.Status.OK) {
             ++cnt;
             console.log(data);
+            data = data.slice(0,15);
             allResult.push(...data);
             console.log(allResult);
             if(cnt === 10) {
@@ -707,7 +715,7 @@
     function displayOverlay(marker, title, address, phone) {
         console.log(authenticated);
 
-        var content = '<div class="wrap" xmlns="http://www.w3.org/1999/html">' +
+        let content = '<div class="wrap" xmlns="http://www.w3.org/1999/html">' +
             '    <div class="info">' +
             '        <div class="title">' + title +
             '            <div class="close" onclick="closeOverlay()" title="닫기"></div>' +
@@ -722,14 +730,16 @@
             '               <div><a href=' + "https://map.naver.com/p/search/" + encodeURI(title) + ' target="_blank" class="link" style="font-size: 1.2em">상세정보/N주문</a></div>';
 
         if(authenticated === 1) {
-            content += '<div><form id="addFav" method="post" action="/map" onsubmit="return confirm(\'' + title + '을 추가하시겠습니까?\')" style="text-align: right;" >' +
-            '                   <input type="hidden" name="storeName" value="' + title + '">' +
-            '                   <button type="submit" class="btn btn-warning btn-sm">&nbsp;즐겨찾기&nbsp;</button>' +
-            '               </form></div>' +
-            '            </div>' +
+            content += '<div>   <form id="addFav" method="post" action="/map" target="addFavorite" onsubmit="confirm(\'' + title + '을 추가하시겠습니까?\');" style="text-align: right;" >' +
+            '                       <input type="hidden" name="storeName" value="' + title + '">' +
+            '                       <button type="submit" class="btn btn-warning btn-sm">&nbsp;즐겨찾기&nbsp;</button>' +
+            '                   </form> </div>' +
+            '<!--페이지 전환을 방지합니다.--> <iframe id="iframe" name="addFavorite"></iframe>' +
+            '           </div>' +
             '        </div>' +
             '    </div>' +
             '</div>';
+
         }
         else {
             content += '</div>' +
@@ -746,14 +756,7 @@
         map.setCenter(marker.getPosition());
     }
 
-    document.getElementById("addFav").addEventListener("submit", addFavoriteConfirm);
-    function addFavoriteConfirm() {
-        try {
-            alert("즐겨찾는 매장에 추가했습니다.");
-        } catch(e) {
-            alert(e.message());
-        }
-    }
+
 
     // 커스텀 오버레이를 닫기 위해 호출되는 함수입니다
     function closeOverlay() {
