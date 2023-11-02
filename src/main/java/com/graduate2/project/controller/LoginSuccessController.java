@@ -24,7 +24,7 @@ public class LoginSuccessController {
         if (user != null) {
             response.setContentType("text/html; charset=UTF-8");
             PrintWriter out = response.getWriter();
-            String script = "<script>alert('환영합니다! " + user.getName() + "님.'); window.location.href='/' </script>";
+            String script = "<script>alert('환영합니다! " + user.getName() + "(" + user.getProvider() + ") 님.'); window.location.href='/' </script>";
             out.println(script);
             out.flush();
         }

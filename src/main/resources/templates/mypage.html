@@ -23,7 +23,8 @@
             <td th:text="${favorite.storeName}"/>
             <td>
                 <!-- 취소 버튼 클릭 시, 해당 즐겨찾기가 삭제됩니다. -->
-                <form method="post" action="/mypage/cancelFavorite" style="display: inline;">
+                <form method="post" action="/mypage/cancelFavorite" th:data-storeName="${favorite.storeName}"
+                      onsubmit="return confirm(this.getAttribute('data-storeName') + '을 삭제합니다.');" style="display: inline;">
                     <input type="hidden" name="favoriteId" th:value="${favorite.id}">
                     <button type="submit" class="btn btn-danger btn-sm">삭제</button>
                 </form>
@@ -32,6 +33,7 @@
         </tbody>
     </table>
 </div>
+
 
 </body>
 

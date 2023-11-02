@@ -89,6 +89,8 @@
 
         input[type="checkbox"] {display: none;}
         input[type="checkbox"]:checked + label span { width: 100%; }
+
+
     </style>
 </head>
 
@@ -100,30 +102,35 @@
     <img src="/image/home.png" height="30" alt="홈"/>
 </a>-->
 <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+<div style="position: absolute; top: 49vh; left: 49vw; z-index: 1000;">
+    <div class="spinner-border" role="status" id="spinner" style="visibility: hidden; ">
+    </div>
+</div>
+
 <!-- 지도 위에 표시될 마커 카테고리 -->
 <div class="category">
     <ul onclick="closeOverlay();removeCurMarker();">
-        <li id="allMenu" onclick="searchPlaces('all'); changeMarker('all');">
+        <li id="allMenu" onclick="searchPlaces('all'); changeMarker('all'); spinner.style.visibility = 'visible';">
             <br>
             <span class="ico_comm">전체</span>
         </li>
-        <li id="starbucksMenu" onclick="searchPlaces('스타벅스'); changeMarker('starbucks');">
+        <li id="starbucksMenu" onclick="searchPlaces('스타벅스'); changeMarker('starbucks'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_starbucks"></span>
             스타벅스
         </li>
-        <li id="coffeebeanMenu" onclick="searchPlaces('커피빈'); changeMarker('coffeebean');">
+        <li id="coffeebeanMenu" onclick="searchPlaces('커피빈'); changeMarker('coffeebean'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_coffeebean"></span>
             커피빈
         </li>
-        <li id="megaMenu" onclick="searchPlaces('메가커피'); changeMarker('mega');">
+        <li id="megaMenu" onclick="searchPlaces('메가커피'); changeMarker('mega'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_mega"></span>
             메가MGC
         </li>
-        <li id="paikMenu" onclick="searchPlaces('빽다방'); changeMarker('paik');">
+        <li id="paikMenu" onclick="searchPlaces('빽다방'); changeMarker('paik'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_paik"></span>
             빽다방
         </li>
-        <li id="twosomeMenu" onclick="searchPlaces('투썸플레이스'); changeMarker('twosome');">
+        <li id="twosomeMenu" onclick="searchPlaces('투썸플레이스'); changeMarker('twosome'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_twosome"></span>
             투썸
         </li>
@@ -139,26 +146,26 @@
             <form class="dropdown-menu p-4" onsubmit="searchPlaces('search'); return false;">
 <!--                    <label for="search" class="form-label" id="search">키워드</label>-->
                     <input type="text" class="form-control" id="searchKeyword" placeholder="매장 이름">
-                    <button class="btn btn-primary text-white" type="submit">&nbsp;검색&nbsp;</button>
+                    <button class="btn btn-primary text-white" type="submit" onclick="spinner.style.visibility = 'visible';">&nbsp;검색&nbsp;</button>
             </form>
         </li>
-        <li id="composeMenu" onclick="searchPlaces('컴포즈 커피'); changeMarker('compose');">
+        <li id="composeMenu" onclick="searchPlaces('컴포즈 커피'); changeMarker('compose'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_compose"></span>
             컴포즈
         </li>
-        <li id="ediyaMenu" onclick="searchPlaces('이디야 커피'); changeMarker('ediya');">
+        <li id="ediyaMenu" onclick="searchPlaces('이디야 커피'); changeMarker('ediya'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_ediya"></span>
             이디야
         </li>
-        <li id="pascucciMenu" onclick="searchPlaces('파스쿠찌'); changeMarker('pascucci');">
+        <li id="pascucciMenu" onclick="searchPlaces('파스쿠찌'); changeMarker('pascucci'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_pascucci"></span>
             파스쿠찌
         </li>
-        <li id="hollysMenu" onclick="searchPlaces('할리스 커피'); changeMarker('hollys'); ">
+        <li id="hollysMenu" onclick="searchPlaces('할리스 커피'); changeMarker('hollys'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_hollys"></span>
             할리스
         </li>
-        <li id="paulMenu" onclick="searchPlaces('폴바셋'); changeMarker('paul');">
+        <li id="paulMenu" onclick="searchPlaces('폴바셋'); changeMarker('paul'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_paul"></span>
             폴바셋
         </li>
@@ -496,6 +503,7 @@
 
             // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
             ps.keywordSearch(searchKeyword, placesSearchCB);
+            spinner.style.visibility = 'hidden';
         }
         else if (keyword === 'all') { //모든 브랜드에 대하여 검색합니다. 거리순으로 가까운 15개를 표출합니다.
             //초기화
@@ -511,10 +519,12 @@
             ps.keywordSearch('파스쿠찌', allSearchCB, options);
             ps.keywordSearch('할리스 커피', allSearchCB, options);
             ps.keywordSearch('폴바셋', allSearchCB, options);
+            spinner.style.visibility = 'hidden';
         }
         else { //선택한 브랜드에 대하여 검색합니다.
             // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
             ps.keywordSearch(keyword, placesSearchCB, options);
+            spinner.style.visibility = 'hidden';
         }
     }
 

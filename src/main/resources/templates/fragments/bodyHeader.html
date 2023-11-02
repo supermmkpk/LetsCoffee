@@ -33,6 +33,7 @@
                             <h6><a class="nav-link" href="/mypage">마이페이지</a></h6>
                         </li>
                     </ul>
+                    <br>
                     <div class="dropdown" sec:authorize="!isAuthenticated()">
                         <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             로그인
@@ -58,9 +59,10 @@
                             </li>
                         </ul>
                     </div>
+
                     <form class="form-inline my-lg-0 " th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()">
 <!--                        <span sec:authentication="principal"></span>-->
-                        <span th:text="${session.username} + '님'"/>&nbsp;&nbsp;
+                        <span th:text="${session.user.name} + '(' + ${session.user.provider} + ') 님'"/>&nbsp;&nbsp;
                         <!--                    <span sec:authentication="name"></span>-->
                         <button class="btn btn-secondary btn-sm" type="submit">로그아웃</button>
                     </form>
