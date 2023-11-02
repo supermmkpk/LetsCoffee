@@ -11,20 +11,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/oauth")
 public class UserController {
     @GetMapping("/loginInfo")
-    public String getJson(Model model, HttpSession httpSession){
+    public String getJson(Model model, HttpSession httpSession) {
 
         UserDto user = (UserDto) httpSession.getAttribute("user");
 
         if (user != null) {
             model.addAttribute("userName", user.getName());
         }
+
         return "redirect:/";
     }
 

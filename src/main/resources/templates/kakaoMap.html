@@ -467,7 +467,7 @@
         }*/
 
 
-        /*const currentCoordinate = await getCurrentCoordinate();
+        const currentCoordinate = await getCurrentCoordinate();
 
         // 현재위치를 표시합니다
         var curMarkerImage = new kakao.maps.MarkerImage(
@@ -477,13 +477,13 @@
             position : currentCoordinate,
             image : curMarkerImage
         })
-        curMarker.setMap(map);*/
+        curMarker.setMap(map);
 
 
         var options = {
-            //location: currentCoordinate,
+            location: currentCoordinate,
             radius: 10000,
-            //sort: kakao.maps.services.SortBy.DISTANCE,
+            sort: kakao.maps.services.SortBy.DISTANCE,
         };
 
 

@@ -18,6 +18,6 @@ public class PromotionDto {
     private String period;
     private String store;
 
-    private List<String> content;
+    private String[] content;
 
 }

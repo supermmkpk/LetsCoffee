@@ -83,14 +83,8 @@ public class CafeController {
     /**
      * 개행을 위해 문자열 쪼개기 (한 줄씩 반환)
      */
-    private List<String> tokenizerList(String str) {
-        List<String> result = new ArrayList<>();
-
-        StringTokenizer st = new StringTokenizer(str, "<br>");
-        while(st.hasMoreTokens()) {
-            result.add(st.nextToken());
-        }
-        return result;
+    private String[] tokenizerList(String str) {
+        return str.split("<br>");
     }
 
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 
 import static java.lang.System.out;
@@ -28,7 +29,7 @@ public class MapController {
     }
 
     @PostMapping("/map")
-    public void favorite(@RequestParam("storeName") String storeName, HttpServletResponse response) throws Exception {
+    public void favorite(@RequestParam("storeName") String storeName, HttpServletResponse response) throws IOException {
         UserDto user = (UserDto) httpSession.getAttribute("user");
 
         if (user != null) {
@@ -39,7 +40,7 @@ public class MapController {
                     response.setContentType("text/html; charset=UTF-8");
                     PrintWriter out = response.getWriter();
 
-                    out.println("<script> alert('즐겨찾는 매장에 추가했습니다.');</script>");
+                    out.println("<script> alert('즐겨찾는 매장에 추가했습니다.'); </script>");
                     out.flush();
                 }
                 //있다면 중복 추가할 수 없습니다.
