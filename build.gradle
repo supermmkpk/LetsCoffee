@@ -44,6 +44,11 @@ dependencies {
 	//spring security oauth2 cleint
 	implementation ("org.springframework.boot:spring-boot-starter-oauth2-client")
 
+	implementation("com.sun.xml.bind:jaxb-core")
+	implementation("javax.xml.bind:jaxb-api")
+	implementation("com.sun.xml.bind:jaxb-impl")
+
+
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 

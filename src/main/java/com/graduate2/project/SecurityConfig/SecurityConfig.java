@@ -3,6 +3,7 @@ package com.graduate2.project.SecurityConfig;
 import com.graduate2.project.service.CustomOAuth2UserService;
 import com.graduate2.project.domain.Role;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.security.ConditionalOnDefaultWebSecurity;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
@@ -47,7 +48,7 @@ public class SecurityConfig{
                  //소셜로그인 성공 시 후속 조치를 진행할 UserService 인터페이스 구조체 등록
                 .userService(customOAuth2UserService); // 리소스 서버에서 사용자 정보를 가져온 상태에서 추가로 진행하고자 하는 기능 명시
 
-        return http.build();
+        return http.getOrBuild();
     }
 
 }

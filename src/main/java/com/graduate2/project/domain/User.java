@@ -4,14 +4,17 @@ import com.graduate2.project.exception.Over5FavoriteException;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.security.Provider;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Getter @NoArgsConstructor
+@Entity(name="users")
+@Getter
+@Setter
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,14 +74,14 @@ public class User {
 
 
 
-
     @Builder
-    public User(String name, String email, String picture, Role role, String provider) {
+    public User(String name, String email, String picture, Role role, String provider, int favoriteCount) {
         this.name = name;
         this.email = email;
         this.picture = picture;
         this.role = role;
         this.provider = provider;
+        this.favoriteCount = favoriteCount;
     }
 
 
