@@ -466,14 +466,6 @@
     // 키워드 검색을 요청하는 함수입니다
     async function searchPlaces(keyword) {
 
-        //var keyword = document.getElementById('keyword').value;
-
-        /*if (!keyword.replace(/^\s+|\s+$/g, '')) {
-            alert('키워드를 입력해주세요!');
-            return false;
-        }*/
-
-
         const currentCoordinate = await getCurrentCoordinate();
 
         // 현재위치를 표시합니다
@@ -486,13 +478,11 @@
         })
         curMarker.setMap(map);
 
-
         var options = {
             location: currentCoordinate,
             radius: 10000,
             sort: kakao.maps.services.SortBy.DISTANCE,
         };
-
 
         if(keyword === 'search') {
             let searchKeyword = document.getElementById('searchKeyword').value;
@@ -503,7 +493,6 @@
 
             // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
             ps.keywordSearch(searchKeyword, placesSearchCB);
-            spinner.style.visibility = 'hidden';
         }
         else if (keyword === 'all') { //모든 브랜드에 대하여 검색합니다. 거리순으로 가까운 15개를 표출합니다.
             //초기화
@@ -519,12 +508,10 @@
             ps.keywordSearch('파스쿠찌', allSearchCB, options);
             ps.keywordSearch('할리스 커피', allSearchCB, options);
             ps.keywordSearch('폴바셋', allSearchCB, options);
-            spinner.style.visibility = 'hidden';
         }
         else { //선택한 브랜드에 대하여 검색합니다.
             // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
             ps.keywordSearch(keyword, placesSearchCB, options);
-            spinner.style.visibility = 'hidden';
         }
     }
 
@@ -541,6 +528,7 @@
                     return a.distance - b.distance
                 })
                 allResult = allResult.slice(0,15);
+                spinner.style.visibility = 'hidden';
                 displayPlaces(allResult);
             }
         } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
@@ -559,6 +547,7 @@
 
             // 정상적으로 검색이 완료됐으면
             // 검색 목록과 마커를 표출합니다
+            spinner.style.visibility = 'hidden';
             displayPlaces(data);
 
 

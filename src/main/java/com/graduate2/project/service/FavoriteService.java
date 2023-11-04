@@ -1,7 +1,7 @@
 package com.graduate2.project.service;
 
 import com.graduate2.project.domain.Favorite;
-import com.graduate2.project.domain.User;
+import com.graduate2.project.domain.Users;
 import com.graduate2.project.exception.NoSuchUserException;
 import com.graduate2.project.repository.FavoriteRepository;
 import com.graduate2.project.repository.UserRepository;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -21,7 +20,7 @@ public class FavoriteService {
 
     @Transactional
     public Long addFavorite(Long userId, String storeName) {
-        User user = userRepository.findById(userId).orElse(null);
+        Users user = userRepository.findById(userId).orElse(null);
         if(user == null) {
             throw new NoSuchUserException("No Such User");
         }

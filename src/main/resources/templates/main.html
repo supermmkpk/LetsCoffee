@@ -36,7 +36,7 @@
   </li>
   <!-- 로그인되어 있는 회원의 즐겨찾기를 보여주고, 클릭 시, 해당 매장의 상세/N주문으로 이동합니다. -->
   <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
-    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false">즐겨찾는 매장</a>
+    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" th:text="'즐겨찾는 매장(' + ${userFavoriteList.size()} + ')'"/>
     <ul class="dropdown-menu" style="white-space: nowrap;">
       <li th:each="favorite : ${userFavoriteList}">
         <a th:href="@{'https://map.naver.com/p/search/' + ${favorite.storeName}}" th:text="${favorite.storeName}"/>
@@ -129,11 +129,16 @@
             </h3>
           </div>
             <div class="card-footer">
-              <h4 class="text-body-emphasis" style="text-align: center">[ 진행 중인 이벤트 ]</h4>
+              <!-- 진행중인 이벤트가 따로 구분돼 있지 않아 연도로 조회하여 업로드 날짜를 표시합니다 -->
+              <h4 class="text-body-emphasis" style="text-align: center">[ 이벤트 ]</h4>
               <div class="card-text" th:each="paikPromotion : ${paikPromotionList}">
-                <p>
-                  <span class="text-body-tertiary" th:text="' ' + ${paikPromotionStat.count} + '.  '"></span>
-                  <a th:href="${paikPromotion.link}" th:text="${paikPromotion.name}"/>
+                <p th:unless="${paikPromotion.period} == null"
+                   th:with="period=${paikPromotion.period}, year=${#dates.format(#dates.createNow(), 'YYYY')}">
+                  <block th:if="${#strings.contains(period,year)}">
+                    <span class="text-body-tertiary" th:text="' ' + ${paikPromotionStat.count} + '.  '"></span>
+                    <a th:href="${paikPromotion.link}" th:text="${paikPromotion.name}"/>
+                    <br>&emsp;<span style="font-size: 0.9rem;" th:text="'<' + ${paikPromotion.period} + '>'"/>
+                  </block>
                 </p>
               </div>
             </div>
@@ -151,11 +156,16 @@
             </h3>
           </div>
           <div class="card-footer">
-            <h4 class="text-body-emphasis" style="text-align: center">[ 진행 중인 이벤트 ]</h4>
-            <div class="card-text" th:each="composePromotion : ${composePromotionList}">
-              <p>
-                <span class="text-body-tertiary" th:text="' ' + ${composePromotionStat.count} + '.  '"></span>
-                <a th:href="${composePromotion.link}" th:text="${composePromotion.name}"/>
+            <h4 class="text-body-emphasis" style="text-align: center">[ 이벤트 ]</h4>
+            <!-- 진행중인 이벤트가 따로 구분돼 있지 않아 연도로 조회하여 업로드 날짜를 표시합니다 -->
+            <div class="card-text" th:each="composePromotion : ${composePromotionList}" >
+              <p th:unless="${composePromotion.period} == null"
+                 th:with="period=${composePromotion.period}, year=${#dates.format(#dates.createNow(), 'YYYY')}">
+                <block th:if="${#strings.contains(period, year)}">
+                  <span class="text-body-tertiary" th:text="' ' + ${composePromotionStat.count} + '.  '"></span>
+                  <a th:href="${composePromotion.link}" th:text="${composePromotion.name}"/>
+                  <br>&emsp;<span style="font-size: 0.9rem;" th:text="'<' + ${composePromotion.period} + '>'"/>
+                </block>
               </p>
             </div>
           </div>
@@ -220,9 +230,9 @@
           <div class="card-footer">
             <h4 class="text-body-emphasis" style="text-align: center">[ 진행 중인 이벤트 ]</h4>
             <div class="card-text" th:each="hollysPromotion : ${hollysPromotionList}">
-              <p>
+              <p th:with="name=${hollysPromotion.name}">
                 <span class="text-body-tertiary" th:text="' ' + ${hollysPromotionStat.count} + '.  '"></span>
-                <a th:href="${hollysPromotion.link}" th:text="${hollysPromotion.name}"/>
+                <a th:href="${hollysPromotion.link}" th:text="${#strings.replace(name, '이벤트', '이벤트 - ')}"/>
               </p>
             </div>
           </div>
@@ -245,29 +255,6 @@
               <p>
                 <span class="text-body-tertiary" th:text="' ' + ${paulPromotionStat.count} + '.  '"></span>
                 <a th:href="${paulPromotion.link}" th:text="${paulPromotion.name}"/>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-4">
-        <p></p>
-        <div class="card">
-          <!-- https://www.twosome.co.kr/resources/images/common/logo_black.svg -->
-          <img class="card-img-top" src="https://www.twosome.co.kr/resources/images/common/logo_black.svg" alt="" />
-          <div class="card-body">
-            <h3 class="card-title" style="align-content:center">
-              <button class="btn text-white" style="background-color: #9d2d33"
-                      th:onclick="|location.href='@{/twosome}'|">투썸플레이스</button>
-            </h3>
-          </div>
-          <div class="card-footer">
-            <h4 class="text-body-emphasis" style="text-align: center">[ 진행 중인 이벤트 ]</h4>
-            <div class="card-text" th:each="twosomePromotion : ${twosomePromotionList}">
-              <p>
-                <span class="text-body-tertiary" th:text="' ' + ${twosomePromotionStat.count} + '.  '"></span>
-                <a th:href="${twosomePromotion.link}" th:text="${twosomePromotion.name}"/>
               </p>
             </div>
           </div>

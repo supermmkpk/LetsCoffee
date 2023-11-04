@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.security.Provider;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +14,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class User {
+public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="user_id")
@@ -75,7 +74,7 @@ public class User {
 
 
     @Builder
-    public User(String name, String email, String picture, Role role, String provider, int favoriteCount) {
+    public Users(String name, String email, String picture, Role role, String provider, int favoriteCount) {
         this.name = name;
         this.email = email;
         this.picture = picture;
@@ -85,7 +84,7 @@ public class User {
     }
 
 
-    public User update(String name, String picture){
+    public Users update(String name, String picture){
         this.name = name;
         this.picture = picture;
 

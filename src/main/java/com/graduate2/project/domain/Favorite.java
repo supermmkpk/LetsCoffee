@@ -19,13 +19,13 @@ public class Favorite {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private User user;
+    private Users user;
 
     @Column
     private String storeName;
 
     //==생성 메서드==//
-    public static Favorite createUserFavoriteStore(User user, String storeName) {
+    public static Favorite createUserFavoriteStore(Users user, String storeName) {
         Favorite userFavorite = new Favorite();
         userFavorite.setUser(user);
         userFavorite.setStoreName(storeName);

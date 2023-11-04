@@ -2,7 +2,7 @@ package com.graduate2.project.service;
 
 import com.graduate2.project.domain.Favorite;
 import com.graduate2.project.domain.Role;
-import com.graduate2.project.domain.User;
+import com.graduate2.project.domain.Users;
 import com.graduate2.project.exception.Over5FavoriteException;
 import com.graduate2.project.repository.FavoriteRepository;
 import org.junit.Test;
@@ -34,7 +34,7 @@ public class FavoriteServiceTest {
     @Test
     public void 즐겨찾기_추가() throws Exception {
         //given
-        User user = createUser();
+        Users user = createUser();
 
         //when
         Long favoriteId = favoriteService.addFavorite(user.getId(), "스타벅스 홍대");
@@ -52,7 +52,7 @@ public class FavoriteServiceTest {
     @Test(expected = Over5FavoriteException.class)
     public void 즐겨찾기_추가_5개초과() throws Exception {
         //given
-        User user = createUser();
+        Users user = createUser();
         user.setFavoriteCount(5);
 
         //when
@@ -66,7 +66,7 @@ public class FavoriteServiceTest {
     @Test
     public void 즐겨찾기_취소() throws Exception {
         //given
-        User user = createUser(); //favoriteCount : 0
+        Users user = createUser(); //favoriteCount : 0
         Long favoriteId = favoriteService.addFavorite(user.getId(), "스타벅스 홍대"); //favoriteCount : 1
         Long favoriteId2 = favoriteService.addFavorite(user.getId(), "커피빈 상수"); //favoriteCount : 2
 
@@ -80,8 +80,8 @@ public class FavoriteServiceTest {
         assertNull("해당 즐겨찾기가 없어야 한다", getFavorite);
     }
 
-    private User createUser() {
-        User user = User.builder()
+    private Users createUser() {
+        Users user = Users.builder()
                 .name("회원1")
                 .email("abc@gmail.com")
                 .picture("picture")

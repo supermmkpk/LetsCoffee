@@ -183,6 +183,9 @@ public class SaveController {
                 // 프로모션 이름
                 promotion.setName(elem.select("td.tit > a")
                         .text());
+                //프로모션 기간
+                promotion.setPeriod(elem.select("td.date")
+                        .text());
                 // 프로모션 이미지 : 없음
                 // 프로모션 링크
                 promotion.setLink(elem.select("td.tit > a")
@@ -237,15 +240,15 @@ public class SaveController {
                 // 프로모션 이름
                 promotion.setName(elem.select("dl.board_e_con > dt > a")
                         .text());
+                // 프로모션 기간
+                promotion.setPeriod(elem.select("dd")
+                        .text());
                 // 프로모션 이미지
                 promotion.setImage(elem.select("div.board_e_img img")
                         .attr("abs:src"));
                 // 프로모션 링크
                 promotion.setLink(elem.select("dl.board_e_con > dt > a")
                         .attr("abs:href"));
-                // 프로모션 기간
-                promotion.setPeriod(elem.select("dd")
-                        .text());
                 // 프로모션 타입
                 promotion.setType(PromotionType.ALL);
                 promotion.setCafe(cafe);
@@ -267,15 +270,15 @@ public class SaveController {
                 // 프로모션 이름
                 promotion.setName(elem.select("h1")
                         .text());
+                // 프로모션 기간
+                promotion.setPeriod(elem.select("span.date")
+                        .text());
                 // 프로모션 이미지
                 promotion.setImage(elem.select("img")
                         .attr("abs:src"));
                 // 프로모션 링크
                 promotion.setLink(elem.select("a.btn.btnDetail")
                         .attr("abs:href"));
-                // 프로모션 기간
-                promotion.setPeriod(elem.select("span.date")
-                        .text());
                 // 프로모션 타입
                 promotion.setType(PromotionType.ALL);
                 promotion.setCafe(cafe);
@@ -295,7 +298,6 @@ public class SaveController {
             for (Element elem : elems) {
                 Promotion promotion = new Promotion();
                 // 프로모션 이름
-
                 promotion.setName(elem.select("dl > dt > a > span")
                         .text());
                 // 프로모션 이미지
@@ -325,28 +327,28 @@ public class SaveController {
                 driver = seleniumCrawlService.driver(url);
 
                 if (i == 1) {
-                    try {
-                        elements = driver.findElements(By.partialLinkText("프로모션"));
-                    } catch (Exception e) {
-                        continue;
-                    }
+                    //새소식에 대하여
+                    elements = driver.findElements(By.cssSelector("div.eventList > ul > li"));
+
                     for (WebElement element : elements) {
+                        //이벤트 또는 프로모션 정보를 찾습니다.
+                        if(element.getText().contains("이벤트") || element.getText().contains("프로모션")) {
 
-                        Promotion promotion = new Promotion();
-                        // 프로모션 이름
-                        promotion.setName(element.findElement(By.cssSelector("div.txtArea > strong"))
-                                .getText());
-                        // 프로모션 이미지
-                        promotion.setImage(element.findElement(By.cssSelector("div.thum > img"))
-                                .getAttribute("src"));
+                            Promotion promotion = new Promotion();
+                            // 프로모션 이름
+                            promotion.setName(element.findElement(By.cssSelector("div.txtArea > strong"))
+                                    .getText());
+                            // 프로모션 이미지
+                            promotion.setImage(element.findElement(By.cssSelector("div.thum > img"))
+                                    .getAttribute("src"));
+                            // 프로모션 링크
+                            promotion.setLink(element.getAttribute("href"));
+                            // 프로모션 타입
+                            promotion.setType(PromotionType.ALL);
+                            promotion.setCafe(cafe);
 
-                        // 프로모션 링크
-                        promotion.setLink(element.getAttribute("href"));
-                        // 프로모션 타입
-                        promotion.setType(PromotionType.ALL);
-                        promotion.setCafe(cafe);
-
-                        promotionService.save(promotion);
+                            promotionService.save(promotion);
+                        }
                     }
                 }
                 else {
@@ -438,12 +440,6 @@ public class SaveController {
                 } //end of for loop
             } //end of for loop
         }//end of COFFEEBEAN
-
-
-        /** 투썸
-         *
-         */
-        //else if(id == CafeId.TWOSOME) {}
 
 
         /** 메가

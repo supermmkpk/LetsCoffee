@@ -1,6 +1,6 @@
 package com.graduate2.project.dto;
 
-import com.graduate2.project.domain.User;
+import com.graduate2.project.domain.Users;
 import lombok.Getter;
 
 import java.io.Serializable;
@@ -16,7 +16,7 @@ public class UserDto implements Serializable {
     private String picture;
     private String provider;
 
-    public UserDto(User user){
+    public UserDto(Users user){
         this.id = user.getId();
         this.name = user.getName();
         this.email = user.getEmail();

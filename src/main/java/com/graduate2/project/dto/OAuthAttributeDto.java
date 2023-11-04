@@ -1,6 +1,6 @@
 package com.graduate2.project.dto;
 
-import com.graduate2.project.domain.User;
+import com.graduate2.project.domain.Users;
 import com.graduate2.project.domain.Role;
 import lombok.Builder;
 import lombok.Getter;
@@ -80,8 +80,8 @@ public class OAuthAttributeDto {
                 .build();
     }
 
-    public User toEntity(){
-        return User.builder()
+    public Users toEntity(){
+        return Users.builder()
                 .name(name)
                 .email(email)
                 .picture(picture)

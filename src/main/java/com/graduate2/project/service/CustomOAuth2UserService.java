@@ -1,7 +1,7 @@
 package com.graduate2.project.service;
 
 import com.graduate2.project.dto.OAuthAttributeDto;
-import com.graduate2.project.domain.User;
+import com.graduate2.project.domain.Users;
 import com.graduate2.project.dto.UserDto;
 import com.graduate2.project.repository.UserRepository;
 import lombok.*;
@@ -35,7 +35,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
         //OAuth2UserService
         OAuthAttributeDto attributes = OAuthAttributeDto.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
-        User user = saveOrUpdate(attributes);
+        Users user = saveOrUpdate(attributes);
         httpSession.setAttribute("user", new UserDto(user)); // UserDto 직렬화된 Dto 클래스 사용
 
         return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(user.getRoleKey())),
@@ -44,8 +44,8 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
     }
 
     //유저 생성 및 수정 서비스 로직
-    private User saveOrUpdate(OAuthAttributeDto attributes){
-        User user = userRepository.findByEmailAndProvider(attributes.getEmail(), attributes.getProvider())
+    private Users saveOrUpdate(OAuthAttributeDto attributes){
+        Users user = userRepository.findByEmailAndProvider(attributes.getEmail(), attributes.getProvider())
                 .map(entity->entity.update(attributes.getName(), attributes.getPicture()))
                 .orElse(attributes.toEntity());
         return userRepository.save(user);
