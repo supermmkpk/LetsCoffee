@@ -4,15 +4,14 @@ import com.graduate2.project.domain.CafeId;
 import com.graduate2.project.domain.Favorite;
 import com.graduate2.project.domain.Promotion;
 import com.graduate2.project.dto.UserDto;
+import com.graduate2.project.repository.FavoriteRepository;
 import com.graduate2.project.service.FavoriteService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.List;
@@ -24,6 +23,7 @@ import java.util.List;
 public class MyPageController {
     private final HttpSession httpSession;
     private final FavoriteService favoriteService;
+    //private final FavoriteRepository favoriteRepository;
 
     @GetMapping("")
     public String mypage(Model model) {
@@ -38,6 +38,13 @@ public class MyPageController {
     @PostMapping("/cancelFavorite")
     public String cancelFavorite(@RequestParam("favoriteId") Long id) {
         favoriteService.cancelFavorite(id);
+        return "redirect:/mypage";
+    }
+
+    @PostMapping("/saveInfo")
+    public String saveInfo(Model model, @RequestParam("favoriteId") Long id, @RequestParam("wifipass") String wifipass, @RequestParam("toiletpass") String toiletpass){
+        favoriteService.addFavoriteInfo(id, wifipass, toiletpass);
+
         return "redirect:/mypage";
     }
 }

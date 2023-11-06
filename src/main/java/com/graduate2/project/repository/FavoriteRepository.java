@@ -13,6 +13,12 @@ public class FavoriteRepository {
     private final EntityManager em;
 
     public void save(Favorite favorite) {
+        if (favorite.getWifipass() != null && favorite.getWifipass().isEmpty()) {
+            favorite.setWifipass(null);
+        }
+        if (favorite.getToiletpass() != null && favorite.getToiletpass().isEmpty()) {
+            favorite.setToiletpass(null);
+        }
         if(favorite.getId() == null) {
             em.persist(favorite);
         }
@@ -36,6 +42,10 @@ public class FavoriteRepository {
         return em.createQuery("select f from Favorite f where f.user.id = :id", Favorite.class)
                 .setParameter("id", id)
                 .getResultList();
+    }
+
+    public Favorite findById(Long id){
+        return em.find(Favorite.class, id);
     }
 
     public List<Favorite> findByStoreName(String storeName) {

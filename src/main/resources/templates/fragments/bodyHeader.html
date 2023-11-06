@@ -38,6 +38,15 @@
                         <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             로그인
                         </button>
+                        <script>
+                            var currentURL = window.location.href;
+                            sessionStorage.setItem('currentURL', currentURL);
+
+                            // 이 부분에서 서버로 값을 전달하도록 수정
+                            var xhr = new XMLHttpRequest();
+                            xhr.open('GET', '/login_success?redirectURL=' + encodeURIComponent(currentURL), true);
+                            xhr.send();
+                        </script>
                         <ul class="dropdown-menu" style="min-width: 4rem; text-align: center;" >
                             <li>
                                 <a sec:authorize="!isAuthenticated()">

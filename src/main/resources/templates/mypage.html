@@ -16,6 +16,7 @@
         <tr>
             <th scope="col">매장 이름</th>
             <th scope="col">삭제</th>
+            <th scope="col">매장 정보</th>
         </tr>
         </thead>
         <tbody>
@@ -29,12 +30,38 @@
                     <button type="submit" class="btn btn-danger btn-sm">삭제</button>
                 </form>
             </td>
+            <td>
+                <script>
+                    // 매장 정보 수정 버튼 클릭 시 필드의 읽기 전용 속성을 해제하는 JavaScript 코드
+                    function enableEditFields(favoriteId) {
+                        var wifipassField = document.querySelector(`[name='wifipass'][data-favoriteId='${favoriteId}']`);
+                        var toiletpassField = document.querySelector(`[name='toiletpass'][data-favoriteId='${favoriteId}']`);
+
+                        // 필드를 수정 가능하도록 설정
+                        wifipassField.removeAttribute("readonly");
+                        toiletpassField.removeAttribute("readonly");
+                        wifipassField.value = "";
+                        toiletpassField.value = "";
+                    }
+                </script>
+                <!-- 매장 정보 저장 버튼 클릭 시, 해당 즐겨찾기 매장의 정보를 메모하게 됨. -->
+                <form method="post" action="/mypage/saveInfo" th:data-storeName="${favorite.storeName}"
+                      onsubmit="return confirm(this.getAttribute('data-storeName') + '에 저장합니다.');" style="display: inline;">
+                    <input type="hidden" name="favoriteId" th:value="${favorite.id}">
+                    <span>와이파이 비밀번호</span>
+                    <input type="text" name="wifipass" th:value="${favorite.wifipass}" placeholder="와이파이 비밀번호" th:readonly="${favorite.wifipass != null}" data-favoriteId="${favorite.id}">
+                    <span th:data="${favorite.id}">화장실 비밀번호</span>
+                    <input type="text" name="toiletpass" th:value="${favorite.toiletpass}" placeholder="화장실 비밀번호" th:readonly="${favorite.toiletpass != null}" data-favoriteId="${favorite.id}">
+                    <button type="submit" class="btn btn-outline-secondary" th:if="${favorite.wifipass == null and favorite.toiletpass == null}">매장 정보 저장</button>
+                    <button type="submit" class="btn btn-outline-secondary" th:if="${favorite.wifipass != null or favorite.toiletpass != null}" onclick="enableEditFields(${favorite.id})">매장 정보 수정</button>
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>
 </div>
 
 
-</body>
+                </body>
 
-</html>
+                </html>
