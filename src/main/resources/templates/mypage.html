@@ -21,8 +21,8 @@
         </thead>
         <tbody>
         <tr th:each="favorite : ${userFavoriteList}">
-            <td th:text="${favorite.storeName}"/>
-            <td>
+            <td th:text="${favorite.storeName}" style="vertical-align:middle;"/>
+            <td style="vertical-align:middle;">
                 <!-- 취소 버튼 클릭 시, 해당 즐겨찾기가 삭제됩니다. -->
                 <form method="post" action="/mypage/cancelFavorite" th:data-storeName="${favorite.storeName}"
                       onsubmit="return confirm(this.getAttribute('data-storeName') + '을 삭제합니다.');" style="display: inline;">
@@ -30,31 +30,66 @@
                     <button type="submit" class="btn btn-danger btn-sm">삭제</button>
                 </form>
             </td>
-            <td>
-                <script>
-                    // 매장 정보 수정 버튼 클릭 시 필드의 읽기 전용 속성을 해제하는 JavaScript 코드
-                    function enableEditFields(favoriteId) {
-                        var wifipassField = document.querySelector(`[name='wifipass'][data-favoriteId='${favoriteId}']`);
-                        var toiletpassField = document.querySelector(`[name='toiletpass'][data-favoriteId='${favoriteId}']`);
-
-                        // 필드를 수정 가능하도록 설정
-                        wifipassField.removeAttribute("readonly");
-                        toiletpassField.removeAttribute("readonly");
-                        wifipassField.value = "";
-                        toiletpassField.value = "";
-                    }
-                </script>
+            <td style="vertical-align:middle;">
                 <!-- 매장 정보 저장 버튼 클릭 시, 해당 즐겨찾기 매장의 정보를 메모하게 됨. -->
-                <form method="post" action="/mypage/saveInfo" th:data-storeName="${favorite.storeName}"
-                      onsubmit="return confirm(this.getAttribute('data-storeName') + '에 저장합니다.');" style="display: inline;">
-                    <input type="hidden" name="favoriteId" th:value="${favorite.id}">
-                    <span>와이파이 비밀번호</span>
-                    <input type="text" name="wifipass" th:value="${favorite.wifipass}" placeholder="와이파이 비밀번호" th:readonly="${favorite.wifipass != null}" data-favoriteId="${favorite.id}">
-                    <span th:data="${favorite.id}">화장실 비밀번호</span>
-                    <input type="text" name="toiletpass" th:value="${favorite.toiletpass}" placeholder="화장실 비밀번호" th:readonly="${favorite.toiletpass != null}" data-favoriteId="${favorite.id}">
-                    <button type="submit" class="btn btn-outline-secondary" th:if="${favorite.wifipass == null and favorite.toiletpass == null}">매장 정보 저장</button>
-                    <button type="submit" class="btn btn-outline-secondary" th:if="${favorite.wifipass != null or favorite.toiletpass != null}" onclick="enableEditFields(${favorite.id})">매장 정보 수정</button>
-                </form>
+                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" th:data-bs-target="'#infoModalDisplay' + ${favoriteStat.index}">보기</button>
+                &nbsp;
+                <button class="btn" data-bs-toggle="modal" th:data-bs-target="'#infoModalForm' + ${favoriteStat.index}">
+                    <img src="/image/edit.png" height="25">
+                </button>
+
+                <div class="modal fade" th:id="'infoModalDisplay' + ${favoriteStat.index}" tabindex="-1" aria-labelledby="infoModalDisplayLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="infoModalDisplayLabel">
+                                    <strong> <span th:text="${favorite.storeName}"/> </strong>
+                                    &nbsp;정보
+                                </h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <span style="display: inline"><strong>Wi-Fi : </strong></span>
+                                <span th:text="${favorite.wifipass}" style="display: inline"/>
+                                <hr>
+                                <span style="display: inline"><strong>화장실 : </strong></span>
+                                <span th:text="${favorite.toiletpass}" style="display: inline"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" th:id="'infoModalForm' + ${favoriteStat.index}" tabindex="-1" aria-labelledby="infoModalFormLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="infoModalFormLabel">
+                                    <strong> <span th:text="${favorite.storeName}"/> </strong>
+                                    &nbsp;정보 저장
+                                </h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+                            </div>
+                            <form method="post" action="/mypage/saveInfo">
+                                <div class="modal-body">
+                                        <input type="hidden" name="favoriteId" th:value="${favorite.id}">
+                                        <div class="mb-3">
+                                            <label for="wifipass" class="col-form-label">Wi-Fi 비밀번호:</label>
+                                            <input type="text" class="form-control" id="wifipass"
+                                                   name="wifipass" th:value="${favorite.wifipass}">
+                                        </div>
+                                        <div class="mb-3">
+                                            <label for="toiletpass" class="col-form-label">화장실 비밀번호:</label>
+                                            <input type="text" class="form-control" id="toiletpass"
+                                                   name="toiletpass" th:value="${favorite.toiletpass}">
+                                        </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                                    <button type="submit" class="btn btn-primary">저장</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </td>
         </tr>
         </tbody>
@@ -62,6 +97,6 @@
 </div>
 
 
-                </body>
+</body>
 
-                </html>
+</html>
