@@ -13,12 +13,6 @@ public class FavoriteRepository {
     private final EntityManager em;
 
     public void save(Favorite favorite) {
-        if (favorite.getWifipass() != null && favorite.getWifipass().isEmpty()) {
-            favorite.setWifipass(null);
-        }
-        if (favorite.getToiletpass() != null && favorite.getToiletpass().isEmpty()) {
-            favorite.setToiletpass(null);
-        }
         if(favorite.getId() == null) {
             em.persist(favorite);
         }

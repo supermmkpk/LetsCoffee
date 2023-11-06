@@ -3,7 +3,7 @@ package com.graduate2.project.service;
 import com.graduate2.project.domain.Favorite;
 import com.graduate2.project.domain.Role;
 import com.graduate2.project.domain.Users;
-import com.graduate2.project.exception.Over5FavoriteException;
+import com.graduate2.project.exception.Over10FavoriteException;
 import com.graduate2.project.repository.FavoriteRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -49,11 +49,11 @@ public class FavoriteServiceTest {
         assertEquals("등록한 user가 정확해야 한다.", user, getFavorite.getUser());
     }
 
-    @Test(expected = Over5FavoriteException.class)
-    public void 즐겨찾기_추가_5개초과() throws Exception {
+    @Test(expected = Over10FavoriteException.class)
+    public void 즐겨찾기_추가_10개초과() throws Exception {
         //given
         Users user = createUser();
-        user.setFavoriteCount(5);
+        user.setFavoriteCount(10);
 
         //when
         favoriteService.addFavorite(user.getId(), "스타벅스 홍대");

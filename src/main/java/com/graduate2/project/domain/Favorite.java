@@ -30,6 +30,9 @@ public class Favorite {
     @Column
     private String toiletpass;
 
+    @Column(length = 1200)
+    private String otherInfo;
+
     //==생성 메서드==//
     public static Favorite createUserFavoriteStore(Users user, String storeName) {
         Favorite userFavorite = new Favorite();
@@ -42,9 +45,10 @@ public class Favorite {
         return userFavorite;
     }
 
-    public static Favorite createFavoriteInfo(Favorite favorite, String wifipass, String toiletpass){
+    public static Favorite createFavoriteInfo(Favorite favorite, String wifipass, String toiletpass, String otherInfo){
         favorite.setWifipass(wifipass);
         favorite.setToiletpass(toiletpass);
+        favorite.setOtherInfo(otherInfo);
 
         return favorite;
     }

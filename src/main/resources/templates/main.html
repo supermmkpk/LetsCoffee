@@ -39,7 +39,11 @@
     <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" th:text="'즐겨찾는 매장(' + ${userFavoriteList.size()} + ')'"/>
     <ul class="dropdown-menu" style="white-space: nowrap;">
       <li th:each="favorite : ${userFavoriteList}">
-        <a th:href="@{'https://map.naver.com/p/search/' + ${favorite.storeName}}" th:text="${favorite.storeName}"/>
+        <a th:href="@{'https://map.naver.com/p/search/' + ${favorite.storeName}}" th:text="${favorite.storeName}" style="display:inline;"/>
+        &nbsp;
+        <!-- 메모를 바로 볼 수 있습니다.(Bootstrap5 - Modal) -->
+        <button class="btn btn-secondary btn-sm" data-bs-toggle="modal"
+                th:data-bs-target="'#infoModalDisplay' + ${favoriteStat.index}">메모</button>
         <p th:unless="${favoriteStat.last}"></p>
       </li>
     </ul>
@@ -48,6 +52,36 @@
     <a class="nav-link" href="/map">주변 브랜드 카페</a>
   </li>
 </ul>
+
+<!--modal을 생성합니다.-->
+<div th:each="favorite : ${userFavoriteList}">
+  <div class="modal fade" th:id="'infoModalDisplay' + ${favoriteStat.index}" tabindex="-1" aria-labelledby="infoModalDisplayLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="infoModalDisplayLabel">
+            <strong> <span th:text="${favorite.storeName}"/> </strong>
+            &nbsp;메모
+          </h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
+        </div>
+        <div class="modal-body">
+          <span style="display: inline"><strong>Wi-Fi : </strong></span>
+          <span th:text="${favorite.wifipass}" style="display: inline"/>
+          <hr>
+          <span style="display: inline"><strong>화장실 : </strong></span>
+          <span th:text="${favorite.toiletpass}" style="display: inline"/>
+          <hr>
+          <span><strong>기타 :</strong></span>
+          <div style="padding-top: 0.5rem;">
+            <pre><p th:text="${favorite.otherInfo}"/></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <div>
   <div class="container-md">

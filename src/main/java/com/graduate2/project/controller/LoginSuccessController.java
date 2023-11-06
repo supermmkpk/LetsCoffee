@@ -20,10 +20,7 @@ import java.io.PrintWriter;
 public class LoginSuccessController {
     private final HttpSession httpSession;
     @RequestMapping("/login_success")
-    public String loginSuccess(HttpServletResponse response, HttpServletRequest request) throws IOException {
-
-        // 세션 스토리지에서 이전 페이지 URL을 가져옴
-        String redirectURL = (String) request.getSession().getAttribute("currentURL");
+    public void loginSuccess(HttpServletResponse response) throws IOException {
 
         UserDto user = (UserDto) httpSession.getAttribute("user");
 
@@ -33,10 +30,6 @@ public class LoginSuccessController {
             String script = "<script>alert('환영합니다! " + user.getName() + "(" + user.getProvider() + ") 님.'); window.location.href='/' </script>";
             out.println(script);
             out.flush();
-            if(redirectURL != null && !redirectURL.isEmpty()){
-                return "redirect:" + redirectURL;
-            }
         }
-        return "redirect:/";
     }
 }

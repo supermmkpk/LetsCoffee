@@ -1,6 +1,6 @@
 package com.graduate2.project.domain;
 
-import com.graduate2.project.exception.Over5FavoriteException;
+import com.graduate2.project.exception.Over10FavoriteException;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -57,7 +57,7 @@ public class Users {
      */
     public void addFavoriteCount() {
         if(this.favoriteCount >= 10) {
-            throw new Over5FavoriteException("즐겨찾기는 최대 10개까지 가능합니다");
+            throw new Over10FavoriteException("즐겨찾기는 최대 10개까지 가능합니다");
         }
         ++this.favoriteCount;
     }

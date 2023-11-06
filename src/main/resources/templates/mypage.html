@@ -16,7 +16,7 @@
         <tr>
             <th scope="col">매장 이름</th>
             <th scope="col">삭제</th>
-            <th scope="col">매장 정보</th>
+            <th scope="col">메모</th>
         </tr>
         </thead>
         <tbody>
@@ -39,12 +39,12 @@
                 </button>
 
                 <div class="modal fade" th:id="'infoModalDisplay' + ${favoriteStat.index}" tabindex="-1" aria-labelledby="infoModalDisplayLabel" aria-hidden="true">
-                    <div class="modal-dialog">
+                    <div class="modal-dialog modal-dialog-scrollable">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5" id="infoModalDisplayLabel">
                                     <strong> <span th:text="${favorite.storeName}"/> </strong>
-                                    &nbsp;정보
+                                    &nbsp;메모
                                 </h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
                             </div>
@@ -54,17 +54,22 @@
                                 <hr>
                                 <span style="display: inline"><strong>화장실 : </strong></span>
                                 <span th:text="${favorite.toiletpass}" style="display: inline"/>
+                                <hr>
+                                <span><strong>기타 :</strong></span>
+                                <div style="padding-top: 0.5rem;">
+                                    <pre><p th:text="${favorite.otherInfo}"/></pre>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal fade" th:id="'infoModalForm' + ${favoriteStat.index}" tabindex="-1" aria-labelledby="infoModalFormLabel" aria-hidden="true">
-                    <div class="modal-dialog">
+                    <div class="modal-dialog modal-dialog-scrollable">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5" id="infoModalFormLabel">
                                     <strong> <span th:text="${favorite.storeName}"/> </strong>
-                                    &nbsp;정보 저장
+                                    &nbsp;메모 쓰기
                                 </h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
                             </div>
@@ -72,15 +77,21 @@
                                 <div class="modal-body">
                                         <input type="hidden" name="favoriteId" th:value="${favorite.id}">
                                         <div class="mb-3">
-                                            <label for="wifipass" class="col-form-label">Wi-Fi 비밀번호:</label>
+                                            <label for="wifipass" class="col-form-label">Wi-Fi 비밀번호 :</label>
                                             <input type="text" class="form-control" id="wifipass"
                                                    name="wifipass" th:value="${favorite.wifipass}">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="toiletpass" class="col-form-label">화장실 비밀번호:</label>
+                                            <label for="toiletpass" class="col-form-label">화장실 비밀번호 :</label>
                                             <input type="text" class="form-control" id="toiletpass"
                                                    name="toiletpass" th:value="${favorite.toiletpass}">
                                         </div>
+                                    <div class="mb-3">
+                                        <label for="otherInfo" class="col-form-label">기타 정보도 자유롭게 메모하세요(1000자) :</label>
+                                        <textarea class="form-control" id="otherInfo"
+                                                  name="otherInfo" th:value="${favorite.otherInfo}"
+                                                  maxlength="1000" th:text="${favorite.otherInfo}" style="height: 40vh"></textarea>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
