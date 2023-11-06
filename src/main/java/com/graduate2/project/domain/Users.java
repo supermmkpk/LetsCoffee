@@ -30,7 +30,7 @@ public class Users {
     private String picture;
 
     @Column
-    private int favoriteCount; //즐겨찾기 5개로 제한할 예정입니다.
+    private int favoriteCount; //즐겨찾기 10개로 제한할 예정입니다.
 
     @Column
     private String provider;
@@ -56,8 +56,8 @@ public class Users {
      * 즐겨찾기 추가
      */
     public void addFavoriteCount() {
-        if(this.favoriteCount >= 5) {
-            throw new Over5FavoriteException("즐겨찾기는 최대 5개까지 가능합니다");
+        if(this.favoriteCount >= 10) {
+            throw new Over5FavoriteException("즐겨찾기는 최대 10개까지 가능합니다");
         }
         ++this.favoriteCount;
     }

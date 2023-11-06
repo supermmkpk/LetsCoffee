@@ -54,7 +54,7 @@ public class MapController {
             } catch(Over5FavoriteException e1) {
                 response.setContentType("text/html; charset=UTF-8");
                 PrintWriter out = response.getWriter();
-                out.println("<script>alert('즐겨찾기는 최대 5개입니다! 마이페이지에서 삭제 가능합니다.');</script>");
+                out.println("<script>alert('즐겨찾기는 최대 10개입니다! 마이페이지에서 삭제 가능합니다.');</script>");
                 out.flush();
 
             } catch(NoSuchUserException e2) {

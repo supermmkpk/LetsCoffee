@@ -31,6 +31,18 @@ public class FavoriteService {
     }
 
     @Transactional
+    public Favorite addFavoriteInfo(Long favoriteId, String wifipass, String toiletpass){
+        Favorite favorite = favoriteRepository.findById(favoriteId);
+        if(favorite != null) {
+            Favorite.createFavoriteInfo(favorite, wifipass, toiletpass);
+
+            favoriteRepository.save(favorite);
+        }
+        return favorite;
+    }
+
+
+    @Transactional
     public void cancelFavorite(Long id) {
         favoriteRepository.cancel(id);
     }

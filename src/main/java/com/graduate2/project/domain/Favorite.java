@@ -24,6 +24,12 @@ public class Favorite {
     @Column
     private String storeName;
 
+    @Column
+    private String wifipass;
+
+    @Column
+    private String toiletpass;
+
     //==생성 메서드==//
     public static Favorite createUserFavoriteStore(Users user, String storeName) {
         Favorite userFavorite = new Favorite();
@@ -34,6 +40,13 @@ public class Favorite {
         user.addFavoriteCount(); //즐겨찾기 추가했으니까 favoriteCount 증가
 
         return userFavorite;
+    }
+
+    public static Favorite createFavoriteInfo(Favorite favorite, String wifipass, String toiletpass){
+        favorite.setWifipass(wifipass);
+        favorite.setToiletpass(toiletpass);
+
+        return favorite;
     }
 
     //==비즈니스 로직==//
