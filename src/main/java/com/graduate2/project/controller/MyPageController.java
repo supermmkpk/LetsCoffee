@@ -13,7 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 @Controller
@@ -42,9 +45,23 @@ public class MyPageController {
     }
 
     @PostMapping("/saveInfo")
-    public String saveInfo(Model model, @RequestParam("favoriteId") Long id, @RequestParam("wifipass") String wifipass, @RequestParam("toiletpass") String toiletpass){
-        favoriteService.addFavoriteInfo(id, wifipass, toiletpass);
+    public void saveInfo(HttpServletResponse response,
+                           @RequestParam("favoriteId") Long id, @RequestParam("wifipass") String wifipass, @RequestParam("toiletpass") String toiletpass) throws IOException {
 
-        return "redirect:/mypage";
+        try {
+            //해당 매장이 즐겨찾기 테이블에 없다면 추가합니다.
+            favoriteService.addFavoriteInfo(id, wifipass, toiletpass);
+                response.setContentType("text/html; charset=UTF-8");
+                PrintWriter out = response.getWriter();
+                out.println("<script> alert('매장 정보를 저장했습니다.'); window.location.href='/mypage';</script>");
+                out.flush();
+
+        } catch(Exception e) {
+            response.setContentType("text/html; charset=UTF-8");
+            PrintWriter out = response.getWriter();
+            out.println("<script> alert('저장애 실패했습니다.'); window.location.href='/mypage';</script>");
+            out.flush();
+        }
+
     }
 }
