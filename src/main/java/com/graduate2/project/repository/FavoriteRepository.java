@@ -21,7 +21,6 @@ public class FavoriteRepository {
         }
     }
 
-
     public void cancel(Long id) {
         Favorite findFavorite = em.find(Favorite.class, id);
         findFavorite.cancel(); //user의 favoriteCount를 감소시킵니다.

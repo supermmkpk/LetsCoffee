@@ -24,34 +24,11 @@
                 <div class="card" style="text-align: center">
                     <div class="card-header" th:text="${menu.name}"/>
                     <img th:src="${menu.image}" alt="" />
-
-<!--                    가격 정보-->
-<!--                    <div class="card-body">
-                        <h5 class="card-title" th:text="${menu.name}"/>
-                    </div>-->
-
                 </div>
             </div>
         </div>
     </div>
-
-       <!-- <table class="table table-striped">
-        <thread>
-            <tr>
-                <th>IMAGE</th>
-                <th>MENU</th>
-            </tr>
-        </thread>
-        <tbody>
-        <tr th:each="menu:${starbucksDrinkList}">
-            <td style="width: 5rem"><img th:src="${menu.image}" style="width:100px; height:100px;"></td>
-            <td th:text="${menu.name}"></td>
-        </tr>
-        </tbody>
-    </table>-->
-
 </div>
-
 
 <div th:replace="fragments/footer :: footer"/>
 </body>

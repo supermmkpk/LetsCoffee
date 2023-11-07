@@ -5,7 +5,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 
-<!--style="text-align: center"-->
 <body>
 <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
@@ -15,7 +14,7 @@
     <select th:name="type" class="form-control">
         <option value="DRINK">음료</option>
         <option value="FOOD">푸드</option>
-<!--        <option value="product">상품</option>-->
+        <!-- <option value="product">상품</option> -->
     </select>
     </div>
     <button type="submit" class="btn btn-outline-secondary">보기</button>
@@ -33,18 +32,8 @@
     <button type="submit" class="btn btn-outline-secondary">보기</button>
 </form>
 
-<!--</form>
-<button class="btn btn-outline-secondary"
-                    onclick="javascript:promotion()">진행 중 이벤트</button>-->
-
-<!--<button class="btn btn-outline-secondary" th:onclick="|location.href='@{/starbucks/foodMenu}'|">푸드</button>-->
 
 <div th:replace="fragments/footer :: footer"/>
 </body>
 
-<script type="text/javascript" th:inline="javascript" >
-    function promotion() {
-        location.href="/" + [[${cafeName}]] + "/promotion";
-    }
-</script>
 </html>

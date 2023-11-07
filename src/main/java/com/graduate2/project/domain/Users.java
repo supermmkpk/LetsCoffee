@@ -72,7 +72,6 @@ public class Users {
     //==조회 로직==//
 
 
-
     @Builder
     public Users(String name, String email, String picture, Role role, String provider, int favoriteCount) {
         this.name = name;
@@ -82,7 +81,6 @@ public class Users {
         this.provider = provider;
         this.favoriteCount = favoriteCount;
     }
-
 
     public Users update(String name, String picture){
         this.name = name;

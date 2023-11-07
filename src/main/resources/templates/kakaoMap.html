@@ -95,13 +95,8 @@
 </head>
 
 <body>
-
-<!--모바일 환경에서 자리가 부족하여 bodyHeader 없이 갑니다-->
-<!--<div th:replace="fragments/bodyHeader :: bodyHeader"/>-->
-<!--<a href="/" style="position:absolute; top: 0.3%; left:0.3%;">
-    <img src="/image/home.png" height="30" alt="홈"/>
-</a>-->
 <div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
 <div style="position: absolute; top: 49vh; left: 49vw; z-index: 1000;">
     <div class="spinner-border" role="status" id="spinner" style="visibility: hidden; ">
     </div>
@@ -144,7 +139,6 @@
             <br>
             <span class="ico_comm dropdown-toggle" data-bs-toggle="dropdown">검색</span>
             <form class="dropdown-menu p-4" onsubmit="searchPlaces('search'); return false;">
-<!--                    <label for="search" class="form-label" id="search">키워드</label>-->
                     <input type="text" class="form-control" id="searchKeyword" placeholder="매장 이름">
                     <button class="btn btn-primary text-white" type="submit" onclick="spinner.style.visibility = 'visible';">&nbsp;검색&nbsp;</button>
             </form>
@@ -188,14 +182,6 @@
 
     <!--목록-->
     <div id="menu_wrap" class="bg_white">
-        <!--<div class="option">
-            <div>
-                <form onsubmit="searchPlaces(); return false;">
-                    키워드 : <input type="text" value="이태원 맛집" id="searchKeyword" size="15">
-                    <button type="submit">검색하기</button>
-                </form>
-            </div>
-        </div>-->
         <hr>
         <ul id="placesList"></ul>
         <div id="pagination"></div>
@@ -466,22 +452,22 @@
     // 키워드 검색을 요청하는 함수입니다
     async function searchPlaces(keyword) {
 
-        const currentCoordinate = await getCurrentCoordinate();
+        //const currentCoordinate = await getCurrentCoordinate();
 
         // 현재위치를 표시합니다
-        var curMarkerImage = new kakao.maps.MarkerImage(
+        /*var curMarkerImage = new kakao.maps.MarkerImage(
             "https://cdn4.iconfinder.com/data/icons/office-use-icons/512/location-512x512-1024.png",
             new kakao.maps.Size(50, 50));
         curMarker = new kakao.maps.Marker({
             position : currentCoordinate,
             image : curMarkerImage
         })
-        curMarker.setMap(map);
+        curMarker.setMap(map);*/
 
         var options = {
-            location: currentCoordinate,
+            //location: currentCoordinate,
             radius: 10000,
-            sort: kakao.maps.services.SortBy.DISTANCE,
+            //sort: kakao.maps.services.SortBy.DISTANCE,
         };
 
         if(keyword === 'search') {
@@ -544,26 +530,21 @@
     // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
     function placesSearchCB(data, status, pagination) {
         if (status === kakao.maps.services.Status.OK) {
-
             // 정상적으로 검색이 완료됐으면
             // 검색 목록과 마커를 표출합니다
             spinner.style.visibility = 'hidden';
             displayPlaces(data);
 
-
             // 페이지 번호를 표출합니다
             displayPagination(pagination);
-
-        } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
-
+        }
+        else if (status === kakao.maps.services.Status.ZERO_RESULT) {
             alert('검색 결과가 존재하지 않습니다.');
             return;
-
-        } else if (status === kakao.maps.services.Status.ERROR) {
-
+        }
+        else if (status === kakao.maps.services.Status.ERROR) {
             alert('검색 결과 중 오류가 발생했습니다.');
             return;
-
         }
     }
 
@@ -601,11 +582,6 @@
                 kakao.maps.event.addListener(marker, 'click', function() {
                     displayOverlay(marker, title, address, phone);
                 });
-
-
-                /*kakao.maps.event.addListener(marker, 'mouseout', function() {
-                    infowindow.close();
-                });*/
 
                 itemEl.onclick =  function () {
                     displayOverlay(marker, title, address, phone);
@@ -804,8 +780,8 @@
         }
     }
 </script>
-<!--모바일 환경에서 자리가 부족하여 footer 없이 갑니다-->
-<!--<div th:replace="fragments/footer :: footer"/>-->
+<!-- 모바일 환경에서 자리가 부족하여 footer 없이 갑니다 -->
+<!-- <div th:replace="fragments/footer :: footer"/> -->
 </body>
 
 </html>

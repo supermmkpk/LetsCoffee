@@ -26,7 +26,6 @@ import java.util.List;
 public class MyPageController {
     private final HttpSession httpSession;
     private final FavoriteService favoriteService;
-    //private final FavoriteRepository favoriteRepository;
 
     @GetMapping("")
     public String mypage(Model model) {
