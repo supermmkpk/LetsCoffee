@@ -3,11 +3,12 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mariadb://${DB_url}:${DB_port}/${DB_dataBaseName}?characterEncoding=UTF-8&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_url}:${DB_port}/${DB_dataBaseName}?characterEncoding=UTF-8&serverTimezone=UTC
     username: ${DB_username}
     password: ${DB_password}
 
-    driver-class-name: org.mariadb.jdbc.Driver
+
   main:
     allow-bean-definition-overriding: true
     allow-circular-references: true
