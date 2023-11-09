@@ -2,7 +2,7 @@ package com.graduate2.project.controller;
 
 import com.graduate2.project.dto.UserDto;
 import com.graduate2.project.exception.NoSuchUserException;
-import com.graduate2.project.exception.Over5FavoriteException;
+import com.graduate2.project.exception.Over10FavoriteException;
 import com.graduate2.project.service.FavoriteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -15,8 +15,6 @@ import javax.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-
-import static java.lang.System.out;
 
 @Controller
 @RequiredArgsConstructor
@@ -51,7 +49,7 @@ public class MapController {
                     out.flush();
                 }
 
-            } catch(Over5FavoriteException e1) {
+            } catch(Over10FavoriteException e1) {
                 response.setContentType("text/html; charset=UTF-8");
                 PrintWriter out = response.getWriter();
                 out.println("<script>alert('즐겨찾기는 최대 10개입니다! 마이페이지에서 삭제 가능합니다.');</script>");

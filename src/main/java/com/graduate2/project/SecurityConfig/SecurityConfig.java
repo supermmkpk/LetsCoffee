@@ -48,7 +48,6 @@ public class SecurityConfig{
 
                 .and()
                 .oauth2Login() // OAuth2를 통한 로그인 사용
-                //.successHandler(successHandler()) // 커스텀 핸들러 사용
                 .defaultSuccessUrl("/login_success")
                 .userInfoEndpoint() // 사용자가 로그인에 성공할 경우, 가져올 설정들
                 //소셜로그인 성공 시 후속 조치를 진행할 UserService 인터페이스 구조체 등록
@@ -56,10 +55,4 @@ public class SecurityConfig{
 
         return http.getOrBuild();
     }
-
-    @Bean
-    public OAuth2SuccessHandler successHandler() {
-        return new OAuth2SuccessHandler();
-    }
-
 }

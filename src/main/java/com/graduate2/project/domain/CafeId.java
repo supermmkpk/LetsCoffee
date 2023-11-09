@@ -6,7 +6,7 @@ import javax.persistence.Enumerated;
 
 public enum CafeId {
 
-    STARBUCKS, COFFEEBEAN, MEGA, PAIK,
+    STARBUCKS, COFFEEBEAN, TWOSOME, MEGA, PAIK,
     COMPOSE, EDIYA, PASCUCCI, HOLLYS, PAUL
 
 }

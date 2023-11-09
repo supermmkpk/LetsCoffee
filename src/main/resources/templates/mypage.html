@@ -16,7 +16,7 @@
         <tr>
             <th scope="col">매장 이름</th>
             <th scope="col">삭제</th>
-            <th scope="col">매장 정보</th>
+            <th scope="col">메모</th>
         </tr>
         </thead>
         <tbody>
@@ -27,60 +27,45 @@
                 <form method="post" action="/mypage/cancelFavorite" th:data-storeName="${favorite.storeName}"
                       onsubmit="return confirm(this.getAttribute('data-storeName') + '을 삭제합니다.');" style="display: inline;">
                     <input type="hidden" name="favoriteId" th:value="${favorite.id}">
-                    <button type="submit" class="btn btn-danger btn-sm">삭제</button>
+                    <button type="submit" class="btn btn-danger btn-sm" style="white-space: nowrap;">삭제</button>
                 </form>
             </td>
             <td style="vertical-align:middle;">
-                <!-- 매장 정보 저장 버튼 클릭 시, 해당 즐겨찾기 매장의 정보를 메모하게 됨. -->
-                <button class="btn btn-primary btn-sm" data-bs-toggle="modal" th:data-bs-target="'#infoModalDisplay' + ${favoriteStat.index}">보기</button>
-                &nbsp;
+                <!-- 메모 수정 버튼을 사용하여 해당 매장에 대한 메모를 수정할 수 있습니다. -->
                 <button class="btn" data-bs-toggle="modal" th:data-bs-target="'#infoModalForm' + ${favoriteStat.index}">
                     <img src="/image/edit.png" height="25">
                 </button>
 
-                <div class="modal fade" th:id="'infoModalDisplay' + ${favoriteStat.index}" tabindex="-1" aria-labelledby="infoModalDisplayLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 class="modal-title fs-5" id="infoModalDisplayLabel">
-                                    <strong> <span th:text="${favorite.storeName}"/> </strong>
-                                    &nbsp;정보
-                                </h1>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <span style="display: inline"><strong>Wi-Fi : </strong></span>
-                                <span th:text="${favorite.wifipass}" style="display: inline"/>
-                                <hr>
-                                <span style="display: inline"><strong>화장실 : </strong></span>
-                                <span th:text="${favorite.toiletpass}" style="display: inline"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- modal을 생성합니다. -->
                 <div class="modal fade" th:id="'infoModalForm' + ${favoriteStat.index}" tabindex="-1" aria-labelledby="infoModalFormLabel" aria-hidden="true">
-                    <div class="modal-dialog">
+                    <div class="modal-dialog modal-dialog-scrollable">
                         <div class="modal-content">
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5" id="infoModalFormLabel">
                                     <strong> <span th:text="${favorite.storeName}"/> </strong>
-                                    &nbsp;정보 저장
+                                    &nbsp;메모 쓰기
                                 </h1>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="close"></button>
                             </div>
-                            <form method="post" action="/mypage/saveInfo">
+                            <form method="post" action="/mypage/saveInfo" style="overflow-y: auto;">
                                 <div class="modal-body">
                                         <input type="hidden" name="favoriteId" th:value="${favorite.id}">
                                         <div class="mb-3">
-                                            <label for="wifipass" class="col-form-label">Wi-Fi 비밀번호:</label>
+                                            <label for="wifipass" class="col-form-label">Wi-Fi 비밀번호 :</label>
                                             <input type="text" class="form-control" id="wifipass"
                                                    name="wifipass" th:value="${favorite.wifipass}">
                                         </div>
                                         <div class="mb-3">
-                                            <label for="toiletpass" class="col-form-label">화장실 비밀번호:</label>
+                                            <label for="toiletpass" class="col-form-label">화장실 비밀번호 :</label>
                                             <input type="text" class="form-control" id="toiletpass"
                                                    name="toiletpass" th:value="${favorite.toiletpass}">
                                         </div>
+                                    <div class="mb-3">
+                                        <label for="otherInfo" class="col-form-label">기타 정보도 자유롭게 메모하세요(1000자) :</label>
+                                        <textarea class="form-control" id="otherInfo"
+                                                  name="otherInfo" th:value="${favorite.otherInfo}"
+                                                  maxlength="1000" th:text="${favorite.otherInfo}" style="height: 15rem"></textarea>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>

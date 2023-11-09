@@ -31,10 +31,10 @@ public class FavoriteService {
     }
 
     @Transactional
-    public Favorite addFavoriteInfo(Long favoriteId, String wifipass, String toiletpass){
+    public Favorite addFavoriteInfo(Long favoriteId, String wifipass, String toiletpass, String otherInfo){
         Favorite favorite = favoriteRepository.findById(favoriteId);
         if(favorite != null) {
-            Favorite.createFavoriteInfo(favorite, wifipass, toiletpass);
+            Favorite.createFavoriteInfo(favorite, wifipass, toiletpass, otherInfo);
 
             favoriteRepository.save(favorite);
         }

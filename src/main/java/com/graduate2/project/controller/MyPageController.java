@@ -26,7 +26,6 @@ import java.util.List;
 public class MyPageController {
     private final HttpSession httpSession;
     private final FavoriteService favoriteService;
-    //private final FavoriteRepository favoriteRepository;
 
     @GetMapping("")
     public String mypage(Model model) {
@@ -46,14 +45,15 @@ public class MyPageController {
 
     @PostMapping("/saveInfo")
     public void saveInfo(HttpServletResponse response,
-                           @RequestParam("favoriteId") Long id, @RequestParam("wifipass") String wifipass, @RequestParam("toiletpass") String toiletpass) throws IOException {
+                         @RequestParam("favoriteId") Long id, @RequestParam("wifipass") String wifipass,
+                         @RequestParam("toiletpass") String toiletpass,  @RequestParam("otherInfo") String otherInfo) throws IOException {
 
         try {
             //해당 매장이 즐겨찾기 테이블에 없다면 추가합니다.
-            favoriteService.addFavoriteInfo(id, wifipass, toiletpass);
+            favoriteService.addFavoriteInfo(id, wifipass, toiletpass, otherInfo);
                 response.setContentType("text/html; charset=UTF-8");
                 PrintWriter out = response.getWriter();
-                out.println("<script> alert('매장 정보를 저장했습니다.'); window.location.href='/mypage';</script>");
+                out.println("<script> alert('매장 메모를 저장했습니다.'); window.location.href='/mypage';</script>");
                 out.flush();
 
         } catch(Exception e) {

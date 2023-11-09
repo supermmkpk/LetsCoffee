@@ -3,7 +3,7 @@ package com.graduate2.project.service;
 import com.graduate2.project.domain.Favorite;
 import com.graduate2.project.domain.Role;
 import com.graduate2.project.domain.Users;
-import com.graduate2.project.exception.Over5FavoriteException;
+import com.graduate2.project.exception.Over10FavoriteException;
 import com.graduate2.project.repository.FavoriteRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,7 +30,6 @@ public class FavoriteServiceTest {
     FavoriteRepository favoriteRepository;
 
 
-
     @Test
     public void 즐겨찾기_추가() throws Exception {
         //given
@@ -49,15 +48,14 @@ public class FavoriteServiceTest {
         assertEquals("등록한 user가 정확해야 한다.", user, getFavorite.getUser());
     }
 
-    @Test(expected = Over5FavoriteException.class)
-    public void 즐겨찾기_추가_5개초과() throws Exception {
+    @Test(expected = Over10FavoriteException.class)
+    public void 즐겨찾기_추가_10개초과() throws Exception {
         //given
         Users user = createUser();
-        user.setFavoriteCount(5);
+        user.setFavoriteCount(10);
 
         //when
         favoriteService.addFavorite(user.getId(), "스타벅스 홍대");
-
 
         //then
         fail("즐겨찾기 개수 예외가 발생해야 한다.");
@@ -78,6 +76,22 @@ public class FavoriteServiceTest {
 
         assertEquals("즐겨찾기 추가 시 user의 favoriteCount가 감소해야 한다", 1, user.getFavoriteCount());
         assertNull("해당 즐겨찾기가 없어야 한다", getFavorite);
+    }
+
+    @Test
+    public void 즐겨찾기_메모() throws Exception {
+        //given
+        Users user = createUser(); //favoriteCount : 0
+        Long favoriteId = favoriteService.addFavorite(user.getId(), "스타벅스 홍대");
+
+        //when
+        favoriteService.addFavoriteInfo(favoriteId,"1234", "5678*", "영업시간은 23시까지");
+
+        //then
+        Favorite getFavorite = favoriteRepository.findOne(favoriteId);
+        assertEquals("와이파이 정보가 정확해야 한다", "1234", getFavorite.getWifipass());
+        assertEquals("화장실 정보가 정확해야 한다", "5678*", getFavorite.getToiletpass());
+        assertEquals("기타 정보가 정확해야 한다", "영업시간은 23시까지", getFavorite.getOtherInfo());
     }
 
     private Users createUser() {
