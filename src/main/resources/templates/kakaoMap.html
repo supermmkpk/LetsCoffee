@@ -452,22 +452,22 @@
     // 키워드 검색을 요청하는 함수입니다
     async function searchPlaces(keyword) {
 
-        //const currentCoordinate = await getCurrentCoordinate();
+        const currentCoordinate = await getCurrentCoordinate();
 
         // 현재위치를 표시합니다
-        /*var curMarkerImage = new kakao.maps.MarkerImage(
+        let curMarkerImage = new kakao.maps.MarkerImage(
             "https://cdn4.iconfinder.com/data/icons/office-use-icons/512/location-512x512-1024.png",
             new kakao.maps.Size(50, 50));
         curMarker = new kakao.maps.Marker({
             position : currentCoordinate,
             image : curMarkerImage
         })
-        curMarker.setMap(map);*/
+        curMarker.setMap(map);
 
         var options = {
-            //location: currentCoordinate,
+            location: currentCoordinate,
             radius: 10000,
-            //sort: kakao.maps.services.SortBy.DISTANCE,
+            sort: kakao.maps.services.SortBy.DISTANCE,
         };
 
         if(keyword === 'search') {
