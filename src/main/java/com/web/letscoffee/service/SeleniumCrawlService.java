@@ -1,4 +1,4 @@
-package com.graduate2.project.service;
+package com.web.letscoffee.service;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -14,7 +14,7 @@ import java.time.Duration;
 
 @Service
 public class SeleniumCrawlService {
-    private static Path path = Paths.get("C:\\Users\\user\\Documents\\chromedriver-win64\\chromedriver.exe");
+    private static Path path = Paths.get("/Users/bongkyoonpark/Documents/chromedriver-mac-arm64/chromedriver");
     private WebDriver driver;
 
 
