@@ -21,10 +21,11 @@ jobs:
           project: supermmkpk/letscoffee
           stage: main
           yaml: |
-            name: letscoffee
-            app: java@11
+            name: letscoffee-docker
+            app: dockerfile
             options:
-              ports: 8080
+              ports: "8080"
+              dockerfile: Dockerfile
               env:
                 - name: DB_url
                   value: 34.22.94.54
@@ -35,9 +36,9 @@ jobs:
                 - name: DB_username
                   value: root
                 - name: DB_password
-                  value: lc2023
+                  secret: letscoffee-mariadb-root-password
             context:
               git:
                 url: git@github.com:${{ github.repository }}.git
                 ref: ${{ github.ref }}
-              preset: java-springboot
+              preset: dockerfile
