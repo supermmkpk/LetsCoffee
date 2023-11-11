@@ -25,14 +25,14 @@ spring:
           naver:
             client-id: vdj7NFGcj9TcJSdLWR3I
             client-secret: KshlbR91Hl
-            redirect-uri: http://localhost:8080/login/oauth2/code/naver
+            redirect-uri: https://letscoffee.kr/login/oauth2/code/naver
             authorization-grant-type: authorization_code
             client-name: Naver
             scope: name, email, profile_image
 
           kakao:
             client-id: 5a65a60c7fd0a4aab54efbd3b30fb8d4
-            redirect-uri: http://localhost:8080/login/oauth2/code/kakao
+            redirect-uri: https://letscoffee.kr/login/oauth2/code/kakao
             client-authentication-method: POST
             authorization-grant-type: authorization_code
             scope: profile_nickname, profile_image, account_email
