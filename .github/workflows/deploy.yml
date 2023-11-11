@@ -1,0 +1,44 @@
+name: Deploy to cloudtype
+on:
+  push:
+    branches:
+      - master
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Connect deploy key
+        uses: cloudtype-github-actions/connect@v1
+        with:
+          token: ${{ secrets.CLOUDTYPE_TOKEN }}
+          ghtoken: ${{ secrets.GHP_TOKEN }}
+      - name: Deploy
+        uses: cloudtype-github-actions/deploy@v1
+        with:
+          token: ${{ secrets.CLOUDTYPE_TOKEN }}
+          project: supermmkpk/letscoffee
+          stage: main
+          yaml: |
+            name: letscoffee-docker
+            app: dockerfile
+            options:
+              ports: "8080"
+              dockerfile: Dockerfile
+              env:
+                - name: DB_url
+                  value: 34.22.94.54
+                - name: DB_port
+                  value: "3306"
+                - name: DB_dataBaseName
+                  value: lets_coffee
+                - name: DB_username
+                  value: root
+                - name: DB_password
+                  secret: letscoffee-mariadb-root-password
+            context:
+              git:
+                url: git@github.com:${{ github.repository }}.git
+                ref: ${{ github.ref }}
+              preset: dockerfile
