@@ -53,12 +53,10 @@
         #pagination a {display:inline-block;margin-right:10px;}
         #pagination .on {font-weight: bold; cursor: default;color:#777;}
 
-        .category, .category *{margin:0;padding:0;color:#000;}
-        .category {position: center;overflow: hidden;top:0;width:100%;z-index:10;border:1px none;font-family:'Malgun Gothic','맑은 고딕',sans-serif;font-size:12px;text-align:center;background-color:#fff;}
-        .category .menu_selected {background:#FF5F4A;color:#fff;border-left:1px solid #915B2F;border-right:1px solid #915B2F;margin:0 -1px;}
-        .category li{list-style:none;float:left;width:16.6%;height:10%;padding-top:5px;padding-bottom:5px;cursor:pointer;}
-        .category .ico_comm {display:block; margin:0 auto 2px; width: 28px; height: 28px;}
-        .category .ico_starbucks {background: url('https://www.starbucks.co.kr/common/img/common/logo.png') no-repeat center; background-size: contain;}
+
+        .category .btn-light {width: 16.6vw; font-size:12px; text-align:center; white-space: nowrap;}
+        .category .ico_comm {display: block; margin: 0 auto; height: 4vh; max-width: 120px;}
+        .category .ico_starbucks {background: url('https://www.starbucks.co.kr/common/img/common/logo.png') no-repeat center; background-size: contain; }
         .category .ico_coffeebean {background: url('https://www.coffeebeankorea.com/images/common/logo_93_69.png') no-repeat center; background-size: contain;}
         .category .ico_mega {background: url('https://img.79plus.co.kr/megahp/common/img/brand02_2.jpg') no-repeat center center; background-size: contain;}
         .category .ico_paik {background: url('https://paikdabang.com/wp-content/themes/paikdabang/assets/images/logo.png') no-repeat center center; background-size: contain;}
@@ -104,68 +102,77 @@
 
 <!-- 지도 위에 표시될 마커 카테고리 -->
 <div class="category">
-    <ul onclick="closeOverlay();removeCurMarker();">
-        <li id="allMenu" onclick="searchPlaces('all'); changeMarker('all'); spinner.style.visibility = 'visible';">
-            <br>
-            <span class="ico_comm">전체</span>
-        </li>
-        <li id="starbucksMenu" onclick="searchPlaces('스타벅스'); changeMarker('starbucks'); spinner.style.visibility = 'visible';">
+    <div class="btn-group" role="group" style="width: 100vw; height: 8vh;">
+        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off">
+        <label class="btn btn-light" for="vbtn-radio1" style="vertical-align: middle" onclick="searchPlaces('all'); spinner.style.visibility = 'visible';">
+            <br>전체
+        </label>
+        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off" checked>
+        <label class="btn btn-light" for="vbtn-radio2" onclick="searchPlaces('스타벅스'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_starbucks"></span>
             스타벅스
-        </li>
-        <li id="coffeebeanMenu" onclick="searchPlaces('커피빈'); changeMarker('coffeebean'); spinner.style.visibility = 'visible';">
+        </label>
+        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3" autocomplete="off">
+        <label class="btn btn-light" for="vbtn-radio3" onclick="searchPlaces('커피빈'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_coffeebean"></span>
             커피빈
-        </li>
-        <li id="megaMenu" onclick="searchPlaces('메가커피'); changeMarker('mega'); spinner.style.visibility = 'visible';">
+        </label>
+        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio4" autocomplete="off">
+        <label class="btn btn-light" for="vbtn-radio4" onclick="searchPlaces('메가커피'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_mega"></span>
-            메가MGC
-        </li>
-        <li id="paikMenu" onclick="searchPlaces('빽다방'); changeMarker('paik'); spinner.style.visibility = 'visible';">
+            메가커피
+        </label>
+        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio5" autocomplete="off">
+        <label class="btn btn-light" for="vbtn-radio5" onclick="searchPlaces('빽다방'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_paik"></span>
             빽다방
-        </li>
-        <li id="twosomeMenu" onclick="searchPlaces('투썸플레이스'); changeMarker('twosome'); spinner.style.visibility = 'visible';">
+        </label>
+        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio6" autocomplete="off">
+        <label class="btn btn-light" for="vbtn-radio6" onclick="searchPlaces('투썸플레이스'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_twosome"></span>
             투썸
-        </li>
-    </ul>
+        </label>
+    </div>
 </div>
-
-<!--모바일 위해서 두줄로 나눠 갑니다-->
+<!-- 모바일 위해서 두줄로 나눠 갑니다 -->
 <div class="category">
-    <ul onclick="closeOverlay();removeCurMarker();">
-        <li id="searchMenu" class="dropdown" onclick="changeMarker('search');">
+    <div class="btn-group" role="group" style="width: 100vw; height: 8vh;">
+        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio7" autocomplete="off">
+        <label class="btn btn-light" for="vbtn-radio7" style="z-index: 1000;">
             <br>
             <span class="ico_comm dropdown-toggle" data-bs-toggle="dropdown">검색</span>
-            <form class="dropdown-menu p-4" onsubmit="searchPlaces('search'); return false;">
-                    <input type="text" class="form-control" id="searchKeyword" placeholder="매장 이름">
-                    <button class="btn btn-primary text-white" type="submit" onclick="spinner.style.visibility = 'visible';">&nbsp;검색&nbsp;</button>
+            <form class="dropdown-menu p-4" onsubmit="searchPlaces('search'); return false;" >
+                <input type="text" class="form-control" id="searchKeyword" placeholder="매장 이름">
+                <button class="btn btn-primary text-white btn-sm" type="submit" onclick="spinner.style.visibility = 'visible';">&nbsp;검색&nbsp;</button>
             </form>
-        </li>
-        <li id="composeMenu" onclick="searchPlaces('컴포즈 커피'); changeMarker('compose'); spinner.style.visibility = 'visible';">
+        </label>
+        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio8" autocomplete="off">
+        <label class="btn btn-light" for="vbtn-radio8" onclick="searchPlaces('컴포즈 커피'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_compose"></span>
             컴포즈
-        </li>
-        <li id="ediyaMenu" onclick="searchPlaces('이디야 커피'); changeMarker('ediya'); spinner.style.visibility = 'visible';">
+        </label>
+        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio9" autocomplete="off">
+        <label class="btn btn-light" for="vbtn-radio9" onclick="searchPlaces('이디야 커피'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_ediya"></span>
             이디야
-        </li>
-        <li id="pascucciMenu" onclick="searchPlaces('파스쿠찌'); changeMarker('pascucci'); spinner.style.visibility = 'visible';">
+        </label>
+        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio10" autocomplete="off">
+        <label class="btn btn-light" for="vbtn-radio10" onclick="searchPlaces('파스쿠찌'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_pascucci"></span>
             파스쿠찌
-        </li>
-        <li id="hollysMenu" onclick="searchPlaces('할리스 커피'); changeMarker('hollys'); spinner.style.visibility = 'visible';">
+        </label>
+        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio11" autocomplete="off">
+        <label class="btn btn-light" for="vbtn-radio11" onclick="searchPlaces('할리스 커피'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_hollys"></span>
             할리스
-        </li>
-        <li id="paulMenu" onclick="searchPlaces('폴바셋'); changeMarker('paul'); spinner.style.visibility = 'visible';">
+        </label>
+        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio12" autocomplete="off">
+        <label class="btn btn-light" for="vbtn-radio12" onclick="searchPlaces('폴바셋'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_paul"></span>
             폴바셋
-        </li>
-    </ul>
+        </label>
+    </div>
 </div>
-
 
 <!--지도-->
 <div class="map_wrap">
@@ -233,199 +240,6 @@
     // 지도를 생성합니다
     var map = new kakao.maps.Map(mapContainer, mapOption);
 
-
-    // 카테고리를 클릭했을 때 type에 따라 카테고리의 스타일과 지도에 표시되는 마커를 변경합니다
-    function changeMarker(type){
-        var searchMenu = document.getElementById('searchMenu');
-        var allMenu = document.getElementById('allMenu');
-        var starbucksMenu = document.getElementById('starbucksMenu');
-        var coffeebeanMenu = document.getElementById('coffeebeanMenu');
-        var megaMenu = document.getElementById('megaMenu');
-        var paikMenu = document.getElementById('paikMenu');
-        var twosomeMenu = document.getElementById('twosomeMenu');
-        var composeMenu = document.getElementById('composeMenu');
-        var ediyaMenu = document.getElementById('ediyaMenu');
-        var pascucciMenu = document.getElementById('pascucciMenu');
-        var hollysMenu = document.getElementById('hollysMenu');
-        var paulMenu = document.getElementById('paulMenu');
-
-
-        // 전체 카테고리가 클릭됐을 때
-        if (type === 'all') {
-            // 전체 카테고리를 선택된 스타일로 변경하고
-            allMenu.className = 'menu_selected';
-            // 나머지 카테고리는 선택되지 않은 스타일로 바꿉니다
-            starbucksMenu.className = '';
-            coffeebeanMenu.className = '';
-            megaMenu.className = '';
-            paikMenu.className = '';
-            twosomeMenu.className = '';
-            composeMenu.className = '';
-            ediyaMenu.className = '';
-            pascucciMenu.className = '';
-            hollysMenu.className = '';
-            paulMenu.className = '';
-            searchMenu.className = '';
-        }
-        else if(type === 'search') {
-            allMenu.className = '';
-            starbucksMenu.className = '';
-            coffeebeanMenu.className = '';
-            megaMenu.className = '';
-            paikMenu.className = '';
-            twosomeMenu.className = '';
-            composeMenu.className = '';
-            ediyaMenu.className = '';
-            pascucciMenu.className = '';
-            hollysMenu.className = '';
-            paulMenu.className = '';
-            searchMenu.className = 'menu_selected';
-        }
-        else if (type === 'starbucks') {
-            allMenu.className = '';
-            starbucksMenu.className = 'menu_selected';
-            coffeebeanMenu.className = '';
-            megaMenu.className = '';
-            paikMenu.className = '';
-            twosomeMenu.className = '';
-            composeMenu.className = '';
-            ediyaMenu.className = '';
-            pascucciMenu.className = '';
-            hollysMenu.className = '';
-            paulMenu.className = '';
-            searchMenu.className = '';
-        }
-        else if (type === 'coffeebean') { // 커피빈 카테고리가 클릭됐을 때
-            // 커피빈 카테고리를 선택된 스타일로 변경하고
-            allMenu.className = '';
-            starbucksMenu.className = '';
-            coffeebeanMenu.className = 'menu_selected';
-            megaMenu.className = '';
-            paikMenu.className = '';
-            twosomeMenu.className = '';
-            composeMenu.className = '';
-            ediyaMenu.className = '';
-            pascucciMenu.className = '';
-            hollysMenu.className = '';
-            paulMenu.className = '';
-            searchMenu.className = '';
-        }
-        else if (type === 'mega') { // 메가커피 카테고리가 클릭됐을 때
-            // 메가커피 카테고리를 선택된 스타일로 변경하고
-            allMenu.className = '';
-            starbucksMenu.className = '';
-            coffeebeanMenu.className = '';
-            megaMenu.className = 'menu_selected';
-            paikMenu.className = '';
-            twosomeMenu.className = '';
-            composeMenu.className = '';
-            ediyaMenu.className = '';
-            pascucciMenu.className = '';
-            hollysMenu.className = '';
-            paulMenu.className = '';
-            searchMenu.className = '';
-        }
-        else if (type === 'paik') { // 빽다방
-            allMenu.className = '';
-            starbucksMenu.className = '';
-            coffeebeanMenu.className = '';
-            megaMenu.className = '';
-            paikMenu.className = 'menu_selected';
-            twosomeMenu.className = '';
-            composeMenu.className = '';
-            ediyaMenu.className = '';
-            pascucciMenu.className = '';
-            hollysMenu.className = '';
-            paulMenu.className = '';
-            searchMenu.className = '';
-        }
-        else if (type === 'twosome') { // 투썸
-            allMenu.className = '';
-            starbucksMenu.className = '';
-            coffeebeanMenu.className = '';
-            megaMenu.className = '';
-            paikMenu.className = '';
-            twosomeMenu.className = 'menu_selected';
-            composeMenu.className = '';
-            ediyaMenu.className = '';
-            pascucciMenu.className = '';
-            hollysMenu.className = '';
-            paulMenu.className = '';
-            searchMenu.className = '';
-        }
-        else if (type === 'compose') { // 컴포즈
-            allMenu.className = '';
-            starbucksMenu.className = '';
-            coffeebeanMenu.className = '';
-            megaMenu.className = '';
-            paikMenu.className = '';
-            twosomeMenu.className = '';
-            composeMenu.className = 'menu_selected';
-            ediyaMenu.className = '';
-            pascucciMenu.className = '';
-            hollysMenu.className = '';
-            paulMenu.className = '';
-            searchMenu.className = '';
-        }
-        else if (type === 'ediya') { // 이디야
-            allMenu.className = '';
-            starbucksMenu.className = '';
-            coffeebeanMenu.className = '';
-            megaMenu.className = '';
-            paikMenu.className = '';
-            twosomeMenu.className = '';
-            composeMenu.className = '';
-            ediyaMenu.className = 'menu_selected';
-            pascucciMenu.className = '';
-            hollysMenu.className = '';
-            paulMenu.className = '';
-            searchMenu.className = '';
-        }
-        else if (type === 'pascucci') { // 파스쿠찌
-            allMenu.className = '';
-            starbucksMenu.className = '';
-            coffeebeanMenu.className = '';
-            megaMenu.className = '';
-            paikMenu.className = '';
-            twosomeMenu.className = '';
-            composeMenu.className = '';
-            ediyaMenu.className = '';
-            pascucciMenu.className = 'menu_selected';
-            hollysMenu.className = '';
-            paulMenu.className = '';
-            searchMenu.className = '';
-        }
-        else if (type === 'hollys') { // 할리스
-            allMenu.className = '';
-            starbucksMenu.className = '';
-            coffeebeanMenu.className = '';
-            megaMenu.className = '';
-            paikMenu.className = '';
-            twosomeMenu.className = '';
-            composeMenu.className = '';
-            ediyaMenu.className = '';
-            pascucciMenu.className = '';
-            hollysMenu.className = 'menu_selected';
-            paulMenu.className = '';
-            searchMenu.className = '';
-        }
-        else if (type === 'paul') { // 폴바셋
-            allMenu.className = '';
-            starbucksMenu.className = '';
-            coffeebeanMenu.className = '';
-            megaMenu.className = '';
-            paikMenu.className = '';
-            twosomeMenu.className = '';
-            composeMenu.className = '';
-            ediyaMenu.className = '';
-            pascucciMenu.className = '';
-            hollysMenu.className = '';
-            paulMenu.className = 'menu_selected';
-            searchMenu.className = '';
-        }
-    }
-
-
     // 장소 검색 객체를 생성합니다
     var ps = new kakao.maps.services.Places();
 
@@ -436,8 +250,6 @@
         yAnchor: 0.91
     });
 
-    // 키워드로 장소를 검색합니다
-    //searchPlaces();
 
     //현위치 마커를 담을 객체입니다.
     let curMarker;
