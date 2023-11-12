@@ -93,7 +93,7 @@
     </style>
 </head>
 
-<body onload="searchPlaces('스타벅스'); changeMarker('starbucks');">
+<body onload="spinner.style.visibility = 'visible'; searchPlaces('스타벅스');">
 <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
 <div style="position: absolute; top: 49vh; left: 49vw; z-index: 1000;">
@@ -216,16 +216,34 @@
             // HTML5의 geolocaiton으로 사용할 수 있는지 확인합니다.
             if (navigator.geolocation) {
                 // GeoLocation을 이용해서 접속 위치를 얻어옵니다.
-                navigator.geolocation.getCurrentPosition(function (position) {
-                    console.log(position);
-                    const lat = position.coords.latitude; // 위도
-                    const lon = position.coords.longitude; // 경도
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        console.log(position);
+                        const lat = position.coords.latitude; // 위도
+                        const lon = position.coords.longitude; // 경도
 
-                    const coordinate = new kakao.maps.LatLng(lat, lon);
-                    res(coordinate);
-                });
-            } else {
+                        const coordinate = new kakao.maps.LatLng(lat, lon);
+                        res(coordinate);
+                    },
+                    (err) => {
+                        if(err.code === 1) {
+                            alert("현재 위치를 허용해주세요.");
+                        }
+                        if(err.code === 3) {
+                            let refresh = confirm("응답이 지연되고 있습니다. 새로고침 하시겠습니까?");
+                            if(refresh === true) {
+                                location.reload();
+                            }
+                        }
+                    },
+                    {
+                        timeout: 10000
+                    }
+                );
+            }
+            else {
                 rej(new Error("현재 위치를 불러올 수 없습니다."));
+                alert("현재 위치를 허용해 주세요.");
             }
         });
     };

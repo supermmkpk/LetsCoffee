@@ -31,10 +31,11 @@
   </li>
   <!-- 로그인되어 있는 회원의 즐겨찾기를 보여주고, 클릭 시, 해당 매장의 상세/N주문으로 이동합니다. 메모 클릭 시, 확인할 수 있습니다. -->
   <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
-    <a class="nav-link link-dark link-underline-opacity-0 dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" th:text="'즐겨찾는 매장(' + ${userFavoriteList.size()} + ')'"/>
+    <a class="nav-link link-secondary link-underline-opacity-0 pe-auto dropdown-toggle"
+       data-bs-toggle="dropdown" role="button" aria-expanded="false" th:text="'즐겨찾는 매장(' + ${userFavoriteList.size()} + ')'"/>
     <ul class="dropdown-menu" style="white-space: nowrap;">
       <li th:each="favorite : ${userFavoriteList}">
-        <a class="link-dark link-underline-secondary"
+        <a class="link-primary link-underline-opacity-50 pe-auto"
            th:href="@{'https://map.naver.com/p/search/' + ${favorite.storeName}}" th:text="${favorite.storeName}" style="display:inline;"/>
         &nbsp;
         <!-- 메모를 바로 볼 수 있습니다.(Bootstrap5 - Modal) -->
@@ -45,7 +46,7 @@
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link link-dark link-underline-opacity-0" href="/map">주변 브랜드 카페</a>
+    <a class="nav-link link-secondary link-underline-opacity-0 pe-auto" href="/map">주변 브랜드 카페</a>
   </li>
 </ul>
 
