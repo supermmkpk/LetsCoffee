@@ -8,8 +8,6 @@ spring:
     username: ${DB_username}
     password: ${DB_password}
 
-
-
   main:
     allow-bean-definition-overriding: true
     allow-circular-references: true

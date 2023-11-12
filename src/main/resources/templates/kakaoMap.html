@@ -4,7 +4,7 @@
 <head>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css" integrity="sha384-
-  ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           crossorigin="anonymous">
     <!-- Custom styles for this template -->
     <link href="/css/jumbotron-narrow.css" rel="stylesheet">
@@ -12,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>주변 브랜드 카페</title>
     <style>
+        body {padding-top: 66px;}
         /*  map은 화면의 70%, category는 화면의 10% * 2  */
         .map_wrap, .map_wrap * {margin:0;padding:0;font-family:'Malgun Gothic',dotum,'돋움',sans-serif;font-size:12px;}
         .map_wrap a, .map_wrap a:hover, .map_wrap a:active{color:#000;text-decoration: none;}
@@ -102,9 +103,9 @@
 
 <!-- 지도 위에 표시될 마커 카테고리 -->
 <div class="category">
-    <div class="btn-group" role="group" style="width: 100vw; height: 8vh;">
+    <div class="btn-group" role="group" style="width: 100vw; height: 8vh;" onclick="closeOverlay();removeCurMarker();">
         <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off">
-        <label class="btn btn-light" for="vbtn-radio1" style="vertical-align: middle" onclick="searchPlaces('all'); spinner.style.visibility = 'visible';">
+        <label class="btn btn-light" for="vbtn-radio1" style="vertical-align: middle" onclick="searchPlaces('all'); spinner.style.visibility = 'visible'; re">
             <br>전체
         </label>
         <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off" checked>
@@ -136,14 +137,15 @@
 </div>
 <!-- 모바일 위해서 두줄로 나눠 갑니다 -->
 <div class="category">
-    <div class="btn-group" role="group" style="width: 100vw; height: 8vh;">
+    <div class="btn-group" role="group" style="width: 100vw; height: 8vh;" onclick="closeOverlay();removeCurMarker();">
         <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio7" autocomplete="off">
         <label class="btn btn-light" for="vbtn-radio7" style="z-index: 1000;">
             <br>
-            <span class="ico_comm dropdown-toggle" data-bs-toggle="dropdown">검색</span>
-            <form class="dropdown-menu p-4" onsubmit="searchPlaces('search'); return false;" >
-                <input type="text" class="form-control" id="searchKeyword" placeholder="매장 이름">
-                <button class="btn btn-primary text-white btn-sm" type="submit" onclick="spinner.style.visibility = 'visible';">&nbsp;검색&nbsp;</button>
+            <span class="ico_comm dropdown-toggle" data-bs-toggle="dropdown"
+                  onclick="document.getElementById('vbtn-radio7').checked=true;">검색</span>
+            <form class="dropdown-menu dropdown-menu-start p-0"  onsubmit="searchPlaces('search'); return false;" >
+                <input type="text" class="form-control" id="searchKeyword" placeholder="매장 이름" style="display: inline-block;">
+                <button class="btn btn-primary text-white btn-sm" type="submit" onclick="spinner.style.visibility = 'visible';" style="display: inline-block;">&nbsp;검색&nbsp;</button>
             </form>
         </label>
         <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio8" autocomplete="off">
@@ -152,7 +154,7 @@
             컴포즈
         </label>
         <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio9" autocomplete="off">
-        <label class="btn btn-light" for="vbtn-radio9" onclick="searchPlaces('이디야 커피'); spinner.style.visibility = 'visible';">
+        <label class="btn btn-light" for="vbtn-radio9" onclick="searchPlaces('이디야 커피'); spinner.style.visibility = 'visible'; removeMarker()">
             <span class="ico_comm ico_ediya"></span>
             이디야
         </label>
