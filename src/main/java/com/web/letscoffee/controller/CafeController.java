@@ -23,9 +23,15 @@ public class CafeController {
 
     @GetMapping("")
     public String cafe(Model model, @PathVariable("cafeName") String cafeName) {
-        model.addAttribute("cafeName", cafeName);
-        cafeId = CafeId.valueOf(cafeName.toUpperCase());
-        return "cafe";
+        if(cafeName.equals("favicon.ico")) { //IllegalArgumentException 처리.
+            return "redirect:/";
+        }
+        else {
+            model.addAttribute("cafeName", cafeName);
+            cafeId = CafeId.valueOf(cafeName.toUpperCase());
+            return "cafe";
+        }
+
     }
 
     /**
