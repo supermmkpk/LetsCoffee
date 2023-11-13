@@ -25,12 +25,12 @@ public class SeleniumCrawlService {
 
         // 옵션 설정
         ChromeOptions options = new ChromeOptions();
-        options.addArguments("--no-andbox");
+        options.addArguments("--no-sandbox");
         options.addArguments("--remote-allow-origins=*");
         options.addArguments("--disable-popup-blocking");   // 팝업 안띄움
         options.addArguments("--headless");   // 브라우저 안띄움
         options.addArguments("--disable-gpu");  // gpu 비활성화
-        options.addArguments("window-size=1920x1080"); // 대부분 모니터 해상도에 맞춤
+        options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--blink-settings=imagesEnabled=false");   // 이미지 다운 안받음
 
 
