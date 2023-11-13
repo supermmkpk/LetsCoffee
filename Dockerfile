@@ -6,8 +6,8 @@ WORKDIR /app
 RUN apt-get -y update
 RUN apt install wget
 RUN apt install unzip
-#RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
-RUN rpm -Uvh https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
+RUN install -y google-chrome-stable_current_x86_64.rpm
 RUN wget -O /tmp/chromedriver.zip https://chromedriver.storage.googleapis.com/` curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
 RUN mkdir chrome
 RUN unzip /tmp/chromedriver.zip chromedriver -d /app/chrome/
