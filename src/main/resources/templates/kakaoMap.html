@@ -56,7 +56,7 @@
 
 
         .category .item-label {width: 16.6vw; font-size:12px; text-align:center; white-space: nowrap;}
-        .category .ico_comm {display: block; margin: 0 auto; height: 4vh; max-width: 120px;}
+        .category .ico_comm {display: block; margin: 0 auto; height: 32px; max-width: 120px;}
         .category .ico_search {background: url('https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-search-strong-1024.png') no-repeat center center; background-size: contain;}
         .category .ico_starbucks {background: url('https://www.starbucks.co.kr/common/img/common/logo.png') no-repeat center; background-size: contain; }
         .category .ico_coffeebean {background: url('https://www.coffeebeankorea.com/images/common/logo_93_69.png') no-repeat center; background-size: contain;}
@@ -105,10 +105,10 @@
 
 <!-- 지도 위에 표시될 마커 카테고리 -->
 <div class="category">
-    <div class="btn-group" role="group" style="width: 100vw; height: 8vh;" onclick="closeOverlay();removeCurMarker();">
+    <div class="btn-group" role="group" style="width: 100vw; height: 64px;" onclick="closeOverlay();removeCurMarker();">
         <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off" checked>
         <label class="btn btn-light item-label" for="vbtn-radio1" onclick="searchPlaces('all'); spinner.style.visibility = 'visible';"
-               style="display: flex; justify-content: center; align-items: center; font-size: 1.1rem;">
+               style="display: flex; justify-content: center; align-items: center; font-size: 1rem;">
             <strong>전체</strong></span>
         </label>
         <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off">
@@ -140,10 +140,10 @@
 </div>
 <!-- 모바일 위해서 두줄로 나눠 갑니다 -->
 <div class="category">
-    <div class="btn-group" role="group" style="width: 100vw; height: 8vh;" onclick="closeOverlay();removeCurMarker();">
+    <div class="btn-group" role="group" style="width: 100vw; height: 64px;" onclick="closeOverlay();removeCurMarker();">
         <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio7" autocomplete="off">
         <label class="btn btn-light item-label" for="vbtn-radio7" style="z-index: 1000;">
-            <span class="ico_comm ico_search" style="margin: 1vh auto;"
+            <span class="ico_comm ico_search" style="margin: 8px auto;"
                   data-bs-toggle="dropdown" onclick="document.getElementById('vbtn-radio7').checked=true;"></span>
             <form class="dropdown-menu dropdown-menu-start p-0"  onsubmit="searchPlaces('search'); return false;" >
                 <input type="text" class="form-control" id="searchKeyword" placeholder="매장 이름" style="display: inline-block;">
@@ -353,6 +353,7 @@
                 allResult = allResult.slice(0,15);
                 spinner.style.visibility = 'hidden';
                 displayPlaces(allResult);
+                map.setCenter(curMarker.getPosition());
             }
         } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
             alert('검색 결과가 존재하지 않습니다.');
@@ -371,6 +372,7 @@
             // 검색 목록과 마커를 표출합니다
             spinner.style.visibility = 'hidden';
             displayPlaces(data);
+            map.setCenter(curMarker.getPosition());
 
             // 페이지 번호를 표출합니다
             displayPagination(pagination);
