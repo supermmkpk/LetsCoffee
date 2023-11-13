@@ -55,8 +55,9 @@
         #pagination .on {font-weight: bold; cursor: default;color:#777;}
 
 
-        .category .btn-light {width: 16.6vw; font-size:12px; text-align:center; white-space: nowrap;}
+        .category .item-label {width: 16.6vw; font-size:12px; text-align:center; white-space: nowrap;}
         .category .ico_comm {display: block; margin: 0 auto; height: 4vh; max-width: 120px;}
+        .category .ico_search {background: url('https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-search-strong-1024.png') no-repeat center center; background-size: contain;}
         .category .ico_starbucks {background: url('https://www.starbucks.co.kr/common/img/common/logo.png') no-repeat center; background-size: contain; }
         .category .ico_coffeebean {background: url('https://www.coffeebeankorea.com/images/common/logo_93_69.png') no-repeat center; background-size: contain;}
         .category .ico_mega {background: url('https://img.79plus.co.kr/megahp/common/img/brand02_2.jpg') no-repeat center center; background-size: contain;}
@@ -67,6 +68,7 @@
         .category .ico_pascucci {background: url('https://www.caffe-pascucci.co.kr/lib/images/common/h1_logo.png') no-repeat center center; background-size: contain;}
         .category .ico_hollys {background: url('https://www.hollys.co.kr/websrc/images/layout/logo_210302.gif') no-repeat center center; background-size: contain;}
         .category .ico_paul {background: url('https://www.baristapaulbassett.co.kr/images/aboutus/logo4.png') no-repeat center center; background-size: contain;}
+
 
         .wrap {position: absolute;left: 0;bottom: 40px;width: 288px;height: 132px;margin-left: -144px;text-align: left;overflow: hidden;font-size: 12px;font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;line-height: 1.5;}
         .wrap * {padding: 0;margin: 0;}
@@ -93,7 +95,7 @@
     </style>
 </head>
 
-<body onload="spinner.style.visibility = 'visible'; searchPlaces('스타벅스');">
+<body onload="spinner.style.visibility = 'visible'; searchPlaces('all');">
 <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
 <div style="position: absolute; top: 49vh; left: 49vw; z-index: 1000;">
@@ -104,32 +106,33 @@
 <!-- 지도 위에 표시될 마커 카테고리 -->
 <div class="category">
     <div class="btn-group" role="group" style="width: 100vw; height: 8vh;" onclick="closeOverlay();removeCurMarker();">
-        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off">
-        <label class="btn btn-light" for="vbtn-radio1" style="vertical-align: middle" onclick="searchPlaces('all'); spinner.style.visibility = 'visible'; re">
-            <br>전체
+        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio1" autocomplete="off" checked>
+        <label class="btn btn-light item-label" for="vbtn-radio1" onclick="searchPlaces('all'); spinner.style.visibility = 'visible';"
+               style="display: flex; justify-content: center; align-items: center; font-size: 1.1rem;">
+            <strong>전체</strong></span>
         </label>
-        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off" checked>
-        <label class="btn btn-light" for="vbtn-radio2" onclick="searchPlaces('스타벅스'); spinner.style.visibility = 'visible';">
+        <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio2" autocomplete="off">
+        <label class="btn btn-light item-label" for="vbtn-radio2" onclick="searchPlaces('스타벅스'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_starbucks"></span>
             스타벅스
         </label>
         <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio3" autocomplete="off">
-        <label class="btn btn-light" for="vbtn-radio3" onclick="searchPlaces('커피빈'); spinner.style.visibility = 'visible';">
+        <label class="btn btn-light item-label" for="vbtn-radio3" onclick="searchPlaces('커피빈'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_coffeebean"></span>
             커피빈
         </label>
         <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio4" autocomplete="off">
-        <label class="btn btn-light" for="vbtn-radio4" onclick="searchPlaces('메가커피'); spinner.style.visibility = 'visible';">
+        <label class="btn btn-light item-label" for="vbtn-radio4" onclick="searchPlaces('메가커피'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_mega"></span>
             메가커피
         </label>
         <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio5" autocomplete="off">
-        <label class="btn btn-light" for="vbtn-radio5" onclick="searchPlaces('빽다방'); spinner.style.visibility = 'visible';">
+        <label class="btn btn-light item-label" for="vbtn-radio5" onclick="searchPlaces('빽다방'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_paik"></span>
             빽다방
         </label>
         <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio6" autocomplete="off">
-        <label class="btn btn-light" for="vbtn-radio6" onclick="searchPlaces('투썸플레이스'); spinner.style.visibility = 'visible';">
+        <label class="btn btn-light item-label" for="vbtn-radio6" onclick="searchPlaces('투썸플레이스'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_twosome"></span>
             투썸
         </label>
@@ -139,37 +142,36 @@
 <div class="category">
     <div class="btn-group" role="group" style="width: 100vw; height: 8vh;" onclick="closeOverlay();removeCurMarker();">
         <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio7" autocomplete="off">
-        <label class="btn btn-light" for="vbtn-radio7" style="z-index: 1000;">
-            <br>
-            <span class="ico_comm dropdown-toggle" data-bs-toggle="dropdown"
-                  onclick="document.getElementById('vbtn-radio7').checked=true;">검색</span>
+        <label class="btn btn-light item-label" for="vbtn-radio7" style="z-index: 1000;">
+            <span class="ico_comm ico_search" style="margin: 1vh auto;"
+                  data-bs-toggle="dropdown" onclick="document.getElementById('vbtn-radio7').checked=true;"></span>
             <form class="dropdown-menu dropdown-menu-start p-0"  onsubmit="searchPlaces('search'); return false;" >
                 <input type="text" class="form-control" id="searchKeyword" placeholder="매장 이름" style="display: inline-block;">
                 <button class="btn btn-primary text-white btn-sm" type="submit" onclick="spinner.style.visibility = 'visible';" style="display: inline-block;">&nbsp;검색&nbsp;</button>
             </form>
         </label>
         <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio8" autocomplete="off">
-        <label class="btn btn-light" for="vbtn-radio8" onclick="searchPlaces('컴포즈 커피'); spinner.style.visibility = 'visible';">
+        <label class="btn btn-light item-label" for="vbtn-radio8" onclick="searchPlaces('컴포즈 커피'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_compose"></span>
             컴포즈
         </label>
         <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio9" autocomplete="off">
-        <label class="btn btn-light" for="vbtn-radio9" onclick="searchPlaces('이디야 커피'); spinner.style.visibility = 'visible'; removeMarker()">
+        <label class="btn btn-light item-label" for="vbtn-radio9" onclick="searchPlaces('이디야 커피'); spinner.style.visibility = 'visible'; removeMarker()">
             <span class="ico_comm ico_ediya"></span>
             이디야
         </label>
         <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio10" autocomplete="off">
-        <label class="btn btn-light" for="vbtn-radio10" onclick="searchPlaces('파스쿠찌'); spinner.style.visibility = 'visible';">
+        <label class="btn btn-light item-label" for="vbtn-radio10" onclick="searchPlaces('파스쿠찌'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_pascucci"></span>
             파스쿠찌
         </label>
         <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio11" autocomplete="off">
-        <label class="btn btn-light" for="vbtn-radio11" onclick="searchPlaces('할리스 커피'); spinner.style.visibility = 'visible';">
+        <label class="btn btn-light item-label" for="vbtn-radio11" onclick="searchPlaces('할리스 커피'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_hollys"></span>
             할리스
         </label>
         <input type="radio" class="btn-check" name="vbtn-radio" id="vbtn-radio12" autocomplete="off">
-        <label class="btn btn-light" for="vbtn-radio12" onclick="searchPlaces('폴바셋'); spinner.style.visibility = 'visible';">
+        <label class="btn btn-light item-label" for="vbtn-radio12" onclick="searchPlaces('폴바셋'); spinner.style.visibility = 'visible';">
             <span class="ico_comm ico_paul"></span>
             폴바셋
         </label>
@@ -227,7 +229,7 @@
                     },
                     (err) => {
                         if(err.code === 1) {
-                            alert("현재 위치를 허용해주세요.");
+                            alert("현재 위치를 허용하거나, 검색 기능을 이용해주세요.");
                         }
                         if(err.code === 3) {
                             let refresh = confirm("응답이 지연되고 있습니다. 새로고침 하시겠습니까?");
@@ -243,7 +245,6 @@
             }
             else {
                 rej(new Error("현재 위치를 불러올 수 없습니다."));
-                alert("현재 위치를 허용해 주세요.");
             }
         });
     };
@@ -284,24 +285,7 @@
     // 키워드 검색을 요청하는 함수입니다
     async function searchPlaces(keyword) {
 
-        const currentCoordinate = await getCurrentCoordinate();
-
-        // 현재위치를 표시합니다
-        let curMarkerImage = new kakao.maps.MarkerImage(
-            "https://cdn4.iconfinder.com/data/icons/office-use-icons/512/location-512x512-1024.png",
-            new kakao.maps.Size(50, 50));
-        curMarker = new kakao.maps.Marker({
-            position : currentCoordinate,
-            image : curMarkerImage
-        })
-        curMarker.setMap(map);
-
-        var options = {
-            location: currentCoordinate,
-            radius: 10000,
-            sort: kakao.maps.services.SortBy.DISTANCE,
-        };
-
+        //검색 기능은 현재 위치가 필요 없습니다.
         if(keyword === 'search') {
             let searchKeyword = document.getElementById('searchKeyword').value;
             if (!searchKeyword.replace(/^\s+|\s+$/g, '')) {
@@ -312,24 +296,45 @@
             // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
             ps.keywordSearch(searchKeyword, placesSearchCB);
         }
-        else if (keyword === 'all') { //모든 브랜드에 대하여 검색합니다. 거리순으로 가까운 15개를 표출합니다.
-            //초기화
-            allResult.length = 0;
-            cnt = 0;
-            ps.keywordSearch('스타벅스', allSearchCB, options);
-            ps.keywordSearch('커피빈', allSearchCB, options);
-            ps.keywordSearch('메가커피', allSearchCB, options);
-            ps.keywordSearch('빽다방', allSearchCB, options);
-            ps.keywordSearch('투썸플레이스', allSearchCB, options);
-            ps.keywordSearch('컴포즈 커피', allSearchCB, options);
-            ps.keywordSearch('이디야 커피', allSearchCB, options);
-            ps.keywordSearch('파스쿠찌', allSearchCB, options);
-            ps.keywordSearch('할리스 커피', allSearchCB, options);
-            ps.keywordSearch('폴바셋', allSearchCB, options);
-        }
-        else { //선택한 브랜드에 대하여 검색합니다.
-            // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
-            ps.keywordSearch(keyword, placesSearchCB, options);
+        else {
+            //검색 이외 기능은 현재 위치가 필요합니다.
+            const currentCoordinate = await getCurrentCoordinate();
+
+            // 현재위치를 표시합니다
+            let curMarkerImage = new kakao.maps.MarkerImage(
+                "https://cdn4.iconfinder.com/data/icons/office-use-icons/512/location-512x512-1024.png",
+                new kakao.maps.Size(50, 50));
+            curMarker = new kakao.maps.Marker({
+                position: currentCoordinate,
+                image: curMarkerImage
+            })
+            curMarker.setMap(map);
+
+            var options = {
+                location: currentCoordinate,
+                radius: 10000,
+                sort: kakao.maps.services.SortBy.DISTANCE,
+            };
+
+            if (keyword === 'all') { //모든 브랜드에 대하여 검색합니다. 거리순으로 가까운 15개를 표출합니다.
+                //초기화
+                allResult.length = 0;
+                cnt = 0;
+                ps.keywordSearch('스타벅스', allSearchCB, options);
+                ps.keywordSearch('커피빈', allSearchCB, options);
+                ps.keywordSearch('메가커피', allSearchCB, options);
+                ps.keywordSearch('빽다방', allSearchCB, options);
+                ps.keywordSearch('투썸플레이스', allSearchCB, options);
+                ps.keywordSearch('컴포즈 커피', allSearchCB, options);
+                ps.keywordSearch('이디야 커피', allSearchCB, options);
+                ps.keywordSearch('파스쿠찌', allSearchCB, options);
+                ps.keywordSearch('할리스 커피', allSearchCB, options);
+                ps.keywordSearch('폴바셋', allSearchCB, options);
+            }
+            else { //선택한 브랜드에 대하여 검색합니다.
+                // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+                ps.keywordSearch(keyword, placesSearchCB, options);
+            }
         }
     }
 
@@ -534,7 +539,7 @@
             '            <div class="desc">' +
             '               <div class="ellipsis">' + address + '</div>' +
             '               <div class="jibun ellipsis">' + phone + '</div>' +
-            '               <div><a href=' + "https://map.naver.com/p/search/" + encodeURI(title) + ' target="_blank" class="link" style="font-size: 1.2em">상세정보/N주문</a></div>';
+            '               <div><a href=' + "https://map.naver.com/p/search/" + encodeURI(title) + ' target="_blank" class="link" style="font-size: 1rem;">상세정보/N주문</a></div>';
 
         if(authenticated === 1) {
             content += '<div>   <form id="addFav" method="post" action="/map" target="addFavorite" onsubmit="return confirm(\'' + title + '을 추가하시겠습니까?\');" style="text-align: right;" >' +

@@ -14,7 +14,7 @@ import java.time.Duration;
 
 @Service
 public class SeleniumCrawlService {
-    private static Path path = Paths.get("/Users/bongkyoonpark/Documents/chromedriver-mac-arm64/chromedriver");
+    private static Path path = Paths.get("/app/chrome/chromedriver");
     private WebDriver driver;
 
 
@@ -29,7 +29,9 @@ public class SeleniumCrawlService {
         options.addArguments("--disable-popup-blocking");   // 팝업 안띄움
         options.addArguments("headless");   // 브라우저 안띄움
         options.addArguments("--disable-gpu");  // gpu 비활성화
+        options.addArguments("window-size=1920x1080"); // 대부분 모니터 해상도에 맞춤
         options.addArguments("--blink-settings=imagesEnabled=false");   // 이미지 다운 안받음
+        options.addArguments("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.87 Safari/537.36"); //차단 완화
 
 
         // 브라우저 선택시 파라미터로 옵션 전송

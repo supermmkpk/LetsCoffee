@@ -37,7 +37,7 @@
                         <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             로그인
                         </button>
-                        <ul class="dropdown-menu" style="min-width: 4rem; text-align: center;" >
+                        <ul class="dropdown-menu p-2" style="min-width: 4rem; text-align: center;" >
                             <li>
                                 <a sec:authorize="!isAuthenticated()">
                                     <input type="image" name="button" src="/image/googleLoginButton_logo.png" th:onclick="|location.href='/oauth2/authorization/google'|" height="36" alt="구글 로그인">
