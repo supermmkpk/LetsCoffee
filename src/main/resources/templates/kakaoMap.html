@@ -352,7 +352,7 @@
                 spinner.style.visibility = 'hidden';
                 displayPlaces(allResult);
                 if(curMarker.getMap() != null) {
-                    map.setCenter(curPos);
+                    map.setCenter(curMarker.getPosition());
                 }
 
             }
@@ -374,7 +374,7 @@
             spinner.style.visibility = 'hidden';
             displayPlaces(data);
             if(curMarker.getMap() != null) {
-                map.setCenter(curPos);
+                map.setCenter(curMarker.getPosition());
             }
 
             // 페이지 번호를 표출합니다
