@@ -8,10 +8,10 @@
 <body>
 <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
-<h4>메뉴</h4>
+<h4><strong>&nbsp;메뉴</strong></h4>
 <form method="POST" th:action="'/'+ ${cafeName} + '/menu'">
     <div class="form-group">
-    <select th:name="type" class="form-control">
+    <select th:name="type" class="form-select">
         <option value="DRINK">음료</option>
         <option value="FOOD">푸드</option>
         <!-- <option value="product">상품</option> -->
@@ -21,12 +21,12 @@
 </form>
 
 <p><br></p>
-<h4>진행 중 이벤트</h4>
+<h4><strong>&nbsp;진행 중 이벤트</strong></h4>
 <form method="POST" th:action="'/'+ ${cafeName} + '/promotion'">
     <div class="form-group">
-        <select th:name="type" class="form-control">
+        <select th:name="type" class="form-select">
             <option value="ALL">전체</option>
-            <option value="STORE">매장 별</option>
+            <option th:if="${cafeName}=='starbucks'" value="STORE">매장 별</option>
         </select>
     </div>
     <button type="submit" class="btn btn-outline-secondary">보기</button>
