@@ -205,9 +205,13 @@
     // 로그인 여부를 확인하는 변수입니다 (0: false, 1: true)
     let authenticated = 0;
 </script>
-<script type="text/javascript" sec:authorize="isAuthenticated()">
-    //로그인 상태인 경우 1로 바꿉니다.
+
+<!--로그인 상태인 경우 1로 바꿉니다.-->
+<script type="text/javascript" th:inline="javascript" sec:authorize="isAuthenticated()">
+    /*<![CDATA[*/
+    let userId = [[${session.user.id}]];
     authenticated = 1;
+    /*]]>*/
 </script>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=38087dda8e1b81ee428e36121069bfbb&libraries=services"></script>
 <script>
@@ -549,6 +553,7 @@
         if(authenticated === 1) {
             content += '<div>   <form id="addFav" method="post" action="/map" target="addFavorite" onsubmit="return confirm(\'' + title + '을 추가하시겠습니까?\');" style="text-align: right;" >' +
             '                       <input type="hidden" name="storeName" value="' + title + '">' +
+            '                       <input type="hidden" name="userId" value="' + userId + '">' +
             '                       <button type="submit" class="btn btn-warning btn-sm">&nbsp;즐겨찾기&nbsp;</button>' +
             '                   </form> </div>' +
             '<!--페이지 전환을 방지합니다.--> <iframe id="iframe" name="addFavorite"></iframe>' +

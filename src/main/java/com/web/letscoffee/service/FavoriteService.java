@@ -54,8 +54,8 @@ public class FavoriteService {
         return favoriteRepository.findAllById(id);
     }
 
-    public List<Favorite> findByStoreName(String storeName) {
-        return favoriteRepository.findByStoreName(storeName);
+    public List<Favorite> findByStoreNameAndUserId(String storeName, Long userId) {
+        return favoriteRepository.findByStoreNameAndUserId(storeName, userId);
     }
 
     public List<Favorite> findAll() {

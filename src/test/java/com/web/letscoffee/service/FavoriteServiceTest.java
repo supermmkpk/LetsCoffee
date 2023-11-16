@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -33,25 +34,29 @@ public class FavoriteServiceTest {
     @Test
     public void 즐겨찾기_추가() throws Exception {
         //given
-        Users user = createUser();
+        Users user1 = createUser("회원1");
+        Users user2 = createUser("회원2");
 
         //when
-        Long favoriteId = favoriteService.addFavorite(user.getId(), "스타벅스 홍대");
+        Long favoriteId1 = favoriteService.addFavorite(user1.getId(), "스타벅스 홍대");
+
 
         //then
-        Favorite getFavorite = favoriteRepository.findOne(favoriteId);
+        Favorite getFavorite = favoriteRepository.findOne(favoriteId1);
 
 
-        assertEquals("즐겨찾기 추가 시 user의 favoriteCount가 증가해야 한다", 1, user.getFavoriteCount());
-        assertEquals("즐겨찾기 개수가 정확해야 한다", 1, user.getFavorites().size());
+        //다른 유저가 같은 매장 추가 시, 예외가 발생하면 안 된다(중복 추가 X)
+        assertDoesNotThrow(() -> favoriteService.addFavorite(user2.getId(), "스타벅스 홍대"));
+        assertEquals("즐겨찾기 추가 시 user의 favoriteCount가 증가해야 한다", 1, user1.getFavoriteCount());
+        assertEquals("즐겨찾기 개수가 정확해야 한다", 1, user1.getFavorites().size());
         assertEquals("매장 이름이 정확해야 한다", "스타벅스 홍대", getFavorite.getStoreName());
-        assertEquals("등록한 user가 정확해야 한다.", user, getFavorite.getUser());
+        assertEquals("등록한 user가 정확해야 한다.", user1, getFavorite.getUser());
     }
 
     @Test(expected = Over10FavoriteException.class)
     public void 즐겨찾기_추가_10개초과() throws Exception {
         //given
-        Users user = createUser();
+        Users user = createUser("회원1");
         user.setFavoriteCount(10);
 
         //when
@@ -64,7 +69,7 @@ public class FavoriteServiceTest {
     @Test
     public void 즐겨찾기_취소() throws Exception {
         //given
-        Users user = createUser(); //favoriteCount : 0
+        Users user = createUser("회원1"); //favoriteCount : 0
         Long favoriteId = favoriteService.addFavorite(user.getId(), "스타벅스 홍대"); //favoriteCount : 1
         Long favoriteId2 = favoriteService.addFavorite(user.getId(), "커피빈 상수"); //favoriteCount : 2
 
@@ -81,7 +86,7 @@ public class FavoriteServiceTest {
     @Test
     public void 즐겨찾기_메모() throws Exception {
         //given
-        Users user = createUser(); //favoriteCount : 0
+        Users user = createUser("회원1"); //favoriteCount : 0
         Long favoriteId = favoriteService.addFavorite(user.getId(), "스타벅스 홍대");
 
         //when
@@ -94,9 +99,9 @@ public class FavoriteServiceTest {
         assertEquals("기타 정보가 정확해야 한다", "영업시간은 23시까지", getFavorite.getOtherInfo());
     }
 
-    private Users createUser() {
+    private Users createUser(String name) {
         Users user = Users.builder()
-                .name("회원1")
+                .name(name)
                 .email("abc@gmail.com")
                 .picture("picture")
                 .favoriteCount(0)

@@ -41,9 +41,10 @@ public class FavoriteRepository {
         return em.find(Favorite.class, id);
     }
 
-    public List<Favorite> findByStoreName(String storeName) {
-        return em.createQuery("select f from Favorite f where f.storeName = :storeName", Favorite.class)
+    public List<Favorite> findByStoreNameAndUserId(String storeName, Long userId) {
+        return em.createQuery("select f from Favorite f where f.storeName = :storeName and f.user = :userId", Favorite.class)
                 .setParameter("storeName", storeName)
+                .setParameter("userId", userId)
                 .getResultList();
     }
 

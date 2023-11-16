@@ -27,13 +27,14 @@ public class MapController {
     }
 
     @PostMapping("/map")
-    public void favorite(@RequestParam("storeName") String storeName, HttpServletResponse response) throws IOException {
+    public void favorite(@RequestParam("storeName") String storeName, @RequestParam("userId") Long userId, HttpServletResponse response) throws IOException {
         UserDto user = (UserDto) httpSession.getAttribute("user");
 
         if (user != null) {
             try {
                 //해당 매장이 즐겨찾기 테이블에 없다면 추가합니다.
-                if(favoriteService.findByStoreName(storeName).isEmpty()) {
+                //userId에 대하여 같은 매장은 중복 추가할 수 없습니다.
+                if(favoriteService.findByStoreNameAndUserId(storeName, userId).isEmpty()) {
                     favoriteService.addFavorite(user.getId(), storeName);
                     response.setContentType("text/html; charset=UTF-8");
                     PrintWriter out = response.getWriter();
