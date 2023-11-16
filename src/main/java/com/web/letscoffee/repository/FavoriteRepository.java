@@ -42,7 +42,7 @@ public class FavoriteRepository {
     }
 
     public List<Favorite> findByStoreNameAndUserId(String storeName, Long userId) {
-        String sql = "SELECT *  FROM favorite WHERE store_name = " + storeName + "AND user_id = " + userId;
+        String sql = "SELECT * FROM favorite WHERE store_name = \'" + storeName + "\' AND user_id = " + userId;
         return em.createNativeQuery(sql)
                 .getResultList();
     }
