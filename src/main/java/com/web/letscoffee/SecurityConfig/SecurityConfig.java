@@ -34,7 +34,7 @@ public class SecurityConfig{
 
                 .and()
                 .authorizeRequests() // URL별 권한 관리
-                .antMatchers().authenticated() // 해당 URL은 인증 절차 수행해야함
+                .antMatchers("/mypage/**").authenticated() // 해당 URL은 인증 절차 수행해야함
                 .antMatchers("/api/v1/**").hasRole(Role.USER.name()) // /api/v1/** 은 USER권한만 접근 가능
                 .anyRequest().permitAll() // 나머지 요청들은 모두 인증 절차 생략가능
 
