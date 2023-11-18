@@ -2,11 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns="http://www.w3.org/1999/xhtml"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
-<head th:replace="fragments/header :: header">
-  <title>HOME</title>
+<head th:replace="fragments/header :: header('LetsCoffee')">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-
 </head>
 
 <style>
@@ -86,13 +84,13 @@
       <div class="col-lg-4">
         <p></p>
         <div class="card">
-          <a href="/starbucks">
+          <a href="/cafe/starbucks">
             <img class="card-img-top" src="https://www.starbucks.co.kr/common/img/common/logo.png" alt="" >
           </a>
           <div class="card-body">
             <h3 class="card-title" style="align-content:center">
               <button class="btn text-white" style="background-color: #2f6e46"
-                      th:onclick="|location.href='@{/starbucks}'|">스타벅스</button>
+                      th:onclick="|location.href='@{/cafe/starbucks}'|">스타벅스</button>
             </h3>
           </div>
           <div class="card-footer">
@@ -110,13 +108,13 @@
       <div class="col-lg-4">
         <p></p>
         <div class="card">
-          <a href="/coffeebean">
+          <a href="/cafe/coffeebean">
             <img class="card-img-top" src="https://www.coffeebeankorea.com/images/common/logo_93_69.png" alt="" >
           </a>
           <div class="card-body">
             <h3 class="card-title" style="align-content:center">
               <button class="btn text-white" style="background-color: #51366f"
-                      th:onclick="|location.href='@{/coffeebean}'|">커피빈</button>
+                      th:onclick="|location.href='@{/cafe/coffeebean}'|">커피빈</button>
             </h3>
           </div>
           <div class="card-footer">
@@ -134,13 +132,13 @@
       <div class="col-lg-4">
         <p></p>
         <div class="card">
-          <a href="/mega">
+          <a href="/cafe/mega">
             <img class="card-img-top" src="https://img.79plus.co.kr/megahp/common/img/brand02_2.jpg" alt="" >
           </a>
           <div class="card-body">
             <h3 class="card-title" style="align-content:center">
               <button class="btn" style="background-color: #f3cb47"
-                      th:onclick="|location.href='@{/mega}'|">메가 MGC</button>
+                      th:onclick="|location.href='@{/cafe/mega}'|">메가 MGC</button>
             </h3>
           </div>
           <div class="card-footer">
@@ -158,13 +156,13 @@
       <div class="col-lg-4">
         <p></p>
         <div class="card">
-          <a href="/paik">
+          <a href="/cafe/paik">
             <img class="card-img-top" src="https://paikdabang.com/wp-content/themes/paikdabang/assets/images/logo.png" alt="">
           </a>
           <div class="card-body">
             <h3 class="card-title" style="align-content:center">
               <button class="btn text-white" style="background-color: #0d1e5c"
-                      th:onclick="|location.href='@{/paik}'|">빽다방</button>
+                      th:onclick="|location.href='@{/cafe/paik}'|">빽다방</button>
             </h3>
           </div>
             <div class="card-footer">
@@ -187,13 +185,13 @@
       <div class="col-lg-4">
         <p></p>
         <div class="card">
-          <a href="/compose">
+          <a href="/cafe/compose">
             <img class="card-img-top" src="https://composecoffee.com/layouts/KSOTheme_Starter/src/img/logo.svg" alt="">
           </a>
           <div class="card-body">
             <h3 class="card-title" style="align-content:center">
               <button class="btn text-secondary" style="background-color: #f6d552"
-                      th:onclick="|location.href='@{/compose}'|">컴포즈 커피</button>
+                      th:onclick="|location.href='@{/cafe/compose}'|">컴포즈 커피</button>
             </h3>
           </div>
           <div class="card-footer">
@@ -217,13 +215,13 @@
         <p></p>
         <div class="card">
           <!--          https://www.ediya.com/C/images/ediya/m_con_img07.gif-->
-          <a href="/ediya">
+          <a href="/cafe/ediya">
             <img class="card-img-top" src="https://www.ediya.com/images/common/top_logo.gif" alt="">
           </a>
           <div class="card-body">
             <h3 class="card-title" style="align-content:center">
               <button class="btn text-white" style="background-color: #0f2d68"
-                      th:onclick="|location.href='@{/ediya}'|">이디야</button>
+                      th:onclick="|location.href='@{/cafe/ediya}'|">이디야</button>
             </h3>
           </div>
           <div class="card-footer">
@@ -241,13 +239,13 @@
       <div class="col-lg-4">
         <p></p>
         <div class="card">
-          <a href="/pascucci">
+          <a href="/cafe/pascucci">
             <img class="card-img-top" src="https://www.caffe-pascucci.co.kr/lib/images/common/h1_logo.png" alt="">
           </a>
           <div class="card-body">
             <h3 class="card-title" style="align-content:center">
               <button class="btn text-white" style="background-color: #bf2d32"
-                      th:onclick="|location.href='@{/pascucci}'|">파스쿠찌</button>
+                      th:onclick="|location.href='@{/cafe/pascucci}'|">파스쿠찌</button>
             </h3>
           </div>
           <div class="card-footer">
@@ -265,13 +263,13 @@
       <div class="col-lg-4">
         <p></p>
         <div class="card">
-          <a href="/hollys">
+          <a href="/cafe/hollys">
             <img class="card-img-top" src="https://www.hollys.co.kr/websrc/images/layout/logo_210302.gif" alt="">
           </a>
           <div class="card-body">
             <h3 class="card-title" style="align-content:center">
               <button class="btn text-white" style="background-color: #c73030"
-                      th:onclick="|location.href='@{/hollys}'|">할리스</button>
+                      th:onclick="|location.href='@{/cafe/hollys}'|">할리스</button>
             </h3>
           </div>
           <div class="card-footer">
@@ -289,13 +287,13 @@
       <div class="col-lg-4">
         <p></p>
         <div class="card">
-          <a href="/paul">
+          <a href="/cafe/paul">
             <img class="card-img-top" src="https://www.baristapaulbassett.co.kr/images/aboutus/logo4.png" alt="">
           </a>
           <div class="card-body">
             <h3 class="card-title" style="align-content:center">
-              <button class="btn text-white" style="background-color: #d7304f"
-                      th:onclick="|location.href='@{/paul}'|">폴바셋</button>
+                <button class="btn text-white" style="background-color: #d7304f"
+                        th:onclick="|location.href='@{/cafe/paul}'|">폴바셋</button>
             </h3>
           </div>
           <div class="card-footer">

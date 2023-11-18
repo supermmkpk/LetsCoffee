@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/header :: header">
-    <title th:text="${cafeName}"/>
+<head th:replace="fragments/header :: header('LetsCoffee : ' + ${cafeName})">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 
@@ -9,7 +8,7 @@
 <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
 <h4><strong>&nbsp;메뉴</strong></h4>
-<form method="POST" th:action="'/'+ ${cafeName} + '/menu'">
+<form method="POST" th:action="'/cafe/'+ ${cafeName} + '/menu'">
     <div class="form-group">
     <select th:name="type" class="form-select">
         <option value="DRINK">음료</option>
@@ -22,7 +21,7 @@
 
 <p><br></p>
 <h4><strong>&nbsp;진행 중 이벤트</strong></h4>
-<form method="POST" th:action="'/'+ ${cafeName} + '/promotion'">
+<form method="POST" th:action="'/cafe/'+ ${cafeName} + '/promotion'">
     <div class="form-group">
         <select th:name="type" class="form-select">
             <option value="ALL">전체</option>

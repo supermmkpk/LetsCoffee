@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:fragment="header">
+<head th:fragment="header(title)">
     <!-- Required meta tags -->
     <meta charset="utf-8">
 <!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink- -->
@@ -13,7 +13,8 @@
           crossorigin="anonymous">
     <!-- Custom styles for this template -->
     <link href="/css/jumbotron-narrow.css" rel="stylesheet">
-    <title>LetsCoffee</title>
+
+    <title th:text="${title}"></title>
 
     <style>
         body {

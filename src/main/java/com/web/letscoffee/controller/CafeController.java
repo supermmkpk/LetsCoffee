@@ -14,30 +14,25 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/{cafeName}")
+@RequestMapping("/cafe")
 @RequiredArgsConstructor
 public class CafeController {
     private final MenuService menuService;
     private final PromotionService promotionService;
     private CafeId cafeId;
 
-    @GetMapping("")
+    @GetMapping("/{cafeName}")
     public String cafe(Model model, @PathVariable("cafeName") String cafeName) {
-        if(cafeName.equals("favicon.ico")) { //IllegalArgumentException 처리.
-            return "redirect:/";
-        }
-        else {
             model.addAttribute("cafeName", cafeName);
             cafeId = CafeId.valueOf(cafeName.toUpperCase());
-            return "cafe";
-        }
 
+            return "cafe";
     }
 
     /**
      * 메뉴
      */
-    @PostMapping("/menu")
+    @PostMapping("/{cafeName}/menu")
     public String menu(Model model, @RequestParam String type) throws Exception {
          List<Menu> menuList = menuService.findByCafeAndType(cafeId, MenuType.valueOf(type));
 
@@ -50,7 +45,7 @@ public class CafeController {
     /**
      * 전체 이벤트
      */
-    @PostMapping("/promotion")
+    @PostMapping("/{cafeName}/promotion")
     public String promotion(Model model, @RequestParam String type) throws Exception {
 
         List<Promotion> promotionList = promotionService.findByCafeAndType(cafeId, PromotionType.valueOf(type));
