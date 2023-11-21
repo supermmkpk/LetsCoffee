@@ -46,20 +46,16 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <table class="table">
-          <tr th:each="favorite : ${userFavoriteList}">
-            <td>
+        <ul style="white-space: nowrap;">
+          <li th:each="favorite : ${userFavoriteList}">
             <a class="link-primary link-underline-opacity-50 pe-auto"
                th:href="@{'https://map.naver.com/p/search/' + ${favorite.storeName}}" th:text="${favorite.storeName}" style="display:inline;"/>
             &nbsp;
-            </td>
             <!-- 메모를 바로 볼 수 있습니다.(Bootstrap5 - Modal) -->
-            <td>
             <button class="btn btn-secondary btn-sm" data-bs-toggle="modal"
                     th:data-bs-target="'#infoModalDisplay' + ${favoriteStat.index}">메모</button>
-            </td>
-          </tr>
-        </table>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
