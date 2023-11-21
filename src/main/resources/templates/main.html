@@ -46,16 +46,28 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <ul style="white-space: nowrap;">
+        <table class="table" >
+          <tr th:each="favorite : ${userFavoriteList}">
+            <td>
+              <a class="link-primary link-underline-opacity-50 pe-auto"
+                 th:href="@{'https://map.naver.com/p/search/' + ${favorite.storeName}}" th:text="${favorite.storeName}" style="display:inline;"/>
+            </td>
+            <td>
+              <button class="btn btn-secondary btn-sm" data-bs-toggle="modal"
+                      th:data-bs-target="'#infoModalDisplay' + ${favoriteStat.index}">메모</button>
+            </td>
+          </tr>
+        </table>
+        <!--<ul style="white-space: nowrap;">
           <li th:each="favorite : ${userFavoriteList}">
             <a class="link-primary link-underline-opacity-50 pe-auto"
                th:href="@{'https://map.naver.com/p/search/' + ${favorite.storeName}}" th:text="${favorite.storeName}" style="display:inline;"/>
             &nbsp;
-            <!-- 메모를 바로 볼 수 있습니다.(Bootstrap5 - Modal) -->
+            &lt;!&ndash; 메모를 바로 볼 수 있습니다.(Bootstrap5 - Modal) &ndash;&gt;
             <button class="btn btn-secondary btn-sm" data-bs-toggle="modal"
                     th:data-bs-target="'#infoModalDisplay' + ${favoriteStat.index}">메모</button>
           </li>
-        </ul>
+        </ul>-->
       </div>
     </div>
   </div>
