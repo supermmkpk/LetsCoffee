@@ -43,6 +43,11 @@ public class SecurityConfig{
                 .logoutSuccessUrl("/")
 
                 .and()
+                .formLogin()
+                .loginPage("/")
+                .permitAll()
+
+                .and()
                 .oauth2Login() // OAuth2를 통한 로그인 사용
                 .defaultSuccessUrl("/login_success")
                 .userInfoEndpoint() // 사용자가 로그인에 성공할 경우, 가져올 설정들
